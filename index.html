@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guadiss</title>
+  <meta name="description" content="Índice con todos los cosos de esta carpeta." />
+
+  <!-- Preconnect para fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+    :root{
+      --bg1: #fff0f6;
+      --bg2: #fbeaff;
+      --card: rgba(255,255,255,0.85);
+      --card2: rgba(255,255,255,0.95);
+      --stroke: #f8bbd0;
+      --text: #7c3a6a;
+      --muted: #b48bbd;
+      --accent1: #f48fb1;
+      --accent2: #b39ddb;
+      --accent3: #ffe082;
+      --gold: #ffd700;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: 'Quicksand', 'Nunito', 'Segoe UI', Arial, sans-serif;
+      background:
+        radial-gradient(900px 500px at 15% 10%, #ffe0ef 30%, transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, #e1bee7 25%, transparent 60%),
+        radial-gradient(900px 600px at 50% 95%, #fffde7 20%, transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+      min-height: 100vh;
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(18px, 3vw, 34px);
+    }
+
+    header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .title{
+      line-height:1.05;
+      margin:0;
+      font-size: clamp(2.1rem, 4vw, 3.2rem);
+      letter-spacing:-0.02em;
+      font-family: 'Quicksand', 'Nunito', 'Segoe UI', Arial, sans-serif;
+      color: var(--accent1);
+      text-shadow: 0 2px 12px #ffe0ef80;
+    }
+
+    .subtitle{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.7vw, 1.15rem);
+      max-width: 56ch;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 18px;
+      background: linear-gradient(90deg, #ffe0ef 60%, #fffde7 100%);
+      border: 1.5px solid var(--accent1);
+      border-radius: 999px;
+      color: var(--accent1);
+      font-size: 1.05rem;
+      font-weight: 600;
+      box-shadow: 0 4px 18px #f8bbd055;
+      user-select:none;
+      white-space:nowrap;
+      letter-spacing: 0.01em;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card{
+      grid-column: span 12;
+      text-decoration:none;
+      color:inherit;
+      position:relative;
+      overflow:hidden;
+      border-radius: 22px;
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 2px solid var(--accent1);
+      box-shadow: 0 8px 32px #f8bbd055, 0 2px 8px #fffde7cc;
+      padding: 18px 18px 16px;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      backdrop-filter: blur(2px);
+      content-visibility: auto;
+      contain-intrinsic-size: 220px;
+    }
+
+    .card:hover{
+      transform: translateY(-4px) scale(1.025);
+      border-color: var(--gold);
+      background: linear-gradient(180deg, #fffde7 60%, #ffe0ef 100%);
+      box-shadow: 0 12px 36px #ffd70044, 0 2px 8px #fffde7cc;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      background:
+        radial-gradient(220px 140px at 10% 10%, #f8bbd0 30%, transparent 65%),
+        radial-gradient(240px 150px at 90% 20%, #b39ddb 22%, transparent 70%),
+        radial-gradient(200px 160px at 30% 120%, #ffe082 18%, transparent 70%);
+      opacity:.5;
+      pointer-events:none;
+    }
+
+    .card > *{ position:relative; }
+
+    .card h2{
+      margin: 0 0 8px;
+      font-size: 1.22rem;
+      letter-spacing:-0.01em;
+      color: var(--accent1);
+      font-family: 'Quicksand', 'Nunito', 'Segoe UI', Arial, sans-serif;
+      font-weight: 700;
+      text-shadow: 0 1px 8px #ffe0ef55;
+    }
+
+    .card-number{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f48fb1 0%, #ffe082 100%);
+      color: #7c3a6a;
+      font-size: .9rem;
+      font-weight: 800;
+      box-shadow: 0 2px 8px #f8bbd055;
+      border: 1.5px solid #f8bbd0;
+      flex: 0 0 auto;
+    }
+
+    .meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: .97rem;
+    }
+
+    .tag{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1.5px solid var(--accent2);
+      background: #f3e5f5;
+      color: #7c3a6a;
+      font-size: .89rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .arrow{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1.5px solid var(--accent3);
+      background: #fffde7;
+      color: #fbc02d;
+      flex: 0 0 auto;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 8px #ffe08244;
+    }
+
+    footer{
+      margin-top: 22px;
+      color: #b48bbd;
+      font-size: .95rem;
+      text-align: center;
+    }
+
+    .badge-desbloqueo{
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 3;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ffe082 0%, #f48fb1 55%, #e1bee7 100%);
+      color: #7c3a6a;
+      font-weight: 800;
+      font-size: .9rem;
+      box-shadow: 0 6px 18px #f8bbd055, 0 2px 8px #fffde7cc;
+      border: 2px solid #f8bbd0;
+      text-shadow: 0 1px 6px #fffde7cc;
+    }
+
+    @media (min-width: 740px){
+      .card{ grid-column: span 6; padding: 22px; }
+    }
+    @media (min-width: 1020px){
+      .card{ grid-column: span 4; }
+    }
+
+    /* Optimización móvil */
+    @media (max-width: 600px){
+      body{
+        background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      }
+      .card{
+        box-shadow: none;
+        backdrop-filter: none;
+      }
+      .card::before{ opacity: .25; }
+      .card:hover{ transform: none; }
+      .pill, .arrow{ box-shadow: none; }
+      .card.bloqueada{
+        filter: none !important;
+        opacity: 0.6 !important;
+      }
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <!-- Google Fonts: Quicksand & Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 class="title">Galería de recuerdos 💘</h1>
+        
+      </div>|
+      <div class="pill" title="Carpeta: sol">Ririi<33</div>
+    </header>
+
+    <div class="grid">
+<!-- sasasasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss -->
+                  <!-- Ejemplo de otra tarjeta bloqueada -->
+                               <!-- <a class="card bloqueada" id="card-4" data-num="10" href="tocarcorazonfrases/tocarcorazonfrase.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
+              <h2><span class="card-number"></span>Tocar pantalla <span style="font-size:1.2em;"></span></h2>
+              <div class="meta">
+                <span class="tag">Nace una flor </span>
+                <span class="arrow">🔒</span>
+              </div>
+              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                <span style="background:rgba(139, 121, 121, 0.8);padding:8px 18px;border-radius:999px;color:#000000;font-weight:600;font-size:1.1em;">Proximamente</span>
+              </div>
+            </a> -->
+
+
+            <!-- <a class="card bloqueada" id="card-3" data-num="9" href="tocarcorazonfrases/tocarcorazonfrase.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
+              <h2><span class="card-number"></span>Tocar Corazón  <span style="font-size:1.2em;"></span></h2>
+              <div class="meta">
+                <span class="tag">frases para Sol </span>
+                <span class="arrow">🔒</span>
+              </div>
+              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                <span style="background:rgba(139, 121, 121, 0.8);padding:8px 18px;border-radius:999px;color:#000000;font-weight:600;font-size:1.1em;">Proximamente</span>
+              </div>
+            </a> -->
+
+                        <!-- Ejemplo de otra tarjeta bloqueada -->
+            <!-- <a class="card bloqueada" id="card-2" data-num="8" href="corazonflechassecruxan/index.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
+              <h2><span class="card-number"></span>Corazon fuerte <span style="font-size:1.2em;"></span></h2>
+              <div class="meta">
+                <span class="tag">corazon flechas</span>
+                <span class="arrow">🔒</span>
+              </div>
+              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                <span style="background:rgba(255,255,255,0.8);padding:8px 18px;border-radius:999px;color:#b48bbd;font-weight:600;font-size:1.1em;">Bloqueado</span>
+              </div>
+            </a> -->
+      
+         <!-- Tarjeta bloqueada: Corazones que tira frases -->
+            <!-- <a class="card bloqueada" id="card-1" href="corazonquetirafrases/index.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
+              <h2>Corazones que tira frases <span style="font-size:1.2em;"></span></h2>
+              <div class="meta">
+                <span class="tag">corazonquetirafrases</span>
+                <span class="arrow">🔒</span>
+              </div>
+              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                <span style="background:rgba(255,255,255,0.8);padding:8px 18px;border-radius:999px;color:#b48bbd;font-weight:600;font-size:1.1em;">Bloqueado</span>
+              </div>
+            </a> -->
+                  <!-- <a class="card" data-num="7" href="corazonquetirafrases/index.html">
+                    <h2><span class="card-number"></span>Corazones que tira frases</h2>
+        <div class="meta">
+          <span class="tag">corazon espacio</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> -->
+<!-- dsdsdsdsdsdsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
+
+      <!-- <a class="card" data-num="6" href="corazon_candado_tulipanes/index.html">
+        <h2><span class="card-number"></span>Corazón Secreto Espacial</h2>
+        <div class="meta">
+          <span class="tag">corazon_candado_tulipanes</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> -->
+
+      <!-- <a class="card" href="corazon_candado_tulipanes/index.html">
+        <h2>Tulipanes Espaciales</h2>
+        <div class="meta">
+          <span class="tag">corazon_candado_tulipanes</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> -->
+
+
+      <a class="card" data-num="1" href="tulipanes/flor_tulipan.html">
+        <h2><span class="card-number"></span>Flor (Tulipanes)</h2>
+        <div class="meta">
+          <span class="tag">tulipanes</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <!-- <a class="card" href="flores%2021/flores21.html">
+        <h2>Flores 21</h2>
+        <div class="meta">
+          <span class="tag">flores 21</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> -->
+
+      <!-- <a class="card" data-num="4" href="flores%20amarillas%20imagen%20ff/index.html">
+        <h2><span class="card-number"></span>Flores (amarillas, imagen ff)</h2>
+        <div class="meta">
+          <span class="tag">flores amarillas imagen ff</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> -->
+
+      <!-- <a class="card" data-num="3" href="flores%20moradas%20con%20frases/index.html">
+        <h2><span class="card-number"></span>Flores 21 (moradas con frases)</h2>
+        <div class="meta">
+          <span class="tag">flores moradas con frases</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> -->
+          <!-- proximamenteeee sorpresaQR -->
+      <!-- <a class="card" data-num="2" href="sorpresaQR/index.html">
+        <h2><span class="card-number"></span>Sorpresa (QR)</h2>
+        <div class="meta">
+          <span class="tag">amor</span>
+          <span class="arrow">→</span>
+        </div>
+      </a> 
+            <a class="card" data-num="1" href="corazonconmusica/index.html">
+          <h2><span class="card-number"></span>Corazon (el espacio)</h2>
+        <div class="meta">
+          <span class="tag">Musica</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>  -->
+             
+
+    </div>
+
+    <footer>
+      
+    </footer>
+    <script>
+      // Objeto con el estado de desbloqueo de cada tarjeta (por id)
+      // Cambia a true la que quieras desbloquear
+      // Bloquear ambas cards al cargar
+var tarjetasDesbloqueo = {
+  'card-1': false,
+  'card-2': false,
+  'card-3': false,
+  'card-4': false
+};
+
+      // Función para desbloquear una tarjeta por id
+      function desbloquearTarjeta(id) {
+        var card = document.getElementById(id);
+        if (!card) return;
+        card.style.opacity = '';
+        card.style.pointerEvents = '';
+        card.style.filter = '';
+        card.querySelector('.bloqueo-msg').style.display = 'none';
+        card.querySelector('.arrow').textContent = '→';
+        card.querySelector('h2 span').textContent = '';
+        // Si quieres cambiar el href dinámicamente, puedes hacerlo aquí
+        // card.href = 'ruta/deseada.html';
+      }
+
+      // Función para poner un contador en una tarjeta bloqueada
+      function ponerContadorEnCard(id, fechaDesbloqueo) {
+  var card = document.getElementById(id);
+  if (!card) return;
+  var msg = card.querySelector('.bloqueo-msg');
+  if (!msg) return;
+  // Si la tarjeta ya está desbloqueada, volver a bloquearla
+  card.style.opacity = '0.5';
+  card.style.pointerEvents = 'none';
+  card.style.filter = 'grayscale(0.7)';
+  msg.style.display = 'flex';
+  card.querySelector('.arrow').textContent = '🔒';
+  card.querySelector('h2 span').textContent = '';
+  if (typeof tarjetasDesbloqueo === 'object') {
+    tarjetasDesbloqueo[id] = false;
+  }
+  // Crear o reutilizar el div del contador
+  let contadorDiv = msg.querySelector('.contador-desbloqueo');
+  if (!contadorDiv) {
+    contadorDiv = document.createElement('div');
+    contadorDiv.className = 'contador-desbloqueo';
+    // Mejor ubicación y color llamativo
+    contadorDiv.style.cssText = `
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.13em;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(90deg, #f48fb1 60%, #ffe082 100%);
+      padding: 10px 22px;
+      border-radius: 999px;
+      box-shadow: 0 4px 18px #f8bbd055, 0 2px 8px #fffde7cc;
+      border: 2px solid #f8bbd0;
+      z-index: 2;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 8px #b48bbd88;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+    `;
+    msg.appendChild(contadorDiv);
+  }
+  function actualizarContador() {
+    var ahora = new Date();
+    var falta = fechaDesbloqueo - ahora;
+    if (falta <= 0) {
+      contadorDiv.remove(); // Eliminar el contador visual
+      card.style.opacity = '';
+      card.style.pointerEvents = '';
+      card.style.filter = '';
+      msg.style.display = 'none';
+      card.querySelector('.arrow').textContent = '→';
+      card.querySelector('h2 span').textContent = '';
+      if (typeof tarjetasDesbloqueo === 'object') {
+        tarjetasDesbloqueo[id] = true;
+      }
+      var fechaKey = 'desbloqueoFecha:' + id;
+      var fechaActual = fechaDesbloqueo.getTime();
+      var fechaGuardada = parseInt(localStorage.getItem(fechaKey) || '0', 10);
+      if (fechaGuardada !== fechaActual) {
+        localStorage.setItem(fechaKey, String(fechaActual));
+        localStorage.removeItem('avisoDesbloqueo:' + id);
+        localStorage.removeItem('avisoDesbloqueo:ultimo');
+        marcarDesbloqueoConAviso(id);
+      }
+      return;
+    }
+    var dias = Math.floor(falta / (1000*60*60*24));
+    var horas = Math.floor((falta / (1000*60*60)) % 24);
+    var mins = Math.floor((falta / (1000*60)) % 60);
+    var segs = Math.floor((falta / 1000) % 60);
+    let partes = [];
+    if (dias > 0) partes.push(dias + 'd');
+    if (horas > 0 || dias > 0) partes.push(horas + 'h');
+    if (mins > 0 || horas > 0 || dias > 0) partes.push(mins + 'm');
+    partes.push(segs + 's');
+    contadorDiv.textContent = 'Disponible en: ' + partes.join(' ');
+    setTimeout(actualizarContador, 1000);
+  }
+  actualizarContador();
+}
+
+      function obtenerNombreCard(id) {
+        var card = document.getElementById(id);
+        if (!card) return 'Una sorpresa';
+        var h2 = card.querySelector('h2');
+        return h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : 'Una sorpresa';
+      }
+
+      function ponerBadgeEnCard(id, texto) {
+        var card = document.getElementById(id);
+        if (!card) return;
+        var existente = card.querySelector('.badge-desbloqueo');
+        if (existente) {
+          existente.textContent = texto;
+          return;
+        }
+        var badge = document.createElement('div');
+        badge.className = 'badge-desbloqueo';
+        badge.textContent = texto;
+        card.appendChild(badge);
+      }
+
+      function quitarBadgeDeCard(id) {
+        var card = document.getElementById(id);
+        if (!card) return;
+        var existente = card.querySelector('.badge-desbloqueo');
+        if (existente) existente.remove();
+      }
+
+      function limpiarAvisosExcepto(idActual) {
+        Object.keys(tarjetasDesbloqueo).forEach(function(id) {
+          if (id === idActual) return;
+          localStorage.removeItem('avisoDesbloqueo:' + id);
+          quitarBadgeDeCard(id);
+        });
+      }
+
+      function marcarDesbloqueoConAviso(id) {
+        limpiarAvisosExcepto(id);
+        var key = 'avisoDesbloqueo:' + id;
+        var raw = localStorage.getItem(key);
+        var data = raw ? JSON.parse(raw) : null;
+        if (!data || data.mostrado !== true) {
+          var nombre = obtenerNombreCard(id);
+          ponerBadgeEnCard(id, '¡Nuevo! 💖');
+          localStorage.setItem(key, JSON.stringify({
+            mostrado: true,
+            restantes: 2,
+            nombre: nombre
+          }));
+          localStorage.setItem('avisoDesbloqueo:ultimo', id);
+        }
+      }
+
+      function manejarAvisoPendiente() {
+        var ultimoId = localStorage.getItem('avisoDesbloqueo:ultimo');
+        if (!ultimoId) {
+          Object.keys(tarjetasDesbloqueo).forEach(function(id) {
+            quitarBadgeDeCard(id);
+          });
+          return;
+        }
+
+        limpiarAvisosExcepto(ultimoId);
+
+        var key = 'avisoDesbloqueo:' + ultimoId;
+        var raw = localStorage.getItem(key);
+        if (!raw) {
+          quitarBadgeDeCard(ultimoId);
+          return;
+        }
+        var data = JSON.parse(raw);
+        if (!data || data.restantes <= 0) {
+          localStorage.removeItem(key);
+          quitarBadgeDeCard(ultimoId);
+          return;
+        }
+
+        ponerBadgeEnCard(ultimoId, 'Nuevo 💖');
+        data.restantes = data.restantes - 1;
+        if (data.restantes <= 0) {
+          localStorage.removeItem(key);
+          localStorage.removeItem('avisoDesbloqueo:ultimo');
+          quitarBadgeDeCard(ultimoId);
+        } else {
+          localStorage.setItem(key, JSON.stringify(data));
+        }
+      }
+
+      // Llama a esta función para poner un contador en la card que quieras:
+      // ponerContadorEnCard('id-de-la-card', fechaObjetivoDate)
+      // Ejemplo para poner 2 horas desde ahora en la card con id "card-3":
+      // --- CONTADORES DE DESBLOQUEO ---
+      // Para activar un contador en una card, descomenta la línea correspondiente y pon la fecha exacta:
+      // ponerContadorEnCard('card-1', new Date(Date.now() + 2*60*1000)); // ← Ejemplo: 2 minutos desde ahora para card-1
+      ponerContadorEnCard('card-1', new Date('2026-01-24T04:00:00'));
+      ponerContadorEnCard('card-2', new Date('2026-01-25T02:35:00'));
+      ponerContadorEnCard('card-3', new Date('2026-02-03T02:30:00'));
+      // ↑ card-2: id de otra tarjeta
+      // ↑ '2025-01-14T04:00:00': desbloqueo el 14 de enero de 2025 a las 4:00 AM
+      // --- FIN CONTADORES ---
+
+      // Recorre el objeto y desbloquea las que correspondan
+      Object.keys(tarjetasDesbloqueo).forEach(function(id) {
+        if (tarjetasDesbloqueo[id]) {
+          desbloquearTarjeta(id);
+        } else {
+          // Ejemplo: desbloquear el card-1 el 22 de enero de 2027 a las 15:00
+          // ponerContadorEnCard('card-1', new Date('2026-01-22T014:00:00'));
+        }
+      });
+
+      manejarAvisoPendiente();
+
+      // --- NUMERACIÓN DE CARDS (editable con data-num) ---
+      document.querySelectorAll('.card').forEach(function(card) {
+        var numero = card.getAttribute('data-num');
+        var badge = card.querySelector('.card-number');
+        if (badge) {
+          badge.textContent = numero ? numero : '';
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>
