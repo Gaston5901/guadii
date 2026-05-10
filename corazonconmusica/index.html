@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Para Tu Irisss💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.typekit.net/trt3ngp.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow: hidden;
+      background: linear-gradient(180deg, #1a0d1a 0%, #2b0f2b 100%); /* Dreamy gradient */
+      color: #ffccff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .webgl {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      outline: none;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      border: 6px solid #ff99cc;
+      inset: 1rem;
+      z-index: 100;
+      pointer-events: none;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 153, 204, 0.5);
+    }
+
+    h1 {
+      position: absolute;
+      top: 8vh;
+      left: 2rem;
+      right: 2rem;
+      text-align: center;
+      font-family: 'Parisienne', cursive;
+      font-weight: 400;
+      font-size: max(3rem, 2vh);
+      text-shadow: 0 0 10px rgba(255, 153, 204, 0.7);
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards 1s;
+    }
+
+    button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      height: clamp(56px, 10vh, 90px);
+      width: clamp(56px, 10vh, 90px);
+      transform: translateY(2vh);
+      right: 0;
+      margin: auto;
+      background: transparent;
+      border: 2px solid #ff99cc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 153, 204, 0.4);
+    }
+
+    button:hover {
+      background: rgba(255, 153, 204, 0.2);
+      box-shadow: 0 0 20px rgba(255, 153, 204, 0.6);
+      transform: translateY(2vh) scale(1.1);
+    }
+
+    button svg {
+      width: 45%;
+      height: 45%;
+      fill: #ffccff;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .player {
+      position: fixed;
+      left: 50%;
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      z-index: 9998;
+      width: min(340px, calc(100vw - 40px));
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 153, 204, 0.55);
+      color: #fff;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .player.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .player__title {
+      font-family: 'Parisienne', cursive;
+      font-size: 20px;
+      line-height: 1;
+      margin-bottom: 8px;
+      text-align: center;
+      color: #ffccff;
+      text-shadow: 0 0 10px rgba(255, 153, 204, 0.45);
+    }
+
+    .player__bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 153, 204, 0.35);
+      overflow: hidden;
+      cursor: pointer;
+      touch-action: none;
+      position: relative;
+    }
+
+    .player__fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255, 102, 204, 0.95), rgba(255, 204, 255, 0.95));
+      box-shadow: 0 0 18px rgba(255, 153, 204, 0.35);
+      transition: width 0.12s linear;
+    }
+
+    .player__thumb {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95) 0 35%, rgba(255, 102, 204, 0.95) 55% 100%);
+      border: 2px solid rgba(255, 204, 255, 0.95);
+      box-shadow: 0 0 16px rgba(255, 102, 204, 0.55), 0 0 6px rgba(255, 255, 255, 0.35);
+      pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+      body::before {
+        inset: 0.65rem;
+        border-width: 5px;
+        border-radius: 18px;
+      }
+
+      h1 {
+        top: 6vh;
+        left: 1rem;
+        right: 1rem;
+        font-size: clamp(2.1rem, 7vw, 2.8rem);
+      }
+
+      button {
+        transform: translateY(0.5vh);
+      }
+
+      .player {
+        width: min(320px, calc(100vw - 24px));
+        padding: 10px 12px;
+        border-radius: 14px;
+      }
+
+      .player__title {
+        font-size: 18px;
+        margin-bottom: 7px;
+      }
+
+      .player__thumb {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    @media (max-height: 680px) {
+      h1 {
+        top: 5vh;
+      }
+      .player {
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      }
+    }
+
+    .player__time {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 6px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 11px;
+      opacity: 0.9;
+      align-items: center;
+    }
+
+    .player__actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .player__controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .player__pause {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 30px;
+      border-radius: 999px;
+      background: rgba(255, 153, 204, 0.14);
+      border: 1px solid rgba(255, 153, 204, 0.65);
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .player__pause:hover {
+      background: rgba(255, 153, 204, 0.18);
+    }
+
+    .player__pause:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .volver-inicio{
+        position: fixed;
+        top: 16px;
+        left: 20px;
+        z-index: 9999;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: rgba(0,0,0,.55);
+        border: 1px solid rgba(255,255,255,.20);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 800;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      }
+      .volver-inicio:hover{ transform: translateY(-1px); background: rgba(0,0,0,.70); }
+  </style>
+</head>
+
+<body>
+  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+  <canvas class="webgl"></canvas>
+  <h1 class="h1text">Para Tu Irisss💖</h1>
+  <button id="play-music" type="button" aria-label="Play music">
+    <svg fill="currentColor" viewBox="0 0 512 512" width="100" title="music">
+      <path
+        d="M470.38 1.51L150.41 96A32 32 0 0 0 128 126.51v261.41A139 139 0 0 0 96 384c-53 0-96 28.66-96 64s43 64 96 64 96-28.66 96-64V214.32l256-75v184.61a138.4 138.4 0 0 0-32-3.93c-53 0-96 28.66-96 64s43 64 96 64 96-28.65 96-64V32a32 32 0 0 0-41.62-30.49z" />
+    </svg>
+  </button>
+
+  <div id="player" class="player" aria-hidden="true">
+    <div class="player__title">floressilvanaestrada</div>
+    <div id="playerBar" class="player__bar" role="progressbar" aria-label="Progreso de la música" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div id="playerFill" class="player__fill"></div>
+      <div id="playerThumb" class="player__thumb" aria-hidden="true"></div>
+    </div>
+    <div class="player__time">
+      <span id="playerCurrent">0:00</span>
+      <span id="playerDuration">0:00</span>
+    </div>
+    <div class="player__actions">
+      <button id="playerPause" class="player__pause" type="button" aria-label="Pausar" disabled>
+        <span id="playerPauseIcon" aria-hidden="true">II</span>
+      </button>
+    </div>
+  </div>
+
+  <script type="x-shader/x-vertex" id="vertexShader">
+    #define M_PI 3.1415926535897932384626433832795
+    uniform float uTime;
+    uniform float uSize;
+    attribute float aScale;
+    attribute vec3 aColor;
+    attribute float random;
+    attribute float random1;
+    attribute float aSpeed;
+    varying vec3 vColor;
+    varying vec2 vUv;
+
+    void main() {
+      float sign = 2.0 * (step(random, 0.5) - 0.5);
+      float t = sign * mod(-uTime * aSpeed * 0.005 + 10.0 * aSpeed * aSpeed, M_PI);
+      float a = pow(t, 2.0) * pow((t - sign * M_PI), 2.0);
+      float radius = 0.08;
+      vec3 myOffset = vec3(t, 1.0, 0.0);
+      myOffset = vec3(
+        radius * 16.0 * pow(sin(t), 2.0) * sin(t),
+        radius * (13.0 * cos(t) - 5.0 * cos(2.0 * t) - 2.0 * cos(3.0 * t) - cos(4.0 * t)),
+        0.15 * (a * (random1 - 0.5)) * sin(abs(10.0 * (sin(0.2 * uTime + 0.2 * random))) * t)
+      );
+      vec3 displacedPosition = myOffset;
+      vec4 modelPosition = modelMatrix * vec4(displacedPosition.xyz, 1.0);
+
+      vec4 viewPosition = viewMatrix * modelPosition;
+      viewPosition.xyz += position * aScale * uSize * pow(a, 0.5) * 0.5;
+      gl_Position = projectionMatrix * viewPosition;
+
+      vColor = aColor;
+      vUv = uv;
+    }
+  </script>
+
+  <script type="x-shader/x-fragment" id="fragmentShader">
+    varying vec3 vColor;
+    varying vec2 vUv;
+
+    void main() {
+      vec2 uv = vUv;
+      vec3 color = vColor;
+      float strength = distance(uv, vec2(0.5));
+      strength *= 2.0;
+      strength = 1.0 - strength;
+      gl_FragColor = vec4(strength * color, 1.0);
+    }
+  </script>
+
+  <script type="x-shader/x-vertex" id="vertexShader1">
+    #define M_PI 3.1415926535897932384626433832795
+    uniform float uTime;
+    uniform float uSize;
+    attribute float aScale;
+    attribute vec3 aColor;
+    attribute float phi;
+    attribute float random;
+    attribute float random1;
+    varying vec3 vColor;
+    varying vec2 vUv;
+
+    void main() {
+      float t = 0.01 * uTime + 12.0;
+      float angle = phi;
+      t = mod((-uTime + 100.0) * 0.06 * random1 + random * 2.0 * M_PI, 2.0 * M_PI);
+      vec3 myOffset = vec3(
+        5.85 * cos(angle * t),
+        2.0 * (t - M_PI),
+        3.0 * sin(angle * t / t)
+      );
+      vec4 modelPosition = modelMatrix * vec4(myOffset, 1.0);
+      vec4 viewPosition = viewMatrix * modelPosition;
+      viewPosition.xyz += position * aScale * uSize;
+      gl_Position = projectionMatrix * viewPosition;
+
+      vColor = aColor;
+      vUv = uv;
+    }
+  </script>
+
+  <script type="x-shader/x-fragment" id="fragmentShader1">
+    uniform sampler2D uTex;
+    varying vec3 vColor;
+    varying vec2 vUv;
+
+    void main() {
+      vec2 uv = vUv;
+      vec3 color = vColor;
+      float strength = distance(uv, vec2(0.5, 0.65));
+      strength *= 2.0;
+      strength = 1.0 - strength;
+      vec3 texture = texture2D(uTex, uv).rgb;
+      gl_FragColor = vec4(texture * color * (strength + 0.3), 1.0);
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from "https://cdn.skypack.dev/three@0.135.0";
+    import { gsap } from "https://cdn.skypack.dev/gsap@3.8.0";
+    import { GLTFLoader } from "https://cdn.skypack.dev/three@0.135.0/examples/jsm/loaders/GLTFLoader";
+
+    class World {
+      constructor({
+        canvas,
+        width,
+        height,
+        cameraPosition,
+        fieldOfView = 75,
+        nearPlane = 0.1,
+        farPlane = 100
+      }) {
+        this.parameters = {
+          count: 1500,
+          max: 12.5 * Math.PI,
+          a: 2,
+          c: 4.5
+        };
+
+        this.textureLoader = new THREE.TextureLoader();
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x000000);
+        this.clock = new THREE.Clock();
+        this.data = 0;
+        this.time = { current: 0, t0: 0, t1: 0, t: 0, frequency: 0.0005 };
+        this.angle = { x: 0, z: 0 };
+        this.width = width || window.innerWidth;
+        this.height = height || window.innerHeight;
+        this.aspectRatio = this.width / this.height;
+        this.fieldOfView = fieldOfView;
+        this.camera = new THREE.PerspectiveCamera(
+          fieldOfView,
+          this.aspectRatio,
+          nearPlane,
+          farPlane
+        );
+
+        this.camera.position.set(
+          cameraPosition.x,
+          cameraPosition.y,
+          cameraPosition.z
+        );
+
+        this.scene.add(this.camera);
+        this.renderer = new THREE.WebGLRenderer({
+          canvas,
+          antialias: true
+        });
+
+        this.playerEl = document.getElementById("player");
+        this.playerBarEl = document.getElementById("playerBar");
+        this.playerFillEl = document.getElementById("playerFill");
+        this.playerThumbEl = document.getElementById("playerThumb");
+        this.playerCurrentEl = document.getElementById("playerCurrent");
+        this.playerDurationEl = document.getElementById("playerDuration");
+        this.playerPauseBtn = document.getElementById("playerPause");
+        this.playerPauseIcon = document.getElementById("playerPauseIcon");
+        this.isSeeking = false;
+
+        this.pixelRatio = Math.min(window.devicePixelRatio, 2);
+        this.renderer.setPixelRatio(this.pixelRatio);
+        this.renderer.setSize(this.width, this.height);
+        this.timer = 0;
+        this.addToScene();
+        this.addButton();
+        this.enablePlayerSeeking();
+        this.addPauseButton();
+
+        this.render();
+        this.listenToResize();
+        this.listenToMouseMove();
+      }
+
+      start() {}
+
+      render() {
+        this.renderer.render(this.scene, this.camera);
+        this.composer && this.composer.render();
+      }
+
+      loop() {
+        this.time.elapsed = this.clock.getElapsedTime();
+        this.time.delta = Math.min(
+          60,
+          (this.time.current - this.time.elapsed) * 1000
+        );
+
+        if (this.analyser && this.isRunning) {
+          this.time.t = this.time.elapsed - this.time.t0 + this.time.t1;
+          this.data = this.analyser.getAverageFrequency();
+          this.data *= this.data / 2000;
+          this.angle.x += this.time.delta * 0.001 * 0.63;
+          this.angle.z += this.time.delta * 0.001 * 0.39;
+          const justFinished =
+            this.isRunning &&
+            this.mediaElement &&
+            (this.mediaElement.ended || (this.mediaElement.duration && this.mediaElement.currentTime >= this.mediaElement.duration));
+          if (justFinished) {
+            this.time.t1 = this.time.t;
+            this.audioBtn.disabled = false;
+            this.isRunning = false;
+            const tl = gsap.timeline();
+            this.angle.x = 0;
+            this.angle.z = 0;
+            tl.to(this.camera.position, {
+              x: 0,
+              z: 4.5,
+              duration: 4,
+              ease: "expo.in"
+            });
+
+            tl.to(this.audioBtn, {
+              opacity: () => 1,
+              duration: 1,
+              ease: "power1.out",
+              
+            });
+
+            this.setPlayerVisible(false);
+            this.updatePlayerUI(true);
+          } else {
+            this.camera.position.x = Math.sin(this.angle.x) * this.parameters.a;
+            this.camera.position.z = Math.min(
+              Math.max(Math.cos(this.angle.z) * this.parameters.c, 1.75),
+              6.5
+            );
+          }
+        }
+
+        if (this.mediaElement) {
+          this.updatePlayerUI(false);
+        }
+        this.camera.lookAt(this.scene.position);
+        if (this.heartMaterial) {
+          this.heartMaterial.uniforms.uTime.value +=
+            this.time.delta * this.time.frequency * (1 + this.data * 0.2);
+        }
+        if (this.model) {
+          this.model.rotation.y -= 0.0005 * this.time.delta * (1 + this.data);
+        }
+        if (this.snowMaterial) {
+          this.snowMaterial.uniforms.uTime.value +=
+            this.time.delta * 0.0004 * (1 + this.data);
+        }
+        this.render();
+
+        this.time.current = this.time.elapsed;
+        requestAnimationFrame(this.loop.bind(this));
+      }
+
+      listenToResize() {
+        window.addEventListener("resize", () => {
+          this.width = window.innerWidth;
+          this.height = window.innerHeight;
+          this.camera.aspect = this.width / this.height;
+          this.camera.updateProjectionMatrix();
+          this.renderer.setSize(this.width, this.height);
+        });
+      }
+
+      listenToMouseMove() {
+        window.addEventListener("mousemove", e => {
+          const x = e.clientX;
+          const y = e.clientY;
+          gsap.to(this.camera.position, {
+            x: gsap.utils.mapRange(0, window.innerWidth, 0.2, -0.2, x),
+            y: gsap.utils.mapRange(0, window.innerHeight, 0.2, -0.2, -y)
+          });
+        });
+      }
+
+      addHeart() {
+        this.heartMaterial = new THREE.ShaderMaterial({
+          fragmentShader: document.getElementById("fragmentShader").textContent,
+          vertexShader: document.getElementById("vertexShader").textContent,
+          uniforms: {
+            uTime: { value: 0 },
+            uSize: { value: 0.2 },
+            uTex: {
+              value: new THREE.TextureLoader().load(
+                "https://assets.codepen.io/74321/heart.png"
+              )
+            }
+          },
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          transparent: true
+        });
+
+        const count = 3000;
+        const scales = new Float32Array(count * 1);
+        const colors = new Float32Array(count * 3);
+        const speeds = new Float32Array(count);
+        const randoms = new Float32Array(count);
+        const randoms1 = new Float32Array(count);
+        const colorChoices = [
+          "#ff66cc",
+          "#ff99ff",
+          "#ffccff",
+          "#ff3366",
+          "#ffffff"
+        ];
+
+        const squareGeometry = new THREE.PlaneGeometry(1, 1);
+        this.instancedGeometry = new THREE.InstancedBufferGeometry();
+        Object.keys(squareGeometry.attributes).forEach(attr => {
+          this.instancedGeometry.attributes[attr] = squareGeometry.attributes[attr];
+        });
+        this.instancedGeometry.index = squareGeometry.index;
+        this.instancedGeometry.maxInstancedCount = count;
+
+        for (let i = 0; i < count; i++) {
+          const phi = Math.random() * Math.PI * 2;
+          const i3 = 3 * i;
+          randoms[i] = Math.random();
+          randoms1[i] = Math.random();
+          scales[i] = Math.random() * 0.35;
+          const colorIndex = Math.floor(Math.random() * colorChoices.length);
+          const color = new THREE.Color(colorChoices[colorIndex]);
+          colors[i3 + 0] = color.r;
+          colors[i3 + 1] = color.g;
+          colors[i3 + 2] = color.b;
+          speeds[i] = Math.random() * this.parameters.max;
+        }
+        this.instancedGeometry.setAttribute(
+          "random",
+          new THREE.InstancedBufferAttribute(randoms, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "random1",
+          new THREE.InstancedBufferAttribute(randoms1, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "aScale",
+          new THREE.InstancedBufferAttribute(scales, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "aSpeed",
+          new THREE.InstancedBufferAttribute(speeds, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "aColor",
+          new THREE.InstancedBufferAttribute(colors, 3, false)
+        );
+
+        this.heart = new THREE.Mesh(this.instancedGeometry, this.heartMaterial);
+        this.scene.add(this.heart);
+      }
+
+      addToScene() {
+        this.addModel();
+        this.addHeart();
+        this.addSnow();
+      }
+
+      async addModel() {
+        this.model = await this.loadObj(
+          "https://assets.codepen.io/74321/heart.glb"
+        );
+        this.model.scale.set(0.001, 0.001, 0.001);
+        this.model.material = new THREE.MeshMatcapMaterial({
+          matcap: this.textureLoader.load(
+            "https://assets.codepen.io/74321/3.png",
+            () => {
+              gsap.to(this.model.scale, {
+                x: 0.25,
+                y: 0.25,
+                z: 0.25,
+                duration: 1.5,
+                ease: "Elastic.easeOut"
+              });
+            }
+          ),
+          color: "#ff3366"
+        });
+        this.scene.add(this.model);
+      }
+
+      addButton() {
+        this.audioBtn = document.getElementById("play-music");
+        this.audioBtn.addEventListener("click", () => {
+          this.audioBtn.disabled = true;
+          if (this.analyser) {
+            if (this.sound?.context?.state === "suspended") {
+              this.sound.context.resume();
+            }
+            if (this.mediaElement) {
+              if (this.mediaElement.ended) {
+                this.mediaElement.currentTime = 0;
+              }
+              const playPromise = this.mediaElement.play();
+              if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(() => {});
+              }
+            }
+            this.time.t0 = this.time.elapsed;
+            this.data = 0;
+            this.isRunning = true;
+            this.setPlayerVisible(true);
+            gsap.to(this.audioBtn, {
+              opacity: 0,
+              duration: 1,
+              ease: "power1.out"
+            });
+          } else {
+            this.loadMusic().then(() => {
+              console.log("music loaded");
+            });
+          }
+        });
+      }
+
+      setPlayerVisible(isVisible) {
+        if (!this.playerEl) return;
+        this.playerEl.classList.toggle("is-visible", Boolean(isVisible));
+        this.playerEl.setAttribute("aria-hidden", String(!isVisible));
+      }
+
+      enablePlayerSeeking() {
+        if (!this.playerBarEl) return;
+
+        const seekFromEvent = (event) => {
+          if (!this.mediaElement) return;
+          const duration = this.mediaElement.duration;
+          if (!Number.isFinite(duration) || duration <= 0) return;
+
+          const rect = this.playerBarEl.getBoundingClientRect();
+          const clientX = event.clientX;
+          const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+          this.mediaElement.currentTime = ratio * duration;
+          this.updatePlayerUI(false);
+        };
+
+        this.playerBarEl.addEventListener("pointerdown", (event) => {
+          if (!this.mediaElement) return;
+          this.isSeeking = true;
+          this.playerBarEl.setPointerCapture(event.pointerId);
+          seekFromEvent(event);
+        });
+
+        this.playerBarEl.addEventListener("pointermove", (event) => {
+          if (!this.isSeeking) return;
+          seekFromEvent(event);
+        });
+
+        const stopSeeking = (event) => {
+          if (!this.isSeeking) return;
+          this.isSeeking = false;
+          try {
+            this.playerBarEl.releasePointerCapture(event.pointerId);
+          } catch (_) {}
+        };
+
+        this.playerBarEl.addEventListener("pointerup", stopSeeking);
+        this.playerBarEl.addEventListener("pointercancel", stopSeeking);
+        this.playerBarEl.addEventListener("lostpointercapture", () => {
+          this.isSeeking = false;
+        });
+      }
+
+      addPauseButton() {
+        if (!this.playerPauseBtn) return;
+        this.playerPauseBtn.addEventListener("click", () => {
+          if (!this.mediaElement) return;
+
+          if (this.mediaElement.paused) {
+            if (this.sound?.context?.state === "suspended") {
+              this.sound.context.resume();
+            }
+            const playPromise = this.mediaElement.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+              playPromise.catch(() => {});
+            }
+            this.isRunning = true;
+          } else {
+            this.mediaElement.pause();
+            this.isRunning = false;
+          }
+          this.updatePauseUI();
+        });
+      }
+
+      updatePauseUI() {
+        if (!this.playerPauseBtn || !this.playerPauseIcon) return;
+        const isPaused = !this.mediaElement || this.mediaElement.paused;
+        this.playerPauseIcon.textContent = isPaused ? "▶" : "❚❚";
+        this.playerPauseBtn.setAttribute("aria-label", isPaused ? "Reanudar" : "Pausar");
+      }
+
+      formatTime(seconds) {
+        const s = Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
+        const m = Math.floor(s / 60);
+        const r = Math.floor(s % 60);
+        return `${m}:${String(r).padStart(2, "0")}`;
+      }
+
+      updatePlayerUI(forceReset) {
+        if (!this.playerEl || !this.mediaElement) return;
+
+        const duration = this.mediaElement.duration;
+        const current = this.mediaElement.currentTime;
+        const hasDuration = Number.isFinite(duration) && duration > 0;
+        const ratio = hasDuration ? Math.min(1, Math.max(0, current / duration)) : 0;
+
+        if (forceReset) {
+          if (this.playerFillEl) this.playerFillEl.style.width = "0%";
+          if (this.playerThumbEl) this.playerThumbEl.style.left = "0px";
+          if (this.playerCurrentEl) this.playerCurrentEl.textContent = "0:00";
+          if (this.playerDurationEl) this.playerDurationEl.textContent = hasDuration ? this.formatTime(duration) : "0:00";
+          const bar = this.playerBarEl || this.playerEl.querySelector(".player__bar");
+          if (bar) bar.setAttribute("aria-valuenow", "0");
+          if (this.playerPauseBtn) this.playerPauseBtn.disabled = true;
+          this.updatePauseUI();
+          return;
+        }
+
+        if (this.playerFillEl) this.playerFillEl.style.width = `${(ratio * 100).toFixed(2)}%`;
+        if (this.playerThumbEl && this.playerBarEl) {
+          const barWidth = this.playerBarEl.clientWidth || 0;
+          const thumbRadius = (this.playerThumbEl.offsetWidth || 18) / 2;
+          const x = ratio * barWidth;
+          const clampedX = Math.min(barWidth - thumbRadius, Math.max(thumbRadius, x));
+          this.playerThumbEl.style.left = `${clampedX}px`;
+        }
+        if (this.playerCurrentEl) this.playerCurrentEl.textContent = this.formatTime(current);
+        if (this.playerDurationEl) this.playerDurationEl.textContent = hasDuration ? this.formatTime(duration) : "0:00";
+        const bar = this.playerBarEl || this.playerEl.querySelector(".player__bar");
+        if (bar) bar.setAttribute("aria-valuenow", String(Math.round(ratio * 100)));
+
+        if (this.playerPauseBtn) {
+          this.playerPauseBtn.disabled = false;
+        }
+        this.updatePauseUI();
+      }
+
+      loadObj(path) {
+        const loader = new GLTFLoader();
+        return new Promise(resolve => {
+          loader.load(
+            path,
+            response => {
+              resolve(response.scene.children[0]);
+            },
+            xhr => {},
+            err => {
+              console.log(err);
+            }
+          );
+        });
+      }
+
+      loadMusic() {
+        return new Promise(resolve => {
+          this.listener = new THREE.AudioListener();
+          this.camera.add(this.listener);
+          this.sound = new THREE.Audio(this.listener);
+
+          this.mediaElement = new Audio("FLORES-SILVANA-ESTRADA.mp4");
+          this.mediaElement.preload = "auto";
+          this.mediaElement.loop = false;
+          this.mediaElement.volume = 0.5;
+
+          this.mediaElement.addEventListener(
+            "loadedmetadata",
+            () => {
+              this.updatePlayerUI(false);
+            },
+            { once: true }
+          );
+
+          this.mediaElement.addEventListener("ended", () => {
+            // el loop() ya maneja el cierre visual; esto asegura estado.
+            this.isRunning = false;
+            this.updatePauseUI();
+          });
+
+          this.sound.setMediaElementSource(this.mediaElement);
+          this.analyser = new THREE.AudioAnalyser(this.sound, 32);
+
+          if (this.sound.context.state === "suspended") {
+            this.sound.context.resume();
+          }
+
+          const playPromise = this.mediaElement.play();
+          if (playPromise && typeof playPromise.then === "function") {
+            playPromise
+              .then(() => {
+                this.isRunning = true;
+                this.time.t0 = this.time.elapsed;
+                this.setPlayerVisible(true);
+                resolve(this.analyser.getAverageFrequency());
+              })
+              .catch(err => {
+                console.log(err);
+                this.audioBtn.disabled = false;
+                gsap.to(this.audioBtn, { opacity: 1, duration: 0.5, ease: "power1.out" });
+                this.setPlayerVisible(false);
+                resolve(0);
+              });
+          } else {
+            this.isRunning = true;
+            this.time.t0 = this.time.elapsed;
+            this.setPlayerVisible(true);
+            resolve(this.analyser.getAverageFrequency());
+          }
+        });
+      }
+
+      addSnow() {
+        this.snowMaterial = new THREE.ShaderMaterial({
+          fragmentShader: document.getElementById("fragmentShader1").textContent,
+          vertexShader: document.getElementById("vertexShader1").textContent,
+          uniforms: {
+            uTime: { value: 0 },
+            uSize: { value: 0.3 },
+            uTex: {
+              value: new THREE.TextureLoader().load(
+                "https://assets.codepen.io/74321/heart.png"
+              )
+            }
+          },
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          transparent: true
+        });
+
+        const count = 550;
+        const scales = new Float32Array(count * 1);
+        const colors = new Float32Array(count * 3);
+        const phis = new Float32Array(count);
+        const randoms = new Float32Array(count);
+        const randoms1 = new Float32Array(count);
+        const colorChoices = [
+          "#ff66cc",
+          "#ff99ff",
+          "#ffccff",
+          "#ffffff"
+        ];
+
+        const squareGeometry = new THREE.PlaneGeometry(1, 1);
+        this.instancedGeometry = new THREE.InstancedBufferGeometry();
+        Object.keys(squareGeometry.attributes).forEach(attr => {
+          this.instancedGeometry.attributes[attr] = squareGeometry.attributes[attr];
+        });
+        this.instancedGeometry.index = squareGeometry.index;
+        this.instancedGeometry.maxInstancedCount = count;
+
+        for (let i = 0; i < count; i++) {
+          const phi = (Math.random() - 0.5) * 10;
+          const i3 = 3 * i;
+          phis[i] = phi;
+          randoms[i] = Math.random();
+          randoms1[i] = Math.random();
+          scales[i] = Math.random() * 0.35;
+          const colorIndex = Math.floor(Math.random() * colorChoices.length);
+          const color = new THREE.Color(colorChoices[colorIndex]);
+          colors[i3 + 0] = color.r;
+          colors[i3 + 1] = color.g;
+          colors[i3 + 2] = color.b;
+        }
+        this.instancedGeometry.setAttribute(
+          "phi",
+          new THREE.InstancedBufferAttribute(phis, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "random",
+          new THREE.InstancedBufferAttribute(randoms, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "random1",
+          new THREE.InstancedBufferAttribute(randoms1, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "aScale",
+          new THREE.InstancedBufferAttribute(scales, 1, false)
+        );
+        this.instancedGeometry.setAttribute(
+          "aColor",
+          new THREE.InstancedBufferAttribute(colors, 3, false)
+        );
+
+        this.snow = new THREE.Mesh(this.instancedGeometry, this.snowMaterial);
+        this.scene.add(this.snow);
+      }
+    }
+
+    const world = new World({
+      canvas: document.querySelector("canvas.webgl"),
+      cameraPosition: { x: 0, y: 0, z: 4.5 }
+    });
+
+    world.loop();
+  </script>
+</body>
+
+</html>
