@@ -132,8 +132,7 @@
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 153, 204, 0.35);
       overflow: hidden;
-      cursor: pointer;
-      touch-action: none;
+      cursor: default;
       position: relative;
     }
 
@@ -460,7 +459,6 @@
         this.playerDurationEl = document.getElementById("playerDuration");
         this.playerPauseBtn = document.getElementById("playerPause");
         this.playerPauseIcon = document.getElementById("playerPauseIcon");
-        this.isSeeking = false;
 
         this.pixelRatio = Math.min(window.devicePixelRatio, 2);
         this.renderer.setPixelRatio(this.pixelRatio);
@@ -468,7 +466,6 @@
         this.timer = 0;
         this.addToScene();
         this.addButton();
-        this.enablePlayerSeeking();
         this.addPauseButton();
 
         this.render();
@@ -721,48 +718,6 @@
         this.playerEl.setAttribute("aria-hidden", String(!isVisible));
       }
 
-      enablePlayerSeeking() {
-        if (!this.playerBarEl) return;
-
-        const seekFromEvent = (event) => {
-          if (!this.mediaElement) return;
-          const duration = this.mediaElement.duration;
-          if (!Number.isFinite(duration) || duration <= 0) return;
-
-          const rect = this.playerBarEl.getBoundingClientRect();
-          const clientX = event.clientX;
-          const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-          this.mediaElement.currentTime = ratio * duration;
-          this.updatePlayerUI(false);
-        };
-
-        this.playerBarEl.addEventListener("pointerdown", (event) => {
-          if (!this.mediaElement) return;
-          this.isSeeking = true;
-          this.playerBarEl.setPointerCapture(event.pointerId);
-          seekFromEvent(event);
-        });
-
-        this.playerBarEl.addEventListener("pointermove", (event) => {
-          if (!this.isSeeking) return;
-          seekFromEvent(event);
-        });
-
-        const stopSeeking = (event) => {
-          if (!this.isSeeking) return;
-          this.isSeeking = false;
-          try {
-            this.playerBarEl.releasePointerCapture(event.pointerId);
-          } catch (_) {}
-        };
-
-        this.playerBarEl.addEventListener("pointerup", stopSeeking);
-        this.playerBarEl.addEventListener("pointercancel", stopSeeking);
-        this.playerBarEl.addEventListener("lostpointercapture", () => {
-          this.isSeeking = false;
-        });
-      }
-
       addPauseButton() {
         if (!this.playerPauseBtn) return;
         this.playerPauseBtn.addEventListener("click", () => {
@@ -860,7 +815,7 @@
           this.camera.add(this.listener);
           this.sound = new THREE.Audio(this.listener);
 
-          this.mediaElement = new Audio("FLORES-SILVANA-ESTRADA.mp4");
+          this.mediaElement = new Audio("floressilvanaestrada.mp4");
           this.mediaElement.preload = "auto";
           this.mediaElement.loop = false;
           this.mediaElement.volume = 0.5;
