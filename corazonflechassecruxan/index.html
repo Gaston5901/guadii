@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Corazón de Partículas y Flechas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        body {
+          margin: 0;
+          overflow: hidden;
+          background-color: #000;
+          width: 100vw;
+          height: 100vh;
+        }
+        canvas {
+                    display: none;
+          width: 100vw !important;
+          height: 100vh !important;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 1;
+        }
+        @keyframes sol-brillo {
+          0% { filter: drop-shadow(0 0 0px #ffe082) brightness(1); }
+          100% { filter: drop-shadow(0 0 12px #ffe082) brightness(1.15); }
+        }
+        @media (max-width: 600px) {
+          #solcitoo-anim {
+            font-size: 1.05rem !important;
+            padding: 0 6vw;
+          }
+          #frase-top-sol {
+            top: 10px;
+          }
+        }
+                @keyframes hint-pulse {
+                    0% { opacity: 0.45; transform: translateY(0); }
+                    100% { opacity: 1; transform: translateY(-2px); }
+                }
+
+                #start-screen {
+                    position: fixed;
+                    inset: 0;
+                    z-index: 20;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #000;
+                    text-align: center;
+                    padding: 24px;
+                }
+                #start-card {
+                    max-width: 520px;
+                    width: min(520px, 92vw);
+                }
+                #start-title {
+                    font-family: 'Segoe Script','Dancing Script',cursive,sans-serif;
+                    font-size: 1.35rem;
+                    color: #ffe082;
+                    text-shadow: 0 2px 10px #000a, 0 1px 0 #fff;
+                    letter-spacing: 0.03em;
+                    margin: 0 0 18px 0;
+                    animation: sol-brillo 2.5s ease-in-out infinite alternate;
+                }
+                #start-btn {
+                    appearance: none;
+                    border: 1px solid rgba(255,255,255,.22);
+                    background: rgba(255,255,255,.10);
+                    color: #ffe082;
+                    padding: 12px 18px;
+                    border-radius: 999px;
+                    font-weight: 800;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    box-shadow: 0 10px 26px rgba(0,0,0,.35);
+                }
+                #start-btn:hover { transform: translateY(-1px); }
+                #start-sub {
+                    margin: 14px 0 0;
+                    color: rgba(255,255,255,.78);
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 0.92rem;
+                    text-shadow: 0 1px 6px #000a;
+                }
+
+                /* Reproductor de música */
+                .music-player {
+                    position: fixed;
+                    bottom: 18px;
+                    left: 50%;
+                    transform: translateX(-50%) translateY(140%);
+                    z-index: 15;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 10px 14px;
+                    border-radius: 999px;
+                    background: rgba(0, 0, 0, 0.35);
+                    border: 1px solid rgba(255, 255, 255, 0.18);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+                    min-width: min(360px, 92vw);
+                    opacity: 0;
+                    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
+                }
+                .music-player.active {
+                    opacity: 1;
+                    transform: translateX(-50%) translateY(0);
+                }
+
+                .play-pause-btn {
+                    appearance: none;
+                    border: none;
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 999px;
+                    cursor: pointer;
+                    display: grid;
+                    place-items: center;
+                    color: #ffffff;
+                    background: rgba(255, 43, 79, 0.85);
+                    box-shadow: 0 6px 18px rgba(255, 43, 79, 0.28);
+                    transition: transform .15s ease, background .15s ease;
+                    flex: 0 0 auto;
+                }
+                .play-pause-btn:hover { transform: translateY(-1px); background: rgba(255, 43, 79, 1); }
+                .play-pause-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+                .progress-container {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    min-width: 0;
+                }
+                .song-info {
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 13px;
+                    color: rgba(255, 209, 242, 0.95);
+                    text-shadow: 0 1px 6px #000a;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .progress-bar {
+                    width: 100%;
+                    height: 4px;
+                    background: rgba(255,255,255,0.18);
+                    border-radius: 999px;
+                    overflow: hidden;
+                    cursor: pointer;
+                }
+                .progress-fill {
+                    height: 100%;
+                    width: 0%;
+                    background: linear-gradient(90deg, #ff2b4f, #ff6fd8);
+                    border-radius: 999px;
+                }
+                .time-display {
+                    display: flex;
+                    justify-content: space-between;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 11px;
+                    color: rgba(255,255,255,0.72);
+                }
+.volver-inicio{
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.78);
+  border: 1px solid rgba(0,0,0,.10);
+  color: #3b2f2f;
+  text-decoration: none;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+}
+.volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.92); }
+    </style>
+</head>
+<body>
+<a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+
+<div id="start-screen" role="dialog" aria-modal="true" aria-label="Pantalla de inicio">
+    <div id="start-card">
+        <p id="start-title">Para tu Guadiss💘</p>
+        <button id="start-btn" type="button">Entrar</button>
+        <p id="start-sub">Toca “Entrar” para comenzar</p>
+    </div>
+</div>
+
+<div id="frase-top-sol" style="width:100vw;text-align:center;position:fixed;top:18px;left:0;z-index:10;pointer-events:none;display:none;">
+<span id="solcitoo-anim" style="font-family:'Segoe Script','Dancing Script',cursive,sans-serif;font-size:1.35rem;color:#ffe082;text-shadow:0 2px 10px #000a,0 1px 0 #fff;letter-spacing:0.03em;animation:sol-brillo 2.5s ease-in-out infinite alternate; position:relative; top:32px;">Para tu Guadiss💘</span>
+</div>
+<canvas id="canvas"></canvas>
+
+<!-- Música de fondo: reemplazá el src por tu archivo -->
+<audio id="bg-music" preload="auto" loop>
+    <source src="heaven.mp4" type="audio/mpeg">
+</audio>
+
+<div class="music-player" id="musicPlayer" aria-label="Reproductor de música">
+    <button class="play-pause-btn" id="playPauseBtn" type="button" aria-label="Reproducir o pausar">
+        <svg id="playIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <div class="progress-container">
+        <div class="song-info">Te dedico esta canción ❤️</div>
+        <div class="progress-bar" id="progressBar" aria-label="Barra de progreso">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="time-display">
+            <span id="currentTime">0:00</span>
+            <span id="totalTime">0:00</span>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+const musicPlayer = document.getElementById('musicPlayer');
+const bgMusic = document.getElementById('bg-music');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const progressBar = document.getElementById('progressBar');
+const progressFill = document.getElementById('progressFill');
+const currentTimeEl = document.getElementById('currentTime');
+const totalTimeEl = document.getElementById('totalTime');
+const playIcon = document.getElementById('playIcon');
+const pauseIcon = document.getElementById('pauseIcon');
+
+let width, height, particles = [], arrows = [];
+const particleCount = 600;
+
+let started = false;
+let arrowIntervalId = null;
+
+function startExperience() {
+    if (started) return;
+    started = true;
+
+    const startScreen = document.getElementById('start-screen');
+    if (startScreen) startScreen.style.display = 'none';
+
+    const frase = document.getElementById('frase-top-sol');
+    if (frase) frase.style.display = 'block';
+
+    canvas.style.display = 'block';
+    resize(true);
+    requestAnimationFrame(animate);
+
+    if (musicPlayer) musicPlayer.classList.add('active');
+
+    if (bgMusic && typeof bgMusic.play === 'function') {
+        const p = bgMusic.play();
+        if (p && typeof p.then === 'function') {
+            p.then(() => showPauseIcon()).catch(() => showPlayIcon());
+        } else {
+            showPauseIcon();
+        }
+    }
+
+    window.addEventListener('resize', () => resize(false));
+}
+
+document.getElementById('start-btn')?.addEventListener('click', startExperience);
+
+function showPlayIcon() {
+    if (playIcon) playIcon.style.display = 'block';
+    if (pauseIcon) pauseIcon.style.display = 'none';
+}
+
+function showPauseIcon() {
+    if (playIcon) playIcon.style.display = 'none';
+    if (pauseIcon) pauseIcon.style.display = 'block';
+}
+
+function formatTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+function updateProgress() {
+    if (!bgMusic || !progressFill || !currentTimeEl || !totalTimeEl) return;
+    if (!Number.isFinite(bgMusic.duration) || bgMusic.duration <= 0) {
+        currentTimeEl.textContent = '0:00';
+        totalTimeEl.textContent = '0:00';
+        progressFill.style.width = '0%';
+        return;
+    }
+    const progress = (bgMusic.currentTime / bgMusic.duration) * 100;
+    progressFill.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+    currentTimeEl.textContent = formatTime(bgMusic.currentTime);
+    totalTimeEl.textContent = formatTime(bgMusic.duration);
+}
+
+function togglePlayPause() {
+    if (!bgMusic) return;
+    if (bgMusic.paused) {
+        const p = bgMusic.play();
+        if (p && typeof p.then === 'function') p.then(() => showPauseIcon()).catch(() => {});
+        else showPauseIcon();
+    } else {
+        bgMusic.pause();
+        showPlayIcon();
+    }
+}
+
+function seekAudio(e) {
+    if (!bgMusic || !progressBar) return;
+    if (!Number.isFinite(bgMusic.duration) || bgMusic.duration <= 0) return;
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = (typeof e.clientX === 'number' ? e.clientX : 0) - rect.left;
+    const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+    bgMusic.currentTime = ratio * bgMusic.duration;
+}
+
+playPauseBtn?.addEventListener('click', togglePlayPause);
+progressBar?.addEventListener('click', seekAudio);
+bgMusic?.addEventListener('timeupdate', updateProgress);
+bgMusic?.addEventListener('loadedmetadata', updateProgress);
+bgMusic?.addEventListener('play', showPauseIcon);
+bgMusic?.addEventListener('pause', showPlayIcon);
+
+
+// Calcula el tamaño del corazón según la pantalla
+function getHeartScale() {
+    // Si es celular (pantalla chica), usa un divisor mayor
+    if (Math.min(width, height) < 600) {
+        return Math.min(width, height) / 35; // Ajusta este valor para el tamaño ideal en celular
+    } else {
+        return Math.min(width, height) / 45; // Ajusta este valor para escritorio
+    }
+}
+
+// Ecuación paramétrica del corazón con escala
+function getHeartPoint(t, scale) {
+    const x = 16 * Math.pow(Math.sin(t), 3);
+    const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+    return { x: x * scale, y: y * scale };
+}
+
+// Clase para las partículas del corazón
+class Particle {
+    constructor(x, y) {
+        this.homeX = x;
+        this.homeY = y;
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 2 + 1;
+        this.color = `hsla(${Math.random() * 20 + 340}, 100%, 70%, 0.8)`;
+        this.vx = 0;
+        this.vy = 0;
+    }
+
+    update(arrows) {
+        let dx = this.homeX - this.x;
+        let dy = this.homeY - this.y;
+        this.vx += dx * 0.05;
+        this.vy += dy * 0.05;
+        this.vx *= 0.9;
+        this.vy *= 0.9;
+
+        // Repulsión de las flechas
+        arrows.forEach(arrow => {
+            let adx = this.x - arrow.x;
+            let ady = this.y - arrow.y;
+            let dist = Math.sqrt(adx * adx + ady * ady);
+            if (dist < 60) {
+                let force = (60 - dist) / 60;
+                this.vx += adx * force * 0.5;
+                this.vy += ady * force * 0.5;
+            }
+        });
+
+        this.x += this.vx;
+        this.y += this.vy;
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+// Reinicia partículas y flechas al cambiar tamaño
+function resize(forceInit) {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    if (!started && !forceInit) return;
+    particles = [];
+    arrows = [];
+    init();
+}
+
+// Inicializa partículas y flechas
+function init() {
+    const scale = getHeartScale();
+    for (let i = 0; i < particleCount; i++) {
+        const t = (i / particleCount) * Math.PI * 2;
+        const pos = getHeartPoint(t, scale);
+        particles.push(new Particle(width / 2 + pos.x, height / 2 + pos.y));
+    }
+    // Crear flechas iniciales
+    if (arrowIntervalId) clearInterval(arrowIntervalId);
+    arrowIntervalId = setInterval(() => {
+        // Si es PC, más arriba; si es móvil, como antes
+        let arrowY = height/2 - scale * (width > 600 ? 18 : 8);
+        arrows.push({ x: -50, y: arrowY, vx: 7, vy: 3, type: 'LR' });
+        arrows.push({ x: width + 50, y: arrowY, vx: -7, vy: 3, type: 'RL' });
+    }, 2000);
+}
+
+// Dibuja estrellas de fondo
+function drawStars() {
+    ctx.fillStyle = "white";
+    for(let i=0; i<100; i++) {
+        let x = Math.random() * width;
+        let y = Math.random() * height;
+        let size = Math.random() * 2;
+        ctx.globalAlpha = Math.random();
+        ctx.fillRect(x, y, size, size);
+    }
+    ctx.globalAlpha = 1;
+}
+
+// Dibuja flecha
+function drawArrow(a) {
+    ctx.save();
+    ctx.translate(a.x, a.y);
+    ctx.rotate(Math.atan2(a.vy, a.vx));
+    ctx.strokeStyle = "#00f2ff";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-20, 0); ctx.lineTo(20, 0);
+    ctx.lineTo(10, -10); ctx.moveTo(20, 0); ctx.lineTo(10, 10);
+    ctx.stroke();
+    ctx.restore();
+}
+
+// Efecto máquina de escribir para varias frases dentro del corazón
+const phrases = [
+    'Siempre se voss mismaa<33',
+    'Brillas con luz propia ✨',
+    'Sos unica e inigualable',
+    'Estoy orgulloso de voss Ririi.',
+    'Tu energia es re linda 💫',
+    'Nunca dejes de sonreír 🌷',
+    'Tenés un corazón hermoso 💖',
+   
+    'Sos una persona muy especial 💕',
+    
+    'Seguí brillando como siempre ✨'
+];
+let phraseIndex = 0;
+let typewriterIndex = 0;
+let typewriterLast = 0;
+let typewriterSpeed = 35; // ms por letra
+let phraseHoldMs = 1400; // pausa al terminar una frase
+let phraseHoldStart = 0;
+
+function wrapText(text, maxWidth) {
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line ? `${line} ${words[i]}` : words[i];
+        if (ctx.measureText(testLine).width <= maxWidth) {
+            line = testLine;
+        } else {
+            if (line) lines.push(line);
+            line = words[i];
+        }
+    }
+    if (line) lines.push(line);
+    return lines;
+}
+
+function drawPhraseTypewriter() {
+    ctx.save();
+    let fontSize = Math.max(15, Math.min(width, height) * 0.032);
+    ctx.font = `bold ${fontSize}px Segoe Script, Dancing Script, cursive, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffe082';
+    ctx.shadowColor = '#000';
+    ctx.shadowBlur = 8;
+    let yCenter = height * (width < 600 ? 0.50 : 0.47);
+    let maxWidth = width * 0.55;
+    let showText = phrases[phraseIndex].slice(0, typewriterIndex);
+    const lines = wrapText(showText, maxWidth);
+    const lineHeight = fontSize * 1.25;
+    const startY = yCenter - (lines.length - 1) * lineHeight * 0.5;
+    for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], width / 2, startY + i * lineHeight, maxWidth);
+    }
+    // Indicador circular de progreso debajo de la frase (0% a 100%)
+    const circleRadius = Math.max(12, fontSize * (width < 600 ? 0.6 : 1.1));
+    const circleY = startY + lines.length * lineHeight + circleRadius * 1.7;
+    const circleX = width / 2;
+    const completed = phraseIndex + (typewriterIndex / Math.max(1, phrases[phraseIndex].length));
+    const progress = Math.min(1, completed / phrases.length);
+    const startAngle = -Math.PI / 2;
+    const endAngle = startAngle + Math.PI * 2 * progress;
+
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 0.85;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+    ctx.lineWidth = Math.max(3, fontSize * 0.18);
+    ctx.beginPath();
+    ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.strokeStyle = '#ff6fd8';
+    ctx.beginPath();
+    ctx.arc(circleX, circleY, circleRadius, startAngle, endAngle);
+    ctx.stroke();
+
+    const percentText = `${Math.round(progress * 100)}%`;
+    ctx.fillStyle = '#ffd1f2';
+    ctx.font = `${Math.max(12, fontSize * 0.55)}px Arial, Helvetica, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(percentText, circleX, circleY);
+    ctx.globalAlpha = 1;
+    ctx.restore();
+}
+
+function animate(ts) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillRect(0, 0, width, height);
+
+    drawStars();
+    drawPhraseTypewriter();
+
+    // Actualizar y dibujar flechas
+    arrows.forEach((a, index) => {
+        a.x += a.vx;
+        a.y += a.vy;
+        drawArrow(a);
+        if (a.x > width + 100 || a.x < -100) arrows.splice(index, 1);
+    });
+
+    // Actualizar y dibujar partículas
+    particles.forEach(p => {
+        p.update(arrows);
+        p.draw();
+    });
+
+    // Efecto máquina de escribir
+        if (typeof ts === 'number') {
+                const current = phrases[phraseIndex];
+                if (typewriterIndex < current.length) {
+                        if (!typewriterLast) typewriterLast = ts;
+                        if (ts - typewriterLast > typewriterSpeed) {
+                                typewriterIndex++;
+                                typewriterLast = ts;
+                        }
+                } else {
+                        if (!phraseHoldStart) phraseHoldStart = ts;
+                        if (ts - phraseHoldStart > phraseHoldMs) {
+                                phraseIndex = (phraseIndex + 1) % phrases.length;
+                                typewriterIndex = 0;
+                                typewriterLast = 0;
+                                phraseHoldStart = 0;
+                        }
+                }
+        }
+
+    requestAnimationFrame(animate);
+}
+
+// Arranca solo al tocar “Entrar”
+</script>
+</body>
+</html>
