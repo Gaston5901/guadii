@@ -236,9 +236,7 @@ svg { width: 100%; height: auto; max-width: 400px; }
   padding: 25px 30px;
   padding-right: 40px;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   font-size: clamp(1rem, 2.3vw, 1.3rem);
   color: #6d4c41;
   opacity: 0;
@@ -255,6 +253,10 @@ svg { width: 100%; height: auto; max-width: 400px; }
   scrollbar-gutter: stable;
   box-shadow: inset 0 10px 18px rgba(0,0,0,0.06);
   position: relative;
+}
+
+#contenido-carta{
+  margin: 0;
 }
 
 /* Indicador visible (sirve en celu aunque el scrollbar se oculte) */
@@ -449,7 +451,7 @@ svg { width: 100%; height: auto; max-width: 400px; }
 
 <g class="petalo-g" transform="rotate(337.5)">
   <use href="#petaloShape" class="petalo" data-frase="Soy tu fan #1, porque personas como vos no sobran 💘"/>
-</g>
+</g> 
   </g>
     <circle class="centro" cx="125" cy="125" r="35"/>
     <circle class="detalles-centro" cx="115" cy="115" r="8"/>
@@ -606,12 +608,16 @@ function lanzarFinal(){
     carta.style.transition = "transform 1s ease-out";
     void carta.offsetWidth; // forzar reflow
     carta.style.transform = "translate(-50%, -50%) scale(1) rotate(0deg)";
-contenidoCarta.textContent = "Para Iriss Guadiss Ririi ✨. De a poco nos vamos conociendo y eso es lo que más me gusta 💫💖. Hablar con vos se siente fácil y natural, como si el tiempo pasara sin avisar 🌷. Tenés una energía tan linda que se nota en cada palabra y en cada risa 😊✨. Me encanta compartir charlas, momentos simples y esas pequeñas locuras que hacen el día más lindo 🤭. Además, tenés una forma de hablar re linda, hasta tu voz tiene algo que me encanta escuchar 💕. Y sí, aunque seas una viejitaaa yaa 🤭 (bromitaa sdsfdg), siempre conseguís sacarme una sonrisa y hacer que quiera seguir hablando con voss ✨. También admiro mucho lo trabajadora que sos, porque se nota todo el esfuerzo y las ganas que le ponés a las cosas 💫. Sos una persona increíble, de esas que se vuelven especiales muy rápido 💖 y siento que todavía me quedan un montón de cosas lindas por descubrir de vos 🌸. Ojalá hoy y siempre te sientas feliz, querida y acompañada 💕. Siempre quiero lo mejor para vos, te quieroo mucho Señoritaa <33 💖";
+    const pContenido = document.getElementById("contenido-carta");
+    if (pContenido) {
+      pContenido.textContent = "Para Iriss Guadiss Ririi ✨. De a poco nos vamos conociendo y eso es lo que más me gusta 💫💖. Hablar con vos se siente fácil y natural, como si el tiempo pasara sin avisar 🌷. Tenés una energía tan linda que se nota en cada palabra y en cada risa 😊✨. Me encanta compartir charlas, momentos simples y esas pequeñas locuras que hacen el día más lindo 🤭. Además, tenés una forma de hablar re linda, hasta tu voz tiene algo que me encanta escuchar 💕. Y sí, aunque seas una viejitaaa yaa 🤭 (bromitaa sdsfdg), siempre conseguís sacarme una sonrisa y hacer que quiera seguir hablando con voss ✨. También admiro mucho lo trabajadora que sos, porque se nota todo el esfuerzo y las ganas que le ponés a las cosas 💫. Sos una persona increíble, de esas que se vuelven especiales muy rápido 💖 y siento que todavía me quedan un montón de cosas lindas por descubrir de vos 🌸. Ojalá hoy y siempre te sientas feliz, querida y acompañada 💕. Siempre quiero lo mejor para vos, te quieroo mucho Señoritaa <33 💖";
+    }
 
     const actualizarScrollCarta = () => {
       const area = carta.querySelector(".contenido");
       if (!area) return;
       requestAnimationFrame(() => {
+        area.scrollTop = 0;
         area.classList.toggle("scrollable", area.scrollHeight > area.clientHeight + 1);
       });
     };
