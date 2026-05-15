@@ -198,6 +198,7 @@ svg { width: 100%; height: auto; max-width: 400px; }
   transform: translate(-50%, -50%) scale(0);
   width: 90vw;              /* ancho relativo a pantalla */
   max-width: 420px;
+  max-height: 82vh;
   background: #fff9c4;
   border-radius: 12px;
   box-shadow: 0 5px 18px rgba(0,0,0,0.35);
@@ -233,6 +234,7 @@ svg { width: 100%; height: auto; max-width: 400px; }
   margin-top: 110px;
   width: 100%;
   padding: 25px 30px;
+  padding-right: 40px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -245,8 +247,35 @@ svg { width: 100%; height: auto; max-width: 400px; }
   white-space: pre-wrap;
   box-sizing: border-box;
   z-index: 20;
-  overflow: visible;           /* quita scroll */
+  max-height: 48vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  box-shadow: inset 0 10px 18px rgba(0,0,0,0.06);
+  position: relative;
 }
+
+/* Indicador visible (sirve en celu aunque el scrollbar se oculte) */
+#carta .contenido.scrollable::after{
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  right: 12px;
+  width: 6px;
+  border-radius: 999px;
+  background: rgba(109, 76, 65, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(109, 76, 65, 0.12);
+  pointer-events: none;
+}
+
+/* Scrollbar prolija (Chrome/Edge/Safari) */
+#carta .contenido::-webkit-scrollbar{ width: 10px; }
+#carta .contenido::-webkit-scrollbar-track{ background: rgba(253,216,53,0.25); border-radius: 999px; }
+#carta .contenido::-webkit-scrollbar-thumb{ background: rgba(109,76,65,0.35); border-radius: 999px; }
+#carta .contenido::-webkit-scrollbar-thumb:hover{ background: rgba(109,76,65,0.5); }
 
 /* Estado abierto del sobre con doblado */
 #carta.abierta .tapa {
@@ -578,7 +607,18 @@ function lanzarFinal(){
     void carta.offsetWidth; // forzar reflow
     carta.style.transform = "translate(-50%, -50%) scale(1) rotate(0deg)";
 contenidoCarta.textContent = "Para Iriss Guadiss Ririi ✨. De a poco nos vamos conociendo y eso es lo que más me gusta 💫💖. Hablar con vos se siente fácil y natural, como si el tiempo pasara sin avisar 🌷. Tenés una energía tan linda que se nota en cada palabra y en cada risa 😊✨. Me encanta compartir charlas, momentos simples y esas pequeñas locuras que hacen el día más lindo 🤭. Además, tenés una forma de hablar re linda, hasta tu voz tiene algo que me encanta escuchar 💕. Y sí, aunque seas una viejitaaa yaa 🤭 (bromitaa sdsfdg), siempre conseguís sacarme una sonrisa y hacer que quiera seguir hablando con voss ✨. También admiro mucho lo trabajadora que sos, porque se nota todo el esfuerzo y las ganas que le ponés a las cosas 💫. Sos una persona increíble, de esas que se vuelven especiales muy rápido 💖 y siento que todavía me quedan un montón de cosas lindas por descubrir de vos 🌸. Ojalá hoy y siempre te sientas feliz, querida y acompañada 💕. Siempre quiero lo mejor para vos, te quieroo mucho Señoritaa <33 💖";
+
+    const actualizarScrollCarta = () => {
+      const area = carta.querySelector(".contenido");
+      if (!area) return;
+      requestAnimationFrame(() => {
+        area.classList.toggle("scrollable", area.scrollHeight > area.clientHeight + 1);
+      });
+    };
+
+    actualizarScrollCarta();
     setTimeout(() => { carta.classList.add("abierta"); }, 1000);
+    setTimeout(actualizarScrollCarta, 1100);
 
     avion.style.transform = "translate(-50%, -50%) scale(1) rotate(-15deg)";
   }, 5000);
