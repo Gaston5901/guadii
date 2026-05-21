@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sorpresa ✨ (QR)</title>
+  <meta name="description" content="Escaneá el QR para abrir la sorpresa." />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #fff0f6;
+      --bg2: #fbeaff;
+      --card: #fff8fb;
+      --stroke: #f8bbd0;
+      --text: #7c3a6a;
+      --muted: #b48bbd;
+      --accent1: #f48fb1;
+      --accent2: #b39ddb;
+      --accent3: #ffe082;
+      --gold: #ffd700;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: 'Quicksand', 'Nunito', 'Segoe UI', Arial, sans-serif;
+      background:
+        radial-gradient(900px 500px at 15% 10%, #ffe0ef 30%, transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, #e1bee7 25%, transparent 60%),
+        radial-gradient(900px 600px at 50% 95%, #fffde7 20%, transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .wrap {
+      min-height: 100vh;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: clamp(18px, 3vw, 34px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .panel {
+      width: 100%;
+      border-radius: 24px;
+      background: var(--card);
+      border: 2px solid var(--accent1);
+      box-shadow: 0 8px 32px #f8bbd055, 0 2px 8px #fffde7cc;
+      padding: 32px 18px 28px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--accent1);
+      font-family: 'Quicksand', 'Nunito', 'Segoe UI', Arial, sans-serif;
+      text-shadow: 0 2px 12px #ffe0ef80;
+    }
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 55ch;
+      line-height: 1.5;
+      font-size: 1.08rem;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: linear-gradient(90deg, #ffe0ef 60%, #fffde7 100%);
+      border: 1.5px solid var(--accent1);
+      border-radius: 999px;
+      color: var(--accent1);
+      font-size: 1.05rem;
+      font-weight: 600;
+      box-shadow: 0 4px 18px #f8bbd055;
+      user-select: none;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+    .qr-img-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 32px 0 18px 0;
+    }
+    .qr-img-frame {
+      background: linear-gradient(180deg, #fffde7 60%, #ffe0ef 100%);
+      border: 2.5px solid var(--accent1);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px #ffd70033, 0 2px 8px #fffde7cc;
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 260px;
+      min-height: 260px;
+      max-width: 340px;
+      max-height: 340px;
+    }
+    .qr-img-frame img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #f8bbd055;
+      background: #fff;
+      border: 1.5px solid #f8bbd0;
+      display: block;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 1.01rem;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .volver {
+      margin-top: 18px;
+      display: inline-block;
+      padding: 10px 22px;
+      background: linear-gradient(90deg, #ffe0ef 60%, #fffde7 100%);
+      border: 1.5px solid var(--accent1);
+      border-radius: 999px;
+      color: var(--accent1);
+      font-size: 1.05rem;
+      font-weight: 600;
+      box-shadow: 0 4px 18px #f8bbd055;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .volver:hover {
+      background: linear-gradient(90deg, #ffe082 60%, #ffe0ef 100%);
+      border-color: var(--gold);
+      color: #b48bbd;
+    }
+       .volver-inicio{
+        position: fixed;
+        top: 16px;
+        left: 20px;
+        z-index: 9999;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        background: rgba(0,0,0,.55);
+        border: 1px solid rgba(255,255,255,.20);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 800;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      }
+      .volver-inicio:hover{ transform: translateY(-1px); background: rgba(0,0,0,.70); }
+  </style>
+</head>
+<body>
+    <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+
+  <div class="wrap">
+    <main class="panel">
+      <header>
+        <div>
+          <h1>Sorpresa <33</h1>
+          <p class="subtitle">Escaneá el QR y te va a llevar a la carta</p>
+        </div>
+        <div class="pill" title="Hecho con amor">💗</div>
+      </header>
+      <div class="qr-img-zone">
+        <div class="qr-img-frame">
+          <!-- Reemplazá la imagen de abajo por tu QR generado -->
+          <img src="guadis.png" alt="Código QR de la sorpresa" />
+        </div>
+      </div>
+      <div class="note">
+        
+        <br>
+        <a class="volver" href="../index.html">← Volver</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
