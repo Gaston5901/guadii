@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sorpresa  (QR)</title>
+  <title>Sorpresa (QR)</title>
   <meta name="description" content="Escaneá el QR para abrir la sorpresa." />
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -125,6 +125,38 @@
       border: 1.5px solid #f8bbd0;
       display: block;
     }
+    .qr-link {
+      width: 220px;
+      height: 220px;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--accent1);
+      background:
+        radial-gradient(circle at top, #fff 0%, #fff7fb 45%, #ffeaf3 100%);
+      border: 2px dashed var(--accent1);
+      box-shadow: 0 2px 12px #f8bbd055;
+      padding: 18px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .qr-link:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 22px #f8bbd077;
+    }
+    .qr-link strong {
+      font-size: 1.15rem;
+      line-height: 1.1;
+    }
+    .qr-link span {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
     .note {
       color: var(--muted);
       font-size: 1.01rem;
@@ -181,14 +213,16 @@
       <header>
         <div>
           <h1>Sorpresa <33</h1>
-          <p class="subtitle">Escaneá el QR y te va a llevar a la carta</p>
+          <p class="subtitle">Presioná el recuadro y se abre la carta</p>
         </div>
         <div class="pill" title="Hecho con amor">💗</div>
       </header>
       <div class="qr-img-zone">
         <div class="qr-img-frame">
-          <!-- Reemplazá la imagen de abajo por tu QR generado -->
-          <img src="guadiss.png" alt="Código QR de la sorpresa" />
+          <a class="qr-link" href="https://gaston5901.github.io/guadii/sorpresaQR/lovecard.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir enlace de la sorpresa">
+            <strong>Presioname</strong>
+            <span>Te llevo a la sorpresa</span>
+          </a>
         </div>
       </div>
       <div class="note">
