@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy&family=Comic+Relief:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Parisienne&display=swap" rel="stylesheet">
 <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #fff5f8 0%, #ffe8f1 25%, #ffd6ea 50%, #ffc4dd 75%, #ffb3d1 100%);
@@ -46,9 +47,10 @@
             width: 100%; 
             height: 100%; 
             position: relative;
-            background: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientFlow 15s ease infinite;
+            /* Fondo tipo espacio oscuro para que se vean las estrellas */
+            background: radial-gradient(ellipse at bottom, #0d0d1e 0%, #050510 60%, #03030a 100%);
+            color: #f3eefc;
+            overflow: hidden;
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -64,21 +66,51 @@
             75% { background-position: center, 0% 100%; }
             100% { background-position: center, 0% 50%; }
         }
+
+        /* Capa de estrellas sobre el fondo del lock-screen */
+        #stars-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.6) 60%, transparent 100%);
+            border-radius: 50%;
+            opacity: 0.85;
+            box-shadow: 0 0 6px rgba(255,255,255,0.7);
+            animation: twinkle 4s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%,100% { opacity: 0.25; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
         
         .title-container {
             position: absolute;
             top: 10%;
             text-align: center;
-            z-index: 3;
+            z-index: 5;
         }
         
         .title-container h1 {
-            font-family: 'Sour Gummy', cursive;
-            font-size: 2.3rem;
-            color: var(--primary-pink);
-            text-shadow: var(--text-shadow); /* Sombra rosa aplicada */
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
             margin-bottom: 8px;
-            font-weight: 700;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            /* Degradado de texto púrpura */
+            background: linear-gradient(90deg, #6f2bd6, #b079ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 6px 20px rgba(111,43,214,0.12);
         }
         
         .title-container p {
@@ -90,24 +122,41 @@
         
         .password-hint {
             position: absolute;
-            /* MODIFICADO: Posición más abajo y z-index añadido */
+            /* Posición más abajo y z-index añadido */
             bottom: 5%;
-            z-index: 2; 
-            font-family: 'Sour Gummy', cursive;
-            font-size: 1.2rem;
-            color: var(--dark-pink);
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            z-index: 6;
+            font-family: 'Parisienne', cursive;
+            font-size: 1.6rem;
             text-align: center;
+            /* Degradado en el texto y recorte para efecto elegante */
+            background: linear-gradient(90deg, #b079ff 0%, #9d4edd 50%, #7a2cd6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.4px;
+            text-shadow: 0 6px 24px rgba(125,65,220,0.18);
+            padding: 6px 14px;
+            transition: transform .18s ease, opacity .18s ease;
+        }
+
+        .password-hint::after {
+            content: ' ✨';
+            font-size: 1.1rem;
+            margin-left: 6px;
+            display: inline-block;
+            transform: translateY(-2px);
+            filter: drop-shadow(0 4px 12px rgba(125,65,220,0.2));
         }
         
         #lock-image {
             width: 80%; 
             max-width: 400px;
             height: auto;
-            z-index: 1; 
+            z-index: 6; 
             pointer-events: none;
-            /* SOMBRA MODIFICADA: Más intensa y extendida */
-            filter: drop-shadow(0 12px 24px rgba(233, 30, 99, 0.45));
+            /* Aplicar tinte púrpura al PNG sin cambiar el archivo */
+            filter: hue-rotate(250deg) saturate(1.25) brightness(0.95) drop-shadow(0 14px 34px rgba(122,44,214,0.28));
+            transition: transform .25s ease, filter .25s ease;
         }
         
         @keyframes floatHeart {
@@ -121,7 +170,7 @@
             display: flex; 
             justify-content: center; 
             gap: 8px; 
-            z-index: 2;
+            z-index: 6;
             padding: 0;
             background: none;
             border: none;
@@ -545,7 +594,7 @@
         }
         
         @media (max-width: 768px) {
-            .title-container h1 { font-size: 2.1rem; }
+            .title-container h1 { font-size: 2.4rem; }
             .title-container p { font-size: 1.1rem; }
             
             #lock-image { 
@@ -619,10 +668,35 @@
                 font-size: 1.3rem;
             }
         }
+        /* Desktop: hacer el corazón/candado más pequeño solo en computadoras */
+        @media (min-width: 1025px) {
+            #lock-image {
+                width: 40%;
+                max-width: 280px;
+            }
+            /* En desktop reducir ligeramente controles del candado */
+            .password-container {
+                transform: scale(1.05);
+                gap: 6px;
+            }
+            .digit-container {
+                padding: 6px 4px;
+            }
+            .digit-display {
+                min-width: 30px;
+                height: 26px;
+                font-size: 1rem;
+            }
+            .digit-btn {
+                width: 18px;
+                height: 18px;
+                font-size: 0.8rem;
+            }
+        }
         
         @media (max-width: 480px) {
             .title-container { top: 8%; }
-            .title-container h1 { font-size: 1.9rem; }
+            .title-container h1 { font-size: 2.1rem; }
             .title-container p { font-size: 1.05rem; }
             
             #lock-image { 
@@ -701,6 +775,7 @@
 <body>
 <div id="lock-screen">
         <!-- Texto sobre el candado -->
+        <div id="stars-layer" aria-hidden="true"></div>
         <div class="title-container">
             <h1>Corazon Secreto</h1>
             <!-- La pista se ha movido debajo de la imagen -->
@@ -709,14 +784,14 @@
         <img id="lock-image" src="https://dl.dropboxusercontent.com/scl/fi/f4n3udgmqe8fav15cll5h/lock1.png?rlkey=rc8hijxh0ahkumnf3iupmjlj4" alt="Heart Lock">
         
         <!-- Pista de la contraseña (POSICIÓN MODIFICADA) -->
-        <p class="password-hint"></p>
+        <p class="password-hint">Eres la melodía que hace sonreír a mi silencio.</p>
         
         <!-- Módulo de contraseña debajo del candado (sin cambios en su estructura) -->
         <div class="password-container">
             <div class="date-group">
                 <div class="digit-container">
                     <button class="digit-btn digit-btn-up" data-group="day">▲</button>
-                    <div class="digit-display" id="day-display">01</div>
+                    <div class="digit-display" id="day-display">00</div>
                     <button class="digit-btn digit-btn-down" data-group="day">▼</button>
                 </div>
             </div>
@@ -724,7 +799,7 @@
             <div class="date-group">
                 <div class="digit-container">
                     <button class="digit-btn digit-btn-up" data-group="month">▲</button>
-                    <div class="digit-display" id="month-display">01</div>
+                    <div class="digit-display" id="month-display">00</div>
                     <button class="digit-btn digit-btn-down" data-group="month">▼</button>
                 </div>
             </div>
@@ -732,7 +807,7 @@
             <div class="date-group">
                 <div class="digit-container">
                     <button class="digit-btn digit-btn-up" data-group="year">▲</button>
-                    <div class="digit-display" id="year-display">25</div>
+                    <div class="digit-display" id="year-display">00</div>
                     <button class="digit-btn digit-btn-down" data-group="year">▼</button>
                 </div>
             </div>
@@ -792,7 +867,8 @@
         // Password configuration: DD/MM/YY format
         // Ajustado: contraseña 7 3 6 -> día:7 mes:3 año:6
         const correctPassword = { day: 7, month: 3, year: 6 }; // 07/03/06
-        let currentPassword = { day: 1, month: 1, year: 25 };
+        // Iniciar los dígitos del candado en 0 según solicitud
+        let currentPassword = { day: 0, month: 0, year: 0 };
 
         // Variables para el carrusel interactivo
         let isDragging = false;
@@ -865,10 +941,12 @@
         function changeValue(group, delta) {
             switch(group) {
                 case 'day':
-                    currentPassword.day = ((currentPassword.day - 1 + delta + 31) % 31) + 1;
+                    // Permitir valores de 0 a 30 para mantener inicio en 0
+                    currentPassword.day = (currentPassword.day + delta + 31) % 31;
                     break;
                 case 'month':
-                    currentPassword.month = ((currentPassword.month - 1 + delta + 12) % 12) + 1;
+                    // Permitir valores de 0 a 11 para iniciar en 0
+                    currentPassword.month = (currentPassword.month + delta + 12) % 12;
                     break;
                 case 'year':
                     currentPassword.year = Math.max(0, Math.min(99, currentPassword.year + delta));
@@ -886,6 +964,27 @@
                 currentPassword.month.toString().padStart(2, '0');
             document.getElementById('year-display').textContent = 
                 currentPassword.year.toString().padStart(2, '0');
+        }
+
+        // Crear estrellas de fondo en #stars-layer
+        function createStars() {
+            const container = document.getElementById('stars-layer');
+            if (!container) return;
+            container.innerHTML = '';
+            const count = 120;
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() * 2 + 1;
+                s.style.width = `${size}px`;
+                s.style.height = `${size}px`;
+                s.style.left = `${Math.random() * 100}%`;
+                s.style.top = `${Math.random() * 100}%`;
+                s.style.animationDuration = `${3 + Math.random() * 5}s`;
+                s.style.opacity = `${0.4 + Math.random() * 0.8}`;
+                s.style.transform = `scale(${0.6 + Math.random()})`;
+                container.appendChild(s);
+            }
         }
 
         function checkPassword() {
@@ -1046,6 +1145,7 @@
         }
 
         // Initialize display
+        createStars();
         updateDisplay();
     </script>
 </body>
