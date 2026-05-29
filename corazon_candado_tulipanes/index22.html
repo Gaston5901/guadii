@@ -629,66 +629,8 @@
       box-shadow: 0 30px 90px rgba(2,6,23,0.7);
       position: relative;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-    }
-    .video-frame {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    .video-frame video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      max-height: 80vh;
-      background: #000;
-      display: block;
-      touch-action: manipulation;
-    }
-    .video-controls {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 2px 4px 0;
-    }
-    .video-control-btn {
-      border: none;
-      cursor: pointer;
-      color: #fff;
-      background: linear-gradient(135deg, rgba(255,107,157,0.98), rgba(157,78,221,0.98));
-      box-shadow: 0 10px 24px rgba(157,78,221,0.22);
-      border-radius: 999px;
-      min-width: 44px;
-      min-height: 44px;
-      padding: 0 14px;
-      font: inherit;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      touch-action: manipulation;
-    }
-    .video-control-btn:active { transform: scale(0.98); }
-    .video-play-btn { min-width: 92px; }
-    .video-time {
-      color: rgba(255,255,255,0.8);
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
-      min-width: 78px;
-      text-align: center;
-    }
-    .video-seek {
-      flex: 1 1 220px;
-      min-width: 180px;
-      accent-color: #ff6b9d;
-      height: 28px;
-      touch-action: pan-x;
     }
     .video-close {
       position: absolute;
@@ -707,11 +649,6 @@
       .video-trigger { width: 88px; height: 88px; }
       .video-trigger svg { width: 56px; height: 56px; }
       .video-modal-content { padding: 10px; border-radius: 10px; }
-      .video-controls { gap: 8px; }
-      .video-control-btn { min-width: 42px; min-height: 42px; padding: 0 12px; }
-      .video-play-btn { min-width: 84px; }
-      .video-time { font-size: 0.85rem; min-width: 70px; }
-      .video-seek { flex-basis: 100%; min-width: 0; }
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -1175,19 +1112,10 @@
   <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="video-modal-content">
       <button id="video-close" class="video-close" aria-label="Cerrar video">✕</button>
-      <div class="video-frame">
-        <video id="promo-video" playsinline webkit-playsinline preload="metadata" style="width:100%;height:auto;border-radius:8px;max-height:80vh;background:#000;">
-          <source src="video.mp4" type="video/mp4">
-          Tu navegador no soporta video HTML5.
-        </video>
-      </div>
-      <div class="video-controls" aria-label="Controles del video">
-        <button id="video-back" class="video-control-btn" type="button" aria-label="Retroceder 10 segundos">-10</button>
-        <button id="video-play" class="video-control-btn video-play-btn" type="button" aria-label="Reproducir o pausar">Pausar</button>
-        <button id="video-forward" class="video-control-btn" type="button" aria-label="Adelantar 10 segundos">+10</button>
-        <span id="video-time" class="video-time">0:00 / 0:00</span>
-        <input id="video-seek" class="video-seek" type="range" min="0" max="1000" value="0" aria-label="Buscar en el video">
-      </div>
+      <video id="promo-video" controls playsinline webkit-playsinline preload="metadata" style="width:100%;height:auto;border-radius:8px;max-height:80vh;background:#000;">
+        <source src="video.mp4" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+      </video>
     </div>
   </div>
 
@@ -1197,51 +1125,12 @@
       const modal = document.getElementById('video-modal');
       const closeBtn = document.getElementById('video-close');
       const video = document.getElementById('promo-video');
-      const playBtn = document.getElementById('video-play');
-      const backBtn = document.getElementById('video-back');
-      const forwardBtn = document.getElementById('video-forward');
-      const seek = document.getElementById('video-seek');
-      const timeLabel = document.getElementById('video-time');
-
-      function formatTime(seconds) {
-        if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
-        const total = Math.floor(seconds);
-        const minutes = Math.floor(total / 60);
-        const rest = String(total % 60).padStart(2, '0');
-        return `${minutes}:${rest}`;
-      }
-
-      function syncControls() {
-        if (!video) return;
-        if (playBtn) playBtn.textContent = video.paused ? 'Reproducir' : 'Pausar';
-        if (timeLabel) timeLabel.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-        if (seek && Number.isFinite(video.duration) && video.duration > 0) {
-          seek.value = String((video.currentTime / video.duration) * 1000);
-        }
-      }
-
-      function playPause() {
-        if (!video) return;
-        if (video.paused) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-        syncControls();
-      }
-
-      function seekBy(seconds) {
-        if (!video || !Number.isFinite(video.duration)) return;
-        video.currentTime = Math.min(video.duration, Math.max(0, video.currentTime + seconds));
-        syncControls();
-      }
 
       function openVideo() {
         if (!modal) return;
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
         try { if (video.readyState === 0) video.load(); video.currentTime = 0; video.play().catch(()=>{}); } catch(e){}
-        syncControls();
       }
 
       function closeVideo() {
@@ -1249,33 +1138,12 @@
         modal.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
         try { video.pause(); video.currentTime = 0; } catch(e){}
-        syncControls();
       }
 
       if (trigger) trigger.addEventListener('click', openVideo);
       if (closeBtn) closeBtn.addEventListener('click', closeVideo);
       if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeVideo(); });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideo(); });
-
-      if (playBtn) playBtn.addEventListener('click', playPause);
-      if (backBtn) backBtn.addEventListener('click', () => seekBy(-10));
-      if (forwardBtn) forwardBtn.addEventListener('click', () => seekBy(10));
-      if (seek) {
-        seek.addEventListener('input', () => {
-          if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
-          video.currentTime = (Number(seek.value) / 1000) * video.duration;
-          syncControls();
-        });
-      }
-
-      if (video) {
-        video.addEventListener('loadedmetadata', syncControls);
-        video.addEventListener('timeupdate', syncControls);
-        video.addEventListener('play', syncControls);
-        video.addEventListener('pause', syncControls);
-        video.addEventListener('ended', syncControls);
-        video.addEventListener('click', playPause);
-      }
 
     })();
   </script>
