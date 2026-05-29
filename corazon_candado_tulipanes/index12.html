@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corazón Secreto Espacial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&amp;family=Pacifico&amp;display=swap" rel="stylesheet">
+  <style>
+
+    body {
+      box-sizing: border-box;
+    }
+
+    .volver-inicio{
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.50);
+      border: 1px solid rgba(255,255,255,.18);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .volver-inicio:hover{ transform: translateY(-1px); background: rgba(0,0,0,.66); }
+
+    html, body, #app {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .space-bg {
+      background: radial-gradient(ellipse at bottom, #1a1a3e 0%, #0d0d1e 40%, #050510 100%);
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    /* Capa de estrellas */
+    #stars-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    /* Estrellas */
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite;
+      box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.4);
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    /* Estrellas fugaces */
+    .shooting-star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fff;
+      border-radius: 50%;
+      animation: shoot 4s ease-in-out infinite;
+      opacity: 0;
+      box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+    }
+    
+    .shooting-star::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+      transform: translateX(-100%);
+      top: 0;
+    }
+    
+    @keyframes shoot {
+      0% { transform: translateX(0) translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      40% { transform: translateX(400px) translateY(250px); opacity: 0; }
+      100% { opacity: 0; }
+    }
+    
+    /* Nebulosas */
+    .nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.2;
+      animation: float-nebula 25s ease-in-out infinite;
+    }
+    
+    @keyframes float-nebula {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, -30px) scale(1.15); }
+    }
+    
+    /* Corazón */
+    .heart-container {
+      position: relative;
+      animation: float-heart 4s ease-in-out infinite;
+      width: clamp(260px, 78vw, 440px);
+      height: clamp(260px, 78vw, 440px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      isolation: isolate;
+      margin-top: clamp(-60px, -4vh, -20px);
+    }
+    
+    @keyframes float-heart {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .heart {
+      display: none;
+    }
+    .heart-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      animation: heartbeat 2s ease-in-out infinite;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      background: none;
+      /* “Borra” el fondo claro/ajedrezado sin editar la imagen */
+      mix-blend-mode: multiply;
+      filter: saturate(1.25) contrast(1.12) brightness(1.12);
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      10% { transform: scale(1.05); }
+      20% { transform: scale(1); }
+      30% { transform: scale(1.05); }
+      40% { transform: scale(1); }
+    }
+    
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 224px;
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 50%, #d81b60 100%);
+      border-radius: 140px 140px 0 0;
+      box-shadow: 
+        inset -10px -10px 30px rgba(0,0,0,0.3),
+        inset 10px 10px 30px rgba(255,255,255,0.2),
+        0 0 60px rgba(255,107,157,0.6),
+        0 0 100px rgba(255,107,157,0.4);
+    }
+    
+    .heart::before {
+      left: 70px;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+    
+    .heart::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+    
+    /* Brillo del corazón */
+    .heart-shine {
+      position: absolute;
+      top: 30px;
+      left: 50px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: rotate(-45deg);
+      pointer-events: none;
+      z-index: 10;
+      filter: blur(15px);
+    }
+    
+    /* Panel de contraseña */
+    .password-panel {
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(10px, 2.4vw, 14px);
+      width: 100%;
+    }
+    
+    .digit-container {
+      display: flex;
+      gap: clamp(4px, 1.6vw, 6px);
+      align-items: center;
+    }
+    
+    .digit-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(2px, 0.8vw, 3px);
+    }
+    
+    .arrow-btn {
+      width: clamp(18px, 5.2vw, 22px);
+      height: clamp(18px, 5.2vw, 22px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      touch-action: manipulation;
+    }
+    
+    .arrow-btn:hover {
+      background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.2));
+      border-color: rgba(255,255,255,0.6);
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(255,107,157,0.5);
+    }
+    
+    .arrow-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .arrow {
+      width: 0;
+      height: 0;
+      border-left: clamp(3px, 1vw, 4px) solid transparent;
+      border-right: clamp(3px, 1vw, 4px) solid transparent;
+    }
+    
+    .arrow-up {
+      border-bottom: clamp(5px, 1.6vw, 6px) solid #fff;
+    }
+    
+    .arrow-down {
+      border-top: clamp(5px, 1.6vw, 6px) solid #fff;
+    }
+    
+    .digit-display {
+      width: clamp(30px, 10vw, 38px);
+      height: clamp(42px, 12vw, 50px);
+      background: linear-gradient(135deg, rgba(13,13,30,0.9), rgba(26,26,62,0.8));
+      border: 2px solid rgba(255,107,157,0.6);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(22px, 6.4vw, 28px);
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Quicksand', sans-serif;
+      box-shadow: 
+        0 4px 12px rgba(0,0,0,0.42),
+        inset 0 2px 6px rgba(255,107,157,0.2),
+        0 0 12px rgba(255,107,157,0.3);
+      text-shadow: 0 0 8px rgba(255,107,157,0.75);
+      transition: all 0.3s ease;
+    }
+    
+    .digit-display.active {
+      border-color: #fff;
+      box-shadow: 
+        0 6px 18px rgba(0,0,0,0.45),
+        inset 0 2px 8px rgba(255,255,255,0.25),
+        0 0 26px rgba(255,107,157,0.75);
+    }
+    
+    .unlock-btn {
+      padding: clamp(10px, 3.2vw, 15px) clamp(26px, 9vw, 50px);
+      background: linear-gradient(135deg, #ff6b9d, #ff1744);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-size: clamp(16px, 4.8vw, 20px);
+      font-weight: 700;
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 8px 25px rgba(255,23,68,0.5),
+        0 0 40px rgba(255,107,157,0.3);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .unlock-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 12px 35px rgba(255,23,68,0.6),
+        0 0 60px rgba(255,107,157,0.5);
+    }
+    
+    .unlock-btn:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+    
+    /* Título */
+    .title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(34px, 9vw, 56px);
+      color: #fff;
+      text-shadow: 
+        0 0 20px rgba(255,107,157,0.8),
+        0 0 40px rgba(255,107,157,0.5),
+        0 4px 10px rgba(0,0,0,0.5);
+      animation: glow-pulse 3s ease-in-out infinite;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    @keyframes glow-pulse {
+      0%, 100% { 
+        text-shadow: 
+          0 0 20px rgba(255,107,157,0.8),
+          0 0 40px rgba(255,107,157,0.5),
+          0 4px 10px rgba(0,0,0,0.5);
+      }
+      50% { 
+        text-shadow: 
+          0 0 30px rgba(255,107,157,1),
+          0 0 60px rgba(255,107,157,0.7),
+          0 4px 10px rgba(0,0,0,0.5);
+      }
+    }
+    
+    .subtitle {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(16px, 4.6vw, 20px);
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      margin-top: 30px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    /* Partículas (acotadas al corazón) */
+    #heart-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 3;
+    }
+
+    @media (max-width: 420px) {
+      .password-panel { top: 56%; }
+      .unlock-btn { letter-spacing: 1px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .star,
+      .shooting-star,
+      .nebula,
+      .heart-container,
+      .heart-img,
+      .heart-particle,
+      .title {
+        animation: none !important;
+      }
+    }
+    
+    /* Partículas de corazón */
+    .heart-particle {
+      position: absolute;
+      color: #ff6b9d;
+      font-size: 20px;
+      animation: float-particle 4s ease-in-out infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    @keyframes float-particle {
+      0% { 
+        opacity: 0; 
+        transform: translateY(0) scale(0.5);
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 0.8;
+      }
+      100% { 
+        opacity: 0; 
+        transform: translateY(-150px) scale(1.2);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full m-0 p-0">
+    <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+  <div id="app" class="w-full h-full space-bg relative"><!-- Nebulosas -->
+   <div class="nebula" style="width: 400px; height: 400px; background: #ff6b9d; top: 10%; left: 10%;"></div>
+   <div class="nebula" style="width: 350px; height: 350px; background: #9d4edd; top: 15%; right: 15%; animation-delay: -8s;"></div>
+   <div class="nebula" style="width: 300px; height: 300px; background: #4cc9f0; bottom: 20%; left: 25%; animation-delay: -15s;"></div><!-- Contenedor de estrellas -->
+   <div id="stars-container"></div><!-- Estrellas fugaces -->
+   <div class="shooting-star" style="top: 15%; left: 20%;"></div>
+   <div class="shooting-star" style="top: 25%; left: 60%; animation-delay: 2s;"></div>
+   <div class="shooting-star" style="top: 35%; right: 20%; animation-delay: 5s;"></div><!-- Contenido principal -->
+   <div style="min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; position: relative;"><!-- Título -->
+    <h1 id="main-title" class="title">Corazón Secreto</h1><!-- Contenedor del corazón -->
+    <div class="heart-container">
+    <img src="image copy 4.png" alt="Corazón" class="heart-img" style="background:transparent;" onerror="this.style.display='none';document.getElementById('heart-fallback').style.display='flex'" />
+    <div id="heart-fallback" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;align-items:center;justify-content:center;z-index:2;background:rgba(0,0,0,0.2);border-radius:50%;border:2px dashed #ff6b9d;">
+      <span style="color:#fff;font-size:1.2rem;text-align:center;">Corazón</span>
+    </div>
+    <div class="password-panel">
+       <div class="digit-container"><!-- Primer dígito -->
+        <div class="digit-box"><button class="arrow-btn" onclick="changeDigit(0, 1)" aria-label="Aumentar primer dígito">
+          <div class="arrow arrow-up"></div></button>
+         <div class="digit-display" id="digit-0">
+          0
+         </div><button class="arrow-btn" onclick="changeDigit(0, -1)" aria-label="Disminuir primer dígito">
+          <div class="arrow arrow-down"></div></button>
+        </div><!-- Segundo dígito -->
+        <div class="digit-box"><button class="arrow-btn" onclick="changeDigit(1, 1)" aria-label="Aumentar segundo dígito">
+          <div class="arrow arrow-up"></div></button>
+         <div class="digit-display" id="digit-1">
+          0
+         </div><button class="arrow-btn" onclick="changeDigit(1, -1)" aria-label="Disminuir segundo dígito">
+          <div class="arrow arrow-down"></div></button>
+        </div><!-- Tercer dígito -->
+        <div class="digit-box"><button class="arrow-btn" onclick="changeDigit(2, 1)" aria-label="Aumentar tercer dígito">
+          <div class="arrow arrow-up"></div></button>
+         <div class="digit-display" id="digit-2">
+          0
+         </div><button class="arrow-btn" onclick="changeDigit(2, -1)" aria-label="Disminuir tercer dígito">
+          <div class="arrow arrow-down"></div></button>
+        </div>
+       </div><button id="unlock-btn" class="unlock-btn" onclick="checkPassword()">Desbloquear</button>
+      </div>
+     </div><!-- Partículas de corazón -->
+     <div id="heart-particles"></div>
+    </div><!-- Subtítulo -->
+    <p id="subtitle" class="subtitle">Ingresa el código secreto del corazón ❤️</p>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      heart_title: 'Corazón Secreto',
+      subtitle_text: 'Ingresa el código secreto del corazón ❤️',
+      button_text: 'Desbloquear',
+      bg_color: '#0d0d1e',
+      heart_color: '#ff6b9d',
+      text_color: '#ffffff',
+      font_family: 'Pacifico',
+      font_size: 56
+    };
+
+    // Estado de la contraseña
+    let password = [0, 0, 0];
+
+    const isMobileLike = window.matchMedia('(max-width: 520px)').matches || (navigator.maxTouchPoints || 0) > 0;
+    let particleIntervalId = null;
+    
+    // Crear estrellas
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      container.innerHTML = '';
+      const starCount = isMobileLike ? 120 : 200;
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        const size = Math.random() * 3 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(star);
+      }
+    }
+    
+    // Crear partículas de corazón
+    function createHeartParticles() {
+      const container = document.getElementById('heart-particles');
+
+      if (particleIntervalId) {
+        clearInterval(particleIntervalId);
+      }
+
+      const intervalMs = isMobileLike ? 1200 : 800;
+      particleIntervalId = setInterval(() => {
+        const particle = document.createElement('div');
+        particle.className = 'heart-particle';
+        particle.textContent = '♥';
+
+        const width = container.getBoundingClientRect().width || 340;
+        particle.style.left = `${Math.random() * width}px`;
+        particle.style.bottom = '0';
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+        container.appendChild(particle);
+        
+        setTimeout(() => {
+          particle.remove();
+        }, 4000);
+      }, intervalMs);
+    }
+
+    // Pausar/reanudar partículas si el tab no está visible (mejora rendimiento en celular)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (particleIntervalId) clearInterval(particleIntervalId);
+        particleIntervalId = null;
+      } else {
+        createHeartParticles();
+      }
+    });
+    
+    // Cambiar dígito
+    function changeDigit(index, direction) {
+      password[index] = (password[index] + direction + 10) % 10;
+      const digitDisplay = document.getElementById(`digit-${index}`);
+      digitDisplay.textContent = password[index];
+      
+      // Efecto visual
+      digitDisplay.classList.add('active');
+      setTimeout(() => {
+        digitDisplay.classList.remove('active');
+      }, 300);
+    }
+    
+    // Verificar contraseña
+    function checkPassword() {
+      const code = password.join('');
+
+      console.log('Código ingresado:', code);
+
+      const btn = document.getElementById('unlock-btn');
+      const originalText = btn.textContent;
+
+      if (code === '736') {
+        btn.textContent = 'Correcto ✨';
+        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+        btn.disabled = true;
+
+        setTimeout(() => {
+          window.location.href = 'index22.html';
+        }, 450);
+        return;
+      }
+
+      // Incorrecto: feedback breve
+      btn.textContent = 'Incorrecto';
+      btn.style.background = 'linear-gradient(135deg, #4cc9f0, #9d4edd)';
+
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = 'linear-gradient(135deg, #ff6b9d, #ff1744)';
+      }, 1200);
+    }
+    
+    async function onConfigChange(config) {
+      const titleElement = document.getElementById('main-title');
+      if (titleElement) {
+        titleElement.textContent = config.heart_title || defaultConfig.heart_title;
+        const fontFamily = config.font_family || defaultConfig.font_family;
+        titleElement.style.fontFamily = `${fontFamily}, cursive`;
+        const fontSize = config.font_size || defaultConfig.font_size;
+        titleElement.style.fontSize = `${fontSize}px`;
+        titleElement.style.color = config.text_color || defaultConfig.text_color;
+      }
+      
+      const subtitleElement = document.getElementById('subtitle');
+      if (subtitleElement) {
+        subtitleElement.textContent = config.subtitle_text || defaultConfig.subtitle_text;
+        subtitleElement.style.color = config.text_color || defaultConfig.text_color;
+      }
+      
+      const buttonElement = document.getElementById('unlock-btn');
+      if (buttonElement) {
+        buttonElement.textContent = config.button_text || defaultConfig.button_text;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.bg_color || defaultConfig.bg_color,
+            set: (value) => {
+              config.bg_color = value;
+              window.elementSdk.setConfig({ bg_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.heart_color || defaultConfig.heart_color,
+            set: (value) => {
+              config.heart_color = value;
+              window.elementSdk.setConfig({ heart_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['heart_title', config.heart_title || defaultConfig.heart_title],
+        ['subtitle_text', config.subtitle_text || defaultConfig.subtitle_text],
+        ['button_text', config.button_text || defaultConfig.button_text]
+      ]);
+    }
+
+    // Inicializar
+    function init() {
+      createStars();
+      createHeartParticles();
+      
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues
+        });
+      }
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bf2adfff5b2a0fa',t:'MTc2ODYxOTYzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

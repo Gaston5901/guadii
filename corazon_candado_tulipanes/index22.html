@@ -437,10 +437,11 @@
     /* Título */
     .title-glow {
       text-shadow: 
-        0 0 10px rgba(255, 107, 157, 0.5),
-        0 0 20px rgba(255, 107, 157, 0.3),
-        0 0 40px rgba(255, 107, 157, 0.2);
-      animation: title-pulse 3s ease-in-out infinite;
+        0 0 12px rgba(255, 107, 157, 0.7),
+        0 0 28px rgba(157, 78, 221, 0.35),
+        0 4px 10px rgba(0,0,0,0.45);
+      /* Sin animación: título permanente y estable */
+      animation: none !important;
     }
     
     @keyframes title-pulse {
@@ -1111,7 +1112,7 @@
   <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="video-modal-content">
       <button id="video-close" class="video-close" aria-label="Cerrar video">✕</button>
-      <video id="promo-video" controls playsinline preload="metadata" style="width:100%;height:auto;border-radius:8px;max-height:80vh;background:#000;">
+      <video id="promo-video" controls playsinline webkit-playsinline preload="metadata" style="width:100%;height:auto;border-radius:8px;max-height:80vh;background:#000;">
         <source src="video.mp4" type="video/mp4">
         Tu navegador no soporta video HTML5.
       </video>
