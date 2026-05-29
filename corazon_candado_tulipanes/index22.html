@@ -572,12 +572,89 @@
       0%, 100% { opacity: 0.3; transform: scale(1); }
       50% { opacity: 0.6; transform: scale(1.2); }
     }
+    /* Video modal y botón central (corazón) */
+    .video-trigger-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 40;
+    }
+    .video-trigger {
+      pointer-events: auto;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      background: radial-gradient(circle at 30% 30%, rgba(255,180,200,0.95), rgba(255,107,157,0.95)), linear-gradient(135deg, #ff6b9d, #9d4edd);
+      border: 3px solid rgba(255,255,255,0.12);
+      box-shadow: 0 16px 50px rgba(157,78,221,0.22), 0 8px 26px rgba(255,107,157,0.16);
+      cursor: pointer;
+      transition: transform .22s ease, box-shadow .22s ease;
+      backdrop-filter: blur(6px);
+      position: relative;
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      10% { transform: scale(1.06); }
+      30% { transform: scale(0.98); }
+      50% { transform: scale(1.04); }
+    }
+    .video-trigger:hover { transform: translateY(-6px) scale(1.03); }
+    .video-trigger svg { width: 72px; height: 72px; display: block; }
+    .video-trigger .play { filter: drop-shadow(0 8px 22px rgba(0,0,0,0.45)); }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3,6,23,0.78);
+      z-index: 60;
+      padding: 24px;
+    }
+    .video-modal.active { display: flex; }
+    .video-modal-content {
+      max-width: 1100px;
+      width: 100%;
+      background: linear-gradient(180deg, rgba(10,10,20,0.98), rgba(6,6,12,0.95));
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 30px 90px rgba(2,6,23,0.7);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      backdrop-filter: blur(6px);
+    }
+    @media (max-width: 640px) {
+      .video-trigger { width: 88px; height: 88px; }
+      .video-trigger svg { width: 56px; height: 56px; }
+      .video-modal-content { padding: 10px; border-radius: 10px; }
+    }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full m-0 p-0 overflow-hidden">
-  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← Inicio</a>
+  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
   <div id="app" class="w-full h-full space-bg relative overflow-hidden"><!-- Nebulosas de fondo -->
    <div class="nebula" style="width: 400px; height: 400px; background: #ff6b9d; top: 10%; left: 10%;"></div>
    <div class="nebula" style="width: 300px; height: 300px; background: #9d4edd; top: 20%; right: 15%; animation-delay: -5s;"></div>
@@ -592,6 +669,25 @@
     <p class="mt-4 text-lg md:text-xl opacity-70" style="color: var(--text-light); font-family: 'Playfair Display', serif;">✨ Tu jardin de Tulipanes ✨</p>
    </div><!-- Contenedor de tulipanes -->
    <div id="tulips-container"></div><!-- Luciérnagas -->
+   <!-- Botón central para reproducir video -->
+   <div class="video-trigger-container" aria-hidden="false">
+     <button id="video-trigger" class="video-trigger" aria-label="Ver video promocional" title="Toca para ver">
+       <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false" role="img">
+         <!-- Corazón -->
+         <path d="M32 56s-22-13.6-22-28A11 11 0 0 1 32 18a11 11 0 0 1 22 10c0 14.4-22 28-22 28z" fill="#fff" opacity="0.08"></path>
+         <path d="M32 52s-18-11-18-23a9 9 0 0 1 18-6 9 9 0 0 1 18 6c0 12-18 23-18 23z" fill="url(#g)"/>
+         <defs>
+           <linearGradient id="g" x1="0" x2="1">
+             <stop offset="0%" stop-color="#ff9aa8"/>
+             <stop offset="50%" stop-color="#ff6b9d"/>
+             <stop offset="100%" stop-color="#9d4edd"/>
+           </linearGradient>
+         </defs>
+         <!-- Triángulo de play -->
+         <polygon class="play" points="26,20 26,44 46,32" fill="#fff" opacity="0.95"/>
+       </svg>
+     </button>
+   </div>
    <div id="fireflies-container"></div><!-- Brillo del suelo -->
    <div class="ground-glow"></div><!-- Partículas brillantes -->
    <div id="sparkles-container"></div>
@@ -1010,5 +1106,45 @@
 
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9befd468d722a0fa',t:'MTc2ODU4OTc1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+  <!-- Video modal -->
+  <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="video-modal-content">
+      <button id="video-close" class="video-close" aria-label="Cerrar video">✕</button>
+      <video id="promo-video" controls playsinline preload="metadata" style="width:100%;height:auto;border-radius:8px;max-height:80vh;background:#000;">
+        <source src="video.mp4" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+      </video>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const trigger = document.getElementById('video-trigger');
+      const modal = document.getElementById('video-modal');
+      const closeBtn = document.getElementById('video-close');
+      const video = document.getElementById('promo-video');
+
+      function openVideo() {
+        if (!modal) return;
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        try { if (video.readyState === 0) video.load(); video.currentTime = 0; video.play().catch(()=>{}); } catch(e){}
+      }
+
+      function closeVideo() {
+        if (!modal) return;
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        try { video.pause(); video.currentTime = 0; } catch(e){}
+      }
+
+      if (trigger) trigger.addEventListener('click', openVideo);
+      if (closeBtn) closeBtn.addEventListener('click', closeVideo);
+      if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeVideo(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideo(); });
+
+    })();
+  </script>
+ </body>
 </html>
