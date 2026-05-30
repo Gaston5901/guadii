@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Para ti, mi Guerrero Z 🐉</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<style>
+*,*:after,*:before{box-sizing:border-box;}
+:root{
+  --naranja:#FF6B00;--amarillo:#FFD600;
+  --rojo:#cc0000;--blanco:#fff;--oscuro:#0a0a1a;
+}
+body{
+  background:var(--oscuro);text-align:center;
+  font-family:'Quicksand',sans-serif;
+  margin:0;padding:0;overflow:hidden;
+  height:100vh;display:flex;justify-content:center;align-items:center;
+}
+#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.dragonball-float{
+  position:fixed;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ffe066,#ff8c00 60%,#a04000);
+  box-shadow:0 0 20px #ffaa00,0 0 40px #ff6600;
+  z-index:2;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  color:#cc2200;animation:floatBall linear forwards;
+}
+@keyframes floatBall{
+  0%{transform:translateY(110vh) rotate(0deg);opacity:.8;}
+  100%{transform:translateY(-20vh) rotate(720deg);opacity:0;}
+}
+#inicio{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;}
+.goku-title{
+  font-family:'Bangers',cursive;font-size:28px;color:var(--amarillo);
+  text-shadow:3px 3px 0 var(--naranja),0 0 20px rgba(255,214,0,.6);
+  letter-spacing:2px;margin-bottom:6px;animation:titlePulse 2s ease-in-out infinite;
+}
+@keyframes titlePulse{
+  0%,100%{text-shadow:3px 3px 0 var(--naranja),0 0 20px rgba(255,214,0,.4);}
+  50%{text-shadow:3px 3px 0 var(--naranja),0 0 40px rgba(255,214,0,.9);}
+}
+.intro-card{
+  max-width:310px;width:90%;padding:20px 22px 18px;
+  background:linear-gradient(145deg,rgba(20,20,40,.97),rgba(10,10,25,.97));
+  border:2px solid var(--naranja);
+  box-shadow:0 0 30px rgba(255,107,0,.5),inset 0 0 20px rgba(255,107,0,.05);
+  border-radius:20px;position:relative;z-index:20;overflow:hidden;
+}
+.intro-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--amarillo),var(--naranja),transparent);
+  animation:scanLine 2s linear infinite;
+}
+@keyframes scanLine{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.goku-img-wrap{
+  width:130px;height:130px;border-radius:50%;
+  border:3px solid var(--amarillo);overflow:hidden;
+  margin:0 auto 12px;
+  box-shadow:0 0 25px rgba(255,214,0,.7),0 0 50px rgba(255,107,0,.4);
+  animation:auraPulse 1.5s ease-in-out infinite;
+}
+@keyframes auraPulse{
+  0%,100%{box-shadow:0 0 20px rgba(255,214,0,.6),0 0 40px rgba(255,107,0,.3);}
+  50%{box-shadow:0 0 35px rgba(255,214,0,.95),0 0 65px rgba(255,107,0,.7);}
+}
+.goku-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.intro-card h1{font-family:'Bangers',cursive;color:var(--amarillo);font-size:21px;margin:0 0 8px;letter-spacing:1px;text-shadow:2px 2px 0 var(--naranja);}
+.intro-card .frase{color:#ddd;font-size:13.5px;line-height:1.6;margin-bottom:18px;}
+.intro-card .frase span{color:var(--amarillo);font-weight:700;}
+.btn-entrar{
+  background:linear-gradient(135deg,var(--naranja),var(--rojo));
+  color:var(--blanco);border:none;width:100%;padding:13px;border-radius:12px;
+  font-family:'Bangers',cursive;font-size:19px;letter-spacing:1px;
+  cursor:pointer;transition:.2s;box-shadow:0 4px 18px rgba(255,107,0,.6);
+}
+.btn-entrar:active{transform:scale(.96);}
+#pantallas{
+  display:none;position:fixed;inset:0;
+  background:linear-gradient(135deg,#0a0a1a,#1a0a2e);
+  z-index:100;justify-content:center;align-items:center;
+}
+.pantalla{
+  display:none;
+  background:linear-gradient(145deg,rgba(15,15,35,.98),rgba(8,8,20,.98));
+  border:2px solid var(--naranja);
+  width:88%;max-width:330px;
+  padding:18px 16px 16px;border-radius:22px;text-align:center;
+  box-shadow:0 0 30px rgba(255,107,0,.45),0 15px 35px rgba(0,0,0,.7);
+  animation:aparecer .7s ease;
+  max-height:94vh;overflow-y:auto;
+  position:relative;overflow:hidden;
+}
+
+#p9 {
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 24px;
+}
+#p9 .video-wrap video {
+  max-height: 38vh;
+  width: 100%;
+  object-fit: contain;
+}
+#p9 .btn-sig {
+  margin-top: 10px;
+  position: relative;
+  z-index: 10;
+  display: block;
+  width: 100%;
+}
+
+.pantalla::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--amarillo),var(--naranja),transparent);
+  animation:scanLine 2.5s linear infinite;
+}
+.pantalla.activa{display:block;}
+@keyframes aparecer{from{opacity:0;transform:scale(.88) translateY(25px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.pantalla h1{
+  font-family:'Bangers',cursive;color:var(--amarillo);font-size:20px;
+  margin:0 0 12px;letter-spacing:1.5px;
+  text-shadow:2px 2px 0 var(--naranja),0 0 15px rgba(255,214,0,.4);
+}
+.foto-principal{
+  width:88%;max-width:260px;border-radius:16px;
+  border:3px solid var(--naranja);display:block;margin:0 auto 14px;
+  cursor:pointer;object-fit:cover;
+  box-shadow:0 0 18px rgba(255,107,0,.5),0 0 35px rgba(255,214,0,.15);
+  transition:transform .15s,box-shadow .15s;
+}
+.foto-principal:hover,.foto-principal:active{transform:scale(1.03);box-shadow:0 0 28px rgba(255,214,0,.7);}
+.frase-foto{color:#e8e8e8;font-size:14.5px;line-height:1.65;margin:0 0 14px;padding:0 4px;}
+.frase-foto span{color:var(--amarillo);font-weight:700;}
+.frase-foto em{color:#ff9f60;font-style:normal;font-weight:700;}
+.video-wrap{border-radius:14px;overflow:hidden;margin:4px 0 12px;border:2px solid var(--naranja);box-shadow:0 0 18px rgba(255,107,0,.4);}
+.video-wrap video{width:100%;display:block;border:none;}
+.btn-sig{
+  margin-top:4px;padding:12px;width:100%;border:none;border-radius:12px;
+  background:linear-gradient(135deg,var(--naranja),var(--rojo));
+  color:var(--blanco);font-family:'Bangers',cursive;
+  font-size:18px;letter-spacing:1px;cursor:pointer;
+  box-shadow:0 4px 15px rgba(255,107,0,.5);
+  text-shadow:1px 1px 0 rgba(0,0,0,.4);transition:.15s;
+}
+.btn-sig:active{transform:scale(.95);}
+#juegoOverlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:linear-gradient(180deg,#000510,#0a0020);
+  flex-direction:column;align-items:center;justify-content:flex-start;
+  overflow:hidden;
+}
+#juegoOverlay.visible{display:flex;}
+#juegoHeader{
+  width:100%;padding:12px 16px 8px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:10;
+}
+#juegoTitulo{
+  font-family:'Bangers',cursive;color:var(--amarillo);
+  font-size:20px;letter-spacing:1px;
+  text-shadow:2px 2px 0 var(--naranja);
+  flex:1;text-align:center;
+}
+#juegoVolver{
+  background:rgba(255,107,0,.3);border:1px solid rgba(255,180,0,.5);
+  color:#fff;border-radius:30px;padding:6px 14px;
+  font-family:'Bangers',cursive;font-size:13px;letter-spacing:1px;cursor:pointer;
+}
+#esfColectadas{
+  display:flex;gap:6px;justify-content:center;
+  padding:4px 16px 8px;position:relative;z-index:10;
+}
+.esf-slot{
+  width:34px;height:34px;border-radius:50%;
+  border:2px solid rgba(255,180,0,.3);
+  background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;transition:.3s;
+}
+.esf-slot.got{
+  background:radial-gradient(circle at 35% 30%,#ffe066,#ff8c00 60%,#a04000);
+  border-color:var(--amarillo);
+  box-shadow:0 0 10px #ffaa00,0 0 20px rgba(255,150,0,.6);
+  animation:gotPulse .5s ease;
+}
+@keyframes gotPulse{0%{transform:scale(1.5);}100%{transform:scale(1);}}
+#juegoInstr{font-family:'Quicksand',sans-serif;color:rgba(255,220,100,.8);font-size:12px;margin:0 0 4px;position:relative;z-index:10;}
+#juegoCanvas{display:block;position:relative;z-index:5;border-radius:16px;touch-action:none;}
+#vidas{font-family:'Bangers',cursive;color:#ff4444;font-size:16px;letter-spacing:1px;position:relative;z-index:10;margin-top:6px;}
+#winOverlay{
+  display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,5,.92);
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;overflow:hidden;
+}
+#winOverlay.visible{display:flex;}
+#winOverlay h2{font-family:'Bangers',cursive;font-size:30px;color:var(--amarillo);text-shadow:3px 3px 0 var(--naranja),0 0 30px rgba(255,214,0,.8);letter-spacing:2px;animation:titlePulse 1s ease-in-out infinite;margin:0;}
+#winOverlay p{color:#eee;font-size:13.5px;line-height:1.7;max-width:280px;text-align:center;}
+#winOverlay p span{color:var(--amarillo);font-weight:700;}
+#shenlong-wrap{width:260px;height:190px;position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,rgba(0,40,10,.6) 0%,transparent 70%);border-radius:50%;}
+#shenlong-img{width:100%;height:100%;object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 22px rgba(0,255,80,1)) drop-shadow(0 0 50px rgba(0,200,60,.8)) drop-shadow(0 0 80px rgba(100,255,100,.4)) saturate(1.4) brightness(1.1) contrast(1.1);animation:shenFloat 2s ease-in-out infinite;}
+@keyframes shenFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-14px) scale(1.05);}}
+#shenlong-wrap::before{content:'';position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,255,80,.22),transparent 70%);animation:auraShen 1.5s ease-in-out infinite;}
+#shenlong-wrap::after{content:'';position:absolute;inset:10px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,255,80,.1),transparent 60%);animation:auraShen 1.5s ease-in-out infinite reverse;}
+@keyframes auraShen{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.15);opacity:1;}}
+.btn-win{background:linear-gradient(135deg,#00cc44,#007722);color:#ffffff;border:1px solid rgba(100,255,120,.4);padding:13px 30px;border-radius:14px;font-family:'Bangers',cursive;font-size:19px;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 20px rgba(0,200,60,.6);}
+#loseOverlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.88);flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+#loseOverlay.visible{display:flex;}
+#loseOverlay h2{font-family:'Bangers',cursive;font-size:30px;color:#ff4444;letter-spacing:2px;}
+#loseOverlay p{color:#eee;font-size:14px;}
+.btn-retry{background:linear-gradient(135deg,#1a66ff,#0033cc);color:#fff;border:none;padding:12px 28px;border-radius:14px;font-family:'Bangers',cursive;font-size:18px;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 15px rgba(0,100,255,.5);}
+#lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:9999;align-items:center;justify-content:center;}
+#lightbox.abierto{display:flex;}
+#lightbox img{max-width:92vw;max-height:88vh;border-radius:18px;cursor:pointer;border:2px solid var(--amarillo);box-shadow:0 0 30px rgba(255,214,0,.4);}
+#lb-cerrar{position:fixed;top:14px;right:18px;font-size:34px;color:#fff;cursor:pointer;z-index:10000;}
+#jardinOverlay{display:none;position:fixed;inset:0;z-index:200;background:#000;}
+#jardinOverlay.visible{display:block;}
+#starCanvas,#flowerCanvas{position:absolute;top:0;left:0;display:block;}
+#starCanvas{z-index:0;}#flowerCanvas{z-index:1;}
+#jardinMsg{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border:1px solid rgba(255,180,0,.5);color:var(--amarillo);border-radius:50px;padding:10px 22px;font-size:13px;font-family:'Quicksand',sans-serif;z-index:210;white-space:nowrap;}
+#btnVolver{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:rgba(255,107,0,.3);backdrop-filter:blur(8px);border:1px solid rgba(255,180,0,.5);color:#fff;border-radius:50px;padding:9px 24px;font-size:14px;font-family:'Bangers',cursive;letter-spacing:1px;cursor:pointer;z-index:210;}
+.teamo{position:fixed;color:var(--amarillo);font-size:17px;font-weight:700;font-family:'Bangers',cursive;letter-spacing:1px;animation:subir 2.5s linear forwards;pointer-events:none;z-index:300;text-shadow:1px 1px 0 var(--naranja),0 0 10px rgba(255,214,0,.8);}
+@keyframes subir{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(-120px) scale(1.4);}}
+.love-text{position:fixed;font-family:'Bangers',cursive;font-size:17px;letter-spacing:1px;color:#fff;background:linear-gradient(135deg,rgba(200,80,0,.92),rgba(150,0,0,.92));border-radius:30px;padding:8px 20px;white-space:nowrap;pointer-events:none;animation:floatUp 2.8s ease forwards;z-index:300;transform:translateX(-50%);box-shadow:0 2px 12px rgba(255,107,0,.5),0 0 20px rgba(255,214,0,.3);border:1px solid rgba(255,214,0,.4);}
+@keyframes floatUp{0%{opacity:0;transform:translateX(-50%) translateY(0) scale(.85);}15%{opacity:1;transform:translateX(-50%) translateY(-15px) scale(1);}80%{opacity:1;transform:translateX(-50%) translateY(-75px) scale(1);}100%{opacity:0;transform:translateX(-50%) translateY(-115px) scale(.9);}}
+.ki-blast{position:fixed;pointer-events:none;z-index:310;border-radius:50%;animation:kiBurst .8s forwards;}
+@keyframes kiBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(0);}50%{opacity:.8;transform:translate(-50%,-50%) scale(1.5);}100%{opacity:0;transform:translate(-50%,-50%) scale(3);}}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<audio id="musica" loop preload="auto">
+  <source src="https://github.com/codeninja543/codeninja5433/raw/refs/heads/main/Mi%20Corazon%20Encantado%20-%20Dragon%20Ball%20GT%20Letra.mp3" type="audio/mpeg">
+</audio>
+
+<div id="inicio" style="position:relative;z-index:10;">
+  <div class="goku-title">🐉 PARA MI GUERRERO Z 🐉</div>
+  <div class="intro-card">
+    <div class="goku-img-wrap">
+      <img src="https://i.postimg.cc/FFCdP6cb/10.jpg" alt="Goku">
+    </div>
+    <h1>¡Para ti, mi Saiyan favorito! 💛</h1>
+    <p class="frase">
+      Igual que Goku nunca se rinde,<br>
+      <span>yo nunca dejaré de amarte.</span><br>
+      Esto es solo para ti, amor 🐉❤️
+    </p>
+    <button class="btn-entrar" onclick="entrar()">⚡ TOCA AQUÍ, MI AMOR ⚡</button>
+  </div>
+</div>
+
+<div id="pantallas">
+  <div class="pantalla activa" id="p1">
+    <h1>MI GUERRERO FAVORITO 🐉</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/ryZ0hHWN/11.webp" onclick="abrirImg(this)">
+    <p class="frase-foto">Eres tan fuerte y valiente<br>como el guerrero más poderoso...<br><span>pero conmigo eres mi todo ❤️</span></p>
+    <button class="btn-sig" onclick="sig(1)">SIGUIENTE ⚡</button>
+  </div>
+  <div class="pantalla" id="p2">
+    <h1>¡KAMEHAMEHA DE AMOR! 💥</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/28qqgxFc/111.png" onclick="abrirImg(this)">
+    <p class="frase-foto">Tu energía me alcanza<br>sin importar la distancia...<br><span>como el ki más poderoso 🌟</span></p>
+    <button class="btn-sig" onclick="sig(2)">SIGUIENTE 🔥</button>
+  </div>
+  <div class="pantalla" id="p3">
+    <h1>LAS 7 ESFERAS DEL DRAGÓN 🟠</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/nrv03y2x/chenloo.png" onclick="abrirImg(this)">
+    <p class="frase-foto">Si juntara las 7 esferas,<br>mi único deseo sería<br><span>estar siempre a tu lado 🐉❤️</span></p>
+    <button class="btn-sig" onclick="sig(3)">SIGUIENTE 🐲</button>
+  </div>
+  <div class="pantalla" id="p4">
+    <h1>MI VEGETA, MI PRÍNCIPE 👑</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/YSGNnc28/vegeta.jpg" onclick="abrirImg(this)">
+    <p class="frase-foto">Eres orgulloso y fuerte,<br>pero tu corazón es el más grande...<br><span>mi príncipe Saiyan ❤️</span></p>
+    <button class="btn-sig" onclick="sig(4)">SIGUIENTE ⚡</button>
+  </div>
+  <div class="pantalla" id="p5">
+    <h1>ULTRA INSTINCT DE AMOR 🌟</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/FR0yvjLw/ultra-instinto-goku.jpg" onclick="abrirImg(this)">
+    <p class="frase-foto">Sin pensarlo, sin dudarlo,<br>mi corazón siempre<br><span>va directo hacia ti ❤️⚡</span></p>
+    <button class="btn-sig" onclick="sig(5)">SIGUIENTE 💫</button>
+  </div>
+  <div class="pantalla" id="p6">
+    <h1>MI CAMPEÓN DEL TORNEO 🏆</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/YCjQ0cFk/gandor-de-trofeo.jpg" onclick="abrirImg(this)">
+    <p class="frase-foto">En el torneo de mi vida,<br>tú ganaste el primer lugar<br><span>y mi corazón de premio 💛🏆</span></p>
+    <button class="btn-sig" onclick="sig(6)">SIGUIENTE 🌠</button>
+  </div>
+  <div class="pantalla" id="p7">
+    <h1>SHENLONG CONCEDE... 🐉</h1>
+    <img class="foto-principal" src="https://i.postimg.cc/3RZk99Gb/concede-mi-deseo.jpg" onclick="abrirImg(this)">
+    <p class="frase-foto"><em>"¡Se concede el deseo!"</em><br>Amarte para siempre<br><span>es mi único pedido 🐲❤️</span></p>
+    <button class="btn-sig" onclick="sig(7)">🎮 ¡JUEGA EL MINIJUEGO! 🎮</button>
+  </div>
+  <div class="pantalla" id="p8">
+    <h1>🎮 ¡RETO SAIYAN! 🎮</h1>
+    <p class="frase-foto" style="font-size:15px;">
+      <span>¡Demuestra que eres un verdadero Guerrero Z!</span><br><br>
+      Atrapa las <em>7 Esferas del Dragón</em> antes de que caigan.<br><br>
+      Si las juntas todas, <span>Shenlong te concederá un deseo especial... 🐉</span>
+    </p>
+    <div style="font-size:48px;margin:10px 0;">🐉</div>
+    <button class="btn-sig" onclick="iniciarJuego()">⚡ ¡EMPEZAR! ⚡</button>
+  </div>
+  <div class="pantalla" id="p9">
+    <h1>¡LO LOGRASTE, MI SAIYAN! 💛🐉</h1>
+    <p class="frase-foto" style="margin-bottom:8px;">
+      Como Goku entrena cada día<br>para ser mejor,<br>
+      <span>yo te amo más cada día ❤️🐉</span>
+    </p>
+    <div class="video-wrap">
+      <video controls playsinline>
+        <source src="https://github.com/codeninja543/video-code_ninja/raw/refs/heads/main/gokuuuu.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="frase-foto" style="margin-top:6px;margin-bottom:10px;"><span>Gracias por existir, mi Saiyan 🌟</span></p>
+    <button class="btn-sig" onclick="abrirJardin()">🐉 TOQUE AQUÍ 🐉</button>
+  </div>
+</div>
+
+<div id="juegoOverlay">
+  <div id="juegoHeader">
+    <button id="juegoVolver" onclick="cerrarJuego()">↩ VOLVER</button>
+    <div id="juegoTitulo">🐉 ATRAPA LAS 7 ESFERAS</div>
+    <div style="width:70px;"></div>
+  </div>
+  <div id="esfColectadas">
+    <div class="esf-slot" id="slot0">1★</div>
+    <div class="esf-slot" id="slot1">2★</div>
+    <div class="esf-slot" id="slot2">3★</div>
+    <div class="esf-slot" id="slot3">4★</div>
+    <div class="esf-slot" id="slot4">5★</div>
+    <div class="esf-slot" id="slot5">6★</div>
+    <div class="esf-slot" id="slot6">7★</div>
+  </div>
+  <div id="juegoInstr">¡Mueve la canasta y atrapa todas las esferas!</div>
+  <canvas id="juegoCanvas"></canvas>
+  <div id="vidas">❤️❤️❤️ VIDAS</div>
+</div>
+
+<div id="winOverlay">
+  <canvas id="winCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 20px;max-width:340px;width:95%;">
+    <h2 style="margin:0;">¡¡ SHENLONG APARECE !!</h2>
+    <div id="shenlong-wrap">
+      <img id="shenlong-img" src="https://i.postimg.cc/L80MpPtc/pngwing-com.png" alt="Shenlong">
+    </div>
+    <p style="margin:0;">¡Juntaste las <span>7 esferas del dragón!</span><br><br>
+    <em style="color:#ffcc44;font-style:normal;font-size:16px;">"¡Se concede el deseo más bonito del universo..."</em><br><br>
+    <span>¡Que te amen para siempre! 💛❤️</span></p>
+    <button class="btn-win" onclick="ganarJuego()">💛 VER MI SORPRESA 💛</button>
+  </div>
+</div>
+
+<div id="loseOverlay">
+  <div style="font-size:60px;">💥</div>
+  <h2>¡TE DERROTARON!</h2>
+  <p style="color:#ddd;">¡Un Saiyan no se rinde!<br>¡Inténtalo de nuevo!</p>
+  <button class="btn-retry" onclick="reiniciarJuego()">⚡ REINTENTAR ⚡</button>
+</div>
+
+<div id="lightbox">
+  <span id="lb-cerrar" onclick="cerrarImg()">✕</span>
+  <img id="lb-img" src="" onclick="cerrarImg()">
+</div>
+
+<div id="jardinOverlay">
+  <canvas id="starCanvas"></canvas>
+  <canvas id="flowerCanvas"></canvas>
+  <div id="jardinMsg">🐉 ¡Toca para soltar tu energía! ⚡</div>
+  <button id="btnVolver" onclick="cerrarJardin()">↩ VOLVER</button>
+</div>
+
+<script type="x-shader/x-fragment" id="fragmentShader">
+  #define PI 3.14159265359
+  uniform float u_ratio;uniform vec2 u_cursor;uniform float u_stop_time;
+  uniform float u_clean;uniform vec2 u_stop_randomizer;uniform sampler2D u_texture;
+  varying vec2 vUv;
+  vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}
+  vec2 mod289(vec2 x){return x-floor(x*(1./289.))*289.;}
+  vec3 permute(vec3 x){return mod289(((x*34.)+1.)*x);}
+  float snoise(vec2 v){
+    const vec4 C=vec4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);
+    vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);
+    vec2 i1=(x0.x>x0.y)?vec2(1.,0.):vec2(0.,1.);
+    vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;i=mod289(i);
+    vec3 p=permute(permute(i.y+vec3(0.,i1.y,1.))+i.x+vec3(0.,i1.x,1.));
+    vec3 m=max(.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.);
+    m=m*m;m=m*m;
+    vec3 x=2.*fract(p*C.www)-1.;vec3 h=abs(x)-.5;vec3 ox=floor(x+.5);vec3 a0=x-ox;
+    m*=1.79284291400159-.85373472095314*(a0*a0+h*h);
+    vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;
+    return 130.*dot(m,g);
+  }
+  float get_flower_shape(vec2 _p,float _pet_n,float _angle,float _outline){
+    _angle*=3.;_p=vec2(_p.x*cos(_angle)-_p.y*sin(_angle),_p.x*sin(_angle)+_p.y*cos(_angle));
+    float a=atan(_p.y,_p.x);float fss=pow(abs(sin(a*_pet_n)),.4)+.25;
+    float size=.03+u_stop_randomizer[0]*.1;
+    float frs=pow(length(_p)/size,2.);frs-=.1*sin(8.*a);frs=max(.1,frs);
+    float gt=step(.25,u_stop_time)*pow(u_stop_time,.3);
+    float fs=1.-smoothstep(0.,fss,_outline*frs/gt);fs*=(1.-step(1.,gt));
+    return fs;
+  }
+  float get_stem_shape(vec2 _p,vec2 _uv,float _w,float _angle){
+    _w=max(.004,_w);float xo=_p.y*sin(_angle);xo*=pow(3.*_uv.y,2.);_p.x-=xo;
+    float chn=.5*snoise(2.*_uv*u_stop_randomizer[0]);
+    chn*=pow(dot(_p.y,_p.y),.6);chn*=pow(dot(_uv.y,_uv.y),.3);_p.x+=chn;
+    float left=smoothstep(-_w,0.,_p.x);float right=1.-smoothstep(0.,_w,_p.x);
+    float ss=left*right;float gt=1.-smoothstep(0.,.2,u_stop_time);
+    float stm=smoothstep(0.,pow(gt,.5),.03-_p.y);ss*=stm;ss*=(1.-step(.17,u_stop_time));
+    return ss;
+  }
+  void main(){
+    vec3 base=texture2D(u_texture,vUv).xyz;
+    vec2 uv=vUv;uv.x*=u_ratio;vec2 cursor=vUv-u_cursor.xy;cursor.x*=u_ratio;
+    vec3 sc=vec3(.8+u_stop_randomizer[0]*.2,.5,.0);
+    vec3 fc=vec3(.9+.1*u_stop_randomizer[1],.7+.1*u_stop_randomizer[0],.0);
+    float angle=.5*(u_stop_randomizer[0]-.5);
+    float ss=get_stem_shape(cursor,uv,.003,angle);float sm=1.-get_stem_shape(cursor,uv,.004,angle);
+    float pbn=1.+floor(u_stop_randomizer[0]*2.);
+    float fbs=get_flower_shape(cursor,pbn,angle,1.5);float fbm=1.-get_flower_shape(cursor,pbn,angle,1.6);
+    float pfn=2.+floor(u_stop_randomizer[1]*2.);
+    float ffs=get_flower_shape(cursor,pfn,angle,1.);float ffm=1.-get_flower_shape(cursor,pfn,angle,.95);
+    vec3 color=base;color*=sm;color*=fbm;color*=ffm;
+    color+=(ss*sc);color+=(fbs*(fc+vec3(0.,.4*u_stop_time,0.)));color+=(ffs*fc);
+    color*=u_clean;gl_FragColor=vec4(color,1.);
+  }
+</script>
+<script type="x-shader/x-vertex" id="vertexShader">
+  varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.);}
+</script>
+
+<script type="module">
+import * as THREE from "https://cdn.skypack.dev/three@0.133.1/build/three.module";
+const fc=document.getElementById("flowerCanvas");
+let shaderMat,basicMat,renderer,rts,clock,sceneS,sceneB,cam;
+const ptr={x:.5,y:.5,clicked:false};
+function initShader(){
+  renderer=new THREE.WebGLRenderer({canvas:fc,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  sceneS=new THREE.Scene();sceneB=new THREE.Scene();
+  cam=new THREE.OrthographicCamera(-1,1,1,-1,0,10);clock=new THREE.Clock();
+  rts=[new THREE.WebGLRenderTarget(window.innerWidth,window.innerHeight),new THREE.WebGLRenderTarget(window.innerWidth,window.innerHeight)];
+  shaderMat=new THREE.ShaderMaterial({
+    uniforms:{u_stop_time:{value:0.},u_stop_randomizer:{value:new THREE.Vector2(Math.random(),Math.random())},u_cursor:{value:new THREE.Vector2(.5,.5)},u_ratio:{value:window.innerWidth/window.innerHeight},u_texture:{value:null},u_clean:{value:1.}},
+    vertexShader:document.getElementById("vertexShader").textContent,
+    fragmentShader:document.getElementById("fragmentShader").textContent,transparent:true
+  });
+  basicMat=new THREE.MeshBasicMaterial();
+  const pg=new THREE.PlaneGeometry(2,2);
+  sceneB.add(new THREE.Mesh(pg,basicMat));sceneS.add(new THREE.Mesh(pg,shaderMat));
+  window._ptr=ptr;window._shaderMat=shaderMat;
+  window.addEventListener("resize",()=>{renderer.setSize(window.innerWidth,window.innerHeight);shaderMat.uniforms.u_ratio.value=window.innerWidth/window.innerHeight;});
+  loop();
+}
+function loop(){
+  shaderMat.uniforms.u_texture.value=rts[0].texture;
+  if(ptr.clicked){shaderMat.uniforms.u_cursor.value=new THREE.Vector2(ptr.x,ptr.y);shaderMat.uniforms.u_stop_randomizer.value=new THREE.Vector2(Math.random(),Math.random());shaderMat.uniforms.u_stop_time.value=0.;ptr.clicked=false;}
+  shaderMat.uniforms.u_stop_time.value+=clock.getDelta();
+  renderer.setRenderTarget(rts[1]);renderer.render(sceneS,cam);
+  basicMat.map=rts[1].texture;renderer.setRenderTarget(null);renderer.render(sceneB,cam);
+  [rts[0],rts[1]]=[rts[1],rts[0]];requestAnimationFrame(loop);
+}
+initShader();
+</script>
+
+<script>
+
+const bgc=document.getElementById("bgCanvas"),bgctx=bgc.getContext("2d");
+let bgStars=[];
+function initBg(){bgc.width=window.innerWidth;bgc.height=window.innerHeight;bgStars=[];for(let i=0;i<130;i++)bgStars.push({x:Math.random()*bgc.width,y:Math.random()*bgc.height,size:Math.random()*1.5+.3,speed:.1+Math.random()*.3});}
+function animBg(){bgctx.clearRect(0,0,bgc.width,bgc.height);for(let s of bgStars){bgctx.beginPath();bgctx.fillStyle=`rgba(255,220,100,${.25+.45*Math.sin(Date.now()/800+s.x)})`;bgctx.arc(s.x,s.y,s.size,0,Math.PI*2);bgctx.fill();s.y-=s.speed;if(s.y<0){s.y=bgc.height;s.x=Math.random()*bgc.width;}}requestAnimationFrame(animBg);}
+window.addEventListener("resize",initBg);initBg();animBg();
+
+function crearEsfera(){const el=document.createElement("div");el.className="dragonball-float";const sz=25+Math.random()*30;el.style.left=(Math.random()*90)+"vw";el.style.width=el.style.height=sz+"px";el.style.fontSize=(sz*.4)+"px";el.textContent="★";el.style.animationDuration=(5+Math.random()*6)+"s";el.style.animationDelay=(Math.random()*2)+"s";document.body.appendChild(el);setTimeout(()=>el.remove(),11000);}
+setInterval(crearEsfera,1600);
+
+const musica = document.getElementById("musica");
+let musicaOn = false;
+let audioDesbloqueado = false;
+
+function desbloquearAudio() {
+  if (audioDesbloqueado) return;
+  audioDesbloqueado = true;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) {
+      const ctx = new AudioCtx();
+      const silencio = ctx.createBuffer(1, 1, 22050);
+      const fuente = ctx.createBufferSource();
+      fuente.buffer = silencio;
+      fuente.connect(ctx.destination);
+      fuente.start(0);
+      if (ctx.state === 'suspended') ctx.resume();
+    }
+  } catch(e) {}
+}
+
+function playMusic() {
+  desbloquearAudio();
+  if (musicaOn) return;
+  musica.volume = 0.8;
+  musica.play()
+    .then(() => { musicaOn = true; })
+    .catch(() => {
+      setTimeout(() => {
+        musica.play().then(() => { musicaOn = true; }).catch(() => {});
+      }, 200);
+    });
+}
+
+['touchstart','touchend','pointerdown','mousedown','click'].forEach(tipo => {
+  document.addEventListener(tipo, function activar() {
+    playMusic();
+    document.removeEventListener(tipo, activar);
+  }, { once: true, passive: true });
+});
+
+const frases=["¡TE AMO! 💛","MI SAIYAN ❤️","ERES MI TODO 🐉","TE QUIERO 💥","¡MI HÉROE! ⚡","POWER UP 🔥"];
+function crearTeAmo(x,y){const t=document.createElement("div");t.className="teamo";t.innerText=frases[Math.floor(Math.random()*frases.length)];t.style.left=x+"px";t.style.top=y+"px";document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
+const shaderPhrases=["¡KAMEHAMEHA! 💥","Mi Saiyan 🐉","SPIRIT BOMB ⚡","¡Te amo! ❤️","Guerrero Z ✨","ULTRA INSTINCT 🌟","¡Eres mi todo! 💛","MI PRÍNCIPE 👑","¡KAIOKEN! 🔥","Amor eterno 🐲"];
+function shaderEffects(x,y){
+  const d=document.createElement("div");d.className="love-text";d.innerText=shaderPhrases[Math.floor(Math.random()*shaderPhrases.length)];d.style.left=x+"px";d.style.top=(y-10)+"px";document.body.appendChild(d);setTimeout(()=>d.remove(),2800);
+  const colors=["#FFD600","#FF6B00","#00BFFF","#7FFF00","#FF4FA3"];
+  const b=document.createElement("div");b.className="ki-blast";const sz=30+Math.random()*40,col=colors[Math.floor(Math.random()*colors.length)];
+  b.style.cssText=`left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;background:radial-gradient(circle,${col},transparent);box-shadow:0 0 ${sz}px ${col};`;
+  document.body.appendChild(b);setTimeout(()=>b.remove(),800);
+}
+
+let modoJardin=false;
+
+function entrar(){
+  playMusic();
+  $("#inicio").fadeOut(500);
+  setTimeout(()=>$("#pantallas").css("display","flex"),500);
+}
+function sig(n){document.getElementById("p"+n).classList.remove("activa");document.getElementById("p"+(n+1)).classList.add("activa");}
+function abrirImg(img){document.getElementById("lb-img").src=img.src;document.getElementById("lightbox").classList.add("abierto");}
+function cerrarImg(){document.getElementById("lightbox").classList.remove("abierto");}
+document.getElementById("lightbox").addEventListener("click",function(e){if(e.target===this)cerrarImg();});
+function abrirJardin(){modoJardin=true;if(window._shaderMat){window._shaderMat.uniforms.u_clean.value=0.;setTimeout(()=>window._shaderMat.uniforms.u_clean.value=1.,50);}document.getElementById("jardinOverlay").classList.add("visible");}
+function cerrarJardin(){modoJardin=false;document.getElementById("jardinOverlay").classList.remove("visible");if(window._shaderMat){window._shaderMat.uniforms.u_clean.value=0.;setTimeout(()=>window._shaderMat.uniforms.u_clean.value=1.,50);}}
+
+const sc2=document.getElementById("starCanvas"),sctx2=sc2.getContext("2d");let stars2=[];
+function initStars(){sc2.width=window.innerWidth;sc2.height=window.innerHeight;stars2=[];for(let i=0;i<200;i++)stars2.push({x:Math.random()*sc2.width,y:Math.random()*sc2.height,size:Math.random()*2+.5,speed:.2+Math.random()*.5});}
+function animStars(){sctx2.clearRect(0,0,sc2.width,sc2.height);for(let s of stars2){sctx2.beginPath();sctx2.fillStyle="white";sctx2.globalAlpha=.5+.5*Math.sin(Date.now()/500+s.x);sctx2.arc(s.x,s.y,s.size,0,Math.PI*2);sctx2.fill();s.y+=s.speed;if(s.y>sc2.height){s.y=0;s.x=Math.random()*sc2.width;}}requestAnimationFrame(animStars);}
+window.addEventListener("resize",initStars);initStars();animStars();
+
+let lastTouchTime=0;
+function handleInteraction(x,y,target){
+  if(target&&(target.closest("#lightbox")||target.tagName==="BUTTON"||target.classList.contains("foto-principal")||target.tagName==="VIDEO"||target.closest("#juegoOverlay")))return;
+  if(modoJardin){if(window._ptr){window._ptr.x=x/window.innerWidth;window._ptr.y=1-y/window.innerHeight;window._ptr.clicked=true;}shaderEffects(x,y);}
+  else{crearTeAmo(x,y-50);}
+}
+document.addEventListener("touchstart",e=>{lastTouchTime=Date.now();const t=e.touches[0];handleInteraction(t.clientX,t.clientY,e.target);},{passive:true});
+document.addEventListener("click",e=>{if(Date.now()-lastTouchTime<500)return;handleInteraction(e.clientX,e.clientY,e.target);});
+
+const jc=document.getElementById("juegoCanvas"),jctx=jc.getContext("2d");
+let jAnimate=null,juegoActivo=false,esfColect=0,vidas=3,canasta={x:0,w:80,h:22},bolas=[],particles=[],velocidadBase=1.8,frame=0;
+const TOTAL_ESF=7,BALL_R=20,starCounts=[1,2,3,4,5,6,7];
+function setupCanvas(){const maxW=Math.min(window.innerWidth*0.9,360),maxH=window.innerHeight*0.48;jc.width=maxW;jc.height=maxH;canasta.x=jc.width/2-canasta.w/2;canasta.y=jc.height-30;}
+function crearBola(){const idx=Math.floor(Math.random()*TOTAL_ESF);bolas.push({x:BALL_R+Math.random()*(jc.width-BALL_R*2),y:-BALL_R,stars:starCounts[idx],speed:velocidadBase+Math.random()*1.2,wobble:Math.random()*Math.PI*2,wobbleSpeed:0.03+Math.random()*0.02});}
+function drawBola(b){const r=BALL_R;jctx.save();jctx.shadowColor='rgba(255,160,0,.5)';jctx.shadowBlur=12;const grad=jctx.createRadialGradient(b.x-r*.3,b.y-r*.3,r*.1,b.x,b.y,r);grad.addColorStop(0,'#fff7aa');grad.addColorStop(0.3,'#ffcc00');grad.addColorStop(0.7,'#ff8800');grad.addColorStop(1,'#7a3000');jctx.beginPath();jctx.arc(b.x,b.y,r,0,Math.PI*2);jctx.fillStyle=grad;jctx.fill();jctx.beginPath();jctx.arc(b.x-r*.3,b.y-r*.35,r*.28,0,Math.PI*2);jctx.fillStyle='rgba(255,255,255,.45)';jctx.fill();jctx.restore();jctx.fillStyle='#cc2200';jctx.textAlign='center';jctx.textBaseline='middle';if(b.stars<=3){jctx.font=`bold ${r*.5}px serif`;jctx.fillText('★'.repeat(b.stars),b.x,b.y);}else{jctx.font=`bold ${r*.35}px serif`;const half=Math.ceil(b.stars/2);jctx.fillText('★'.repeat(half),b.x,b.y-r*.18);jctx.fillText('★'.repeat(b.stars-half),b.x,b.y+r*.22);}}
+function drawCanasta(){const{x,w,h,y}=canasta;jctx.save();jctx.shadowColor='rgba(255,107,0,.7)';jctx.shadowBlur=15;const grad=jctx.createLinearGradient(x,y,x,y+h);grad.addColorStop(0,'#ff8800');grad.addColorStop(1,'#cc4400');jctx.beginPath();jctx.roundRect(x,y,w,h,8);jctx.fillStyle=grad;jctx.fill();jctx.strokeStyle='#FFD600';jctx.lineWidth=2;jctx.stroke();jctx.fillStyle='#fff';jctx.font='bold 12px Quicksand';jctx.textAlign='center';jctx.textBaseline='middle';jctx.fillText('⚡ CANASTA ⚡',x+w/2,y+h/2);jctx.restore();}
+function drawParticles(){for(let i=particles.length-1;i>=0;i--){const p=particles[i];jctx.save();jctx.globalAlpha=p.life;jctx.fillStyle=p.color;jctx.beginPath();jctx.arc(p.x,p.y,p.r,0,Math.PI*2);jctx.fill();jctx.restore();p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.life-=0.045;if(p.life<=0)particles.splice(i,1);}}
+function burst(x,y,good){const colors=good?['#FFD600','#FF8800','#fff','#ffcc44']:['#ff4444','#ff0000','#ff8888'];for(let i=0;i<18;i++){const angle=Math.random()*Math.PI*2,speed=1+Math.random()*4;particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-2,r:2+Math.random()*5,color:colors[Math.floor(Math.random()*colors.length)],life:1});}}
+function drawBg(){jctx.fillStyle='rgba(5,5,25,.85)';jctx.fillRect(0,0,jc.width,jc.height);jctx.strokeStyle='rgba(255,107,0,.15)';jctx.lineWidth=1;jctx.beginPath();jctx.moveTo(0,canasta.y-2);jctx.lineTo(jc.width,canasta.y-2);jctx.stroke();}
+function juegoLoop(){if(!juegoActivo)return;frame++;drawBg();const spawnRate=Math.max(55-Math.floor(frame/200)*4,28);if(frame%spawnRate===0)crearBola();for(let i=bolas.length-1;i>=0;i--){const b=bolas[i];b.y+=b.speed;b.x+=Math.sin(b.wobble)*0.8;b.wobble+=b.wobbleSpeed;if(b.y+BALL_R>=canasta.y&&b.x>=canasta.x-BALL_R&&b.x<=canasta.x+canasta.w+BALL_R){burst(b.x,b.y,true);bolas.splice(i,1);esfColect=Math.min(esfColect+1,TOTAL_ESF);const slot=document.getElementById("slot"+(esfColect-1));if(slot){slot.classList.add("got");slot.textContent=esfColect+"★";}velocidadBase+=0.12;if(esfColect>=TOTAL_ESF){juegoActivo=false;setTimeout(mostrarWin,600);return;}continue;}if(b.y-BALL_R>jc.height){burst(b.x,jc.height-10,false);bolas.splice(i,1);vidas--;actualizarVidas();if(vidas<=0){juegoActivo=false;setTimeout(mostrarLose,500);return;}continue;}drawBola(b);}drawParticles();drawCanasta();jAnimate=requestAnimationFrame(juegoLoop);}
+function actualizarVidas(){document.getElementById("vidas").textContent='❤️'.repeat(Math.max(0,vidas))+' VIDAS';}
+function mostrarWin(){document.getElementById("winOverlay").classList.add("visible");iniciarWinCanvas();}
+function iniciarWinCanvas(){const wc=document.getElementById("winCanvas");wc.width=window.innerWidth;wc.height=window.innerHeight;const ctx=wc.getContext("2d");let rayos=[],ests=[];for(let i=0;i<120;i++)ests.push({x:Math.random()*wc.width,y:Math.random()*wc.height,r:Math.random()*1.5+.3,v:Math.random()*.5+.1,a:Math.random()*10});function spawnRayo(){rayos.push({x:Math.random()*wc.width,y:wc.height+10,angle:-Math.PI/2+(Math.random()-.5)*.9,len:100+Math.random()*200,life:1,speed:.035+Math.random()*.035,color:Math.random()>.5?'0,255,80':'180,255,100'});}for(let i=0;i<12;i++)spawnRayo();function wLoop(){if(!document.getElementById("winOverlay").classList.contains("visible"))return;ctx.clearRect(0,0,wc.width,wc.height);const g=ctx.createRadialGradient(wc.width/2,wc.height/2,10,wc.width/2,wc.height/2,wc.width*.55);g.addColorStop(0,'rgba(0,100,30,.15)');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,wc.width,wc.height);for(let s of ests){ctx.beginPath();ctx.globalAlpha=.25+.55*Math.sin(Date.now()/700+s.a);ctx.fillStyle='#ffe066';ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();s.y-=s.v;if(s.y<0){s.y=wc.height;s.x=Math.random()*wc.width;}}ctx.globalAlpha=1;for(let i=rayos.length-1;i>=0;i--){const r=rayos[i];ctx.save();ctx.globalAlpha=r.life*.85;ctx.strokeStyle=`rgba(${r.color},${r.life})`;ctx.lineWidth=1.5+r.life*3;ctx.shadowColor=`rgba(${r.color},1)`;ctx.shadowBlur=18;ctx.beginPath();ctx.moveTo(r.x,r.y);ctx.lineTo(r.x+Math.cos(r.angle)*r.len*(1-r.life+0.2),r.y+Math.sin(r.angle)*r.len*(1-r.life+0.2));ctx.stroke();ctx.restore();r.life-=r.speed;if(r.life<=0){rayos.splice(i,1);spawnRayo();}}requestAnimationFrame(wLoop);}wLoop();}
+function mostrarLose(){document.getElementById("loseOverlay").classList.add("visible");}
+function ganarJuego(){document.getElementById("winOverlay").classList.remove("visible");cerrarJuego();document.getElementById("p8").classList.remove("activa");document.getElementById("p9").classList.add("activa");}
+function reiniciarJuego(){document.getElementById("loseOverlay").classList.remove("visible");iniciarJuego();}
+function iniciarJuego(){document.getElementById("pantallas").style.display="none";document.getElementById("juegoOverlay").classList.add("visible");setupCanvas();esfColect=0;vidas=3;bolas=[];particles=[];velocidadBase=1.8;frame=0;for(let i=0;i<7;i++){const s=document.getElementById("slot"+i);s.classList.remove("got");s.textContent=(i+1)+"★";}actualizarVidas();canasta.x=jc.width/2-canasta.w/2;juegoActivo=true;if(jAnimate)cancelAnimationFrame(jAnimate);juegoLoop();}
+function cerrarJuego(){juegoActivo=false;if(jAnimate)cancelAnimationFrame(jAnimate);document.getElementById("juegoOverlay").classList.remove("visible");document.getElementById("pantallas").style.display="flex";}
+
+let isDragging=false,dragOffX=0;
+jc.addEventListener("touchstart",e=>{const t=e.touches[0];const rect=jc.getBoundingClientRect();const tx=t.clientX-rect.left;isDragging=true;dragOffX=tx-canasta.x-canasta.w/2;e.preventDefault();},{passive:false});
+jc.addEventListener("touchmove",e=>{if(!isDragging)return;const t=e.touches[0];const rect=jc.getBoundingClientRect();const tx=t.clientX-rect.left;canasta.x=Math.max(0,Math.min(jc.width-canasta.w,tx-dragOffX-canasta.w/2));e.preventDefault();},{passive:false});
+jc.addEventListener("touchend",()=>{isDragging=false;});
+jc.addEventListener("mousemove",e=>{if(!juegoActivo)return;const rect=jc.getBoundingClientRect();canasta.x=Math.max(0,Math.min(jc.width-canasta.w,e.clientX-rect.left-canasta.w/2));});
+document.addEventListener("keydown",e=>{if(!juegoActivo)return;if(e.key==="ArrowLeft")canasta.x=Math.max(0,canasta.x-20);if(e.key==="ArrowRight")canasta.x=Math.min(jc.width-canasta.w,canasta.x+20);});
+</script>
+</body>
+</html>
