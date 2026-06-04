@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestro Espacio Privado</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2=family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* ==========================================================================
            1. VARIABLES GLOBALES Y CONFIGURACIÓN BASE
@@ -222,6 +222,14 @@
             left: -50%;
             width: 200%;
             height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 20%,
+                var(--purple-glow) 40%,
+                var(--primary-pink-dark) 60%,
+                var(--cyan-glow-dark) 80%,
+                transparent 100__%
+            );
             background: conic-gradient(from 0deg, transparent 15%, var(--purple-glow) 35%, var(--primary-pink-dark) 55%, var(--cyan-glow-dark) 75%, transparent 90%);
             animation: rotateBorder 4s linear infinite;
             z-index: 1;
@@ -431,7 +439,7 @@
         }
 
         /* ==========================================================================
-           5. RESPONSIVE OPTIMIZADO PARA MÓVILES
+           5. RESPONSIVE OPTIMIZADO PARA MÓVILES (DISEÑO MÁS PIOLA)
            ========================================================================== */
         @media (max-width: 900px) {
             .artist-featured {
@@ -452,6 +460,7 @@
                 font-size: 2rem;
             }
 
+            /* Grilla de celular en 2 columnas para que entren cómodo de a dos */
             .artist-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 14px;
@@ -461,7 +470,7 @@
             .card-internal {
                 padding: 10px;
                 gap: 8px;
-                text-align: center;
+                text-align: center; /* Queda más limpio centrado en móvil */
             }
 
             .artist-card h3 {
@@ -471,7 +480,7 @@
             .artist-card p {
                 font-size: 0.78rem;
                 display: -webkit-box;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 2; /* Recorta textos muy largos para no romper la estética */
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
@@ -482,14 +491,14 @@
             }
         }
 
+        /* Celulares muy chiquitos: Volvemos a 1 columna para que no se aplaste nada */
         @media (max-width: 380px) {
             .artist-grid {
                 grid-template-columns: 1fr;
                 gap: 18px;
             }
         }
-
-        .volver-inicio {
+            .volver-inicio{
             position: fixed;
             top: 14px;
             left: 14px;
@@ -506,15 +515,12 @@
             font-weight: 800;
             box-shadow: 0 10px 26px rgba(0,0,0,.18);
         }
-
-        .volver-inicio:hover { 
-            transform: translateY(-1px); 
-            background: rgba(255,255,255,.95); 
-        }
+        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
     </style>
 </head>
 <body>
-    <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+          <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+
 
     <div id="memories-page">
         
@@ -532,9 +538,9 @@
         <div id="overlay"></div>
         <div id="love-letter">
             <h2>Holaa señorita bellaa 🌹</h2>
-            <p>
-                Quiero que nunca olvides lo increíble que eres. Tienes una luz especial, una fuerza admirable y una forma única de hacer que todo a tu alrededor sea mejor. Sigue persiguiendo tus sueños, confiando en ti misma y demostrando todo lo que vales, porque eres capaz de lograr cosas maravillosas. Nunca dejes que las dudas te hagan olvidar lo lejos que has llegado ni todo lo bueno que aún te espera. Estoy muy orgulloso de ti y de la persona tan hermosa que eres. ❤️
-            </p>
+<p>
+    Quiero que nunca olvides lo increíble que eres. Tienes una luz especial, una fuerza admirable y una forma única de hacer que todo a tu alrededor sea mejor. Sigue persiguiendo tus sueños, confiando en ti misma y demostrando todo lo que vales, porque eres capaz de lograr cosas maravillosas. Nunca dejes que las dudas te hagan olvidar lo lejos que has llegado ni todo lo bueno que aún te espera. Estoy muy orgulloso de ti y de la persona tan hermosa que eres. ❤️
+</p>
             <button class="close-button" id="close-letter-btn">Cerrar con Amor</button>
         </div>
 
@@ -570,7 +576,7 @@
 
                     <div class="artist-card" onclick="openSpotlight('mafia')">
                         <div class="card-internal">
-                            <img src="mafia/image.png" alt="Latin Mafia">
+                                <img src="mafia/image.png" alt="Latin Mafia">
                             <h3>Latin Mafia</h3>
                             <p>Sonidos que mezclan nostalgia y emoción.</p>
                         </div>
@@ -590,10 +596,10 @@
                         
                         <div class="playlist-shell">
                             <h3>Elegí una canción:</h3>
-                            <div class="track-list" id="featured-tracks"></div>
+                            <div class="track-list" id="featured-tracks">
+                                </div>
                             <div class="player-shell">
-                                <!-- Atributo preload="none" clave para rendimiento móvil -->
-                                <audio id="main-audio-player" controls preload="none"></audio>
+                                <audio id="main-audio-player" controls></audio>
                             </div>
                         </div>
                     </div>
@@ -628,7 +634,6 @@
         closeLetterBtn.addEventListener('click', closeLetter);
         overlay.addEventListener('click', closeLetter);
 
-        // Rutas cambiadas de .mp4 a .mp3 para compatibilidad absoluta en iOS y Android a través de GitHub Pages
         const artistsData = {
             morat: {
                 title: "BTS",
@@ -646,10 +651,10 @@
                 desc: "Delicadeza, sensibilidad y poesía en cada canción.",
                 image: "silvanaEstrada/image copy.png",
                 tracks: [
-                    { name: "Flores", url: "silvanaEstrada/Flores.mp3" },
-                    { name: "Carta", url: "silvanaEstrada/Carta.mp3" },
-                    { name: "Que Problema", url: "silvanaEstrada/QueProblema.mp3" },
-                    { name: "Te Guardo", url: "silvanaEstrada/TeGuardo.mp3" }
+                    { name: "Flores", url: "silvanaEstrada/Flores.mp4" },
+                    { name: "Carta", url: "silvanaEstrada/Carta.mp4" },
+                    { name: "Que Problema", url: "silvanaEstrada/QueProblema.mp4" },
+                    { name: "Te Guardo", url: "silvanaEstrada/TeGuardo.mp4" }
                 ]
             },
             camilo: {
@@ -657,10 +662,10 @@
                 desc: "Canciones sinceras que transforman emociones cotidianas en momentos inolvidables.",
                 image: "https://upload.wikimedia.org/wikipedia/commons/4/48/Humbe_en_Esencia_Tour_en_Coahuila_%281%29_%28cropped%29.png",
                 tracks: [
-                    { name: "Morfina", url: "humbe/Morfina.mp3" },
-                    { name: "Confieso", url: "humbe/Confieso.mp3" },
-                    { name: "Te lo Prometo", url: "humbe/prometo.mp3" },
-                    { name: "Amor de Cine", url: "humbe/AmorDeCine.mp3" }
+                    { name: "Morfina", url: "humbe/Morfina.mp4" },
+                    { name: "Confieso", url: "humbe/Confieso.mp4" },
+                    { name: "Te lo Prometo", url: "humbe/prometo.mp4" },
+                    { name: "Amor de Cine", url: "humbe/AmorDeCine.mp4" }
                 ]
             },
             mafia: {
@@ -668,10 +673,10 @@
                 desc: "Sonidos frescos que combinan vulnerabilidad, ritmo y mucha personalidad.",
                 image: "mafia/image copy.png",
                 tracks: [
-                    { name: "Ciudad de las Luces", url: "mafia/CiudadDeLasLuces.mp3" },
-                    { name: "Flores", url: "mafia/Flores.mp3" },
-                    { name: "Se Fue la Luz", url: "mafia/Luz.mp3" },
-                    { name: "Patadas de Ahogado", url: "mafia/pata.mp3" }
+                    { name: "Ciudad de las Luces", url: "mafia/CiudadDeLasLuces.mp4" },
+                    { name: "Flores", url: "mafia/Flores.mp4" },
+                    { name: "Se Fue la Luz", url: "mafia/Luz.mp4" },
+                    { name: "Patadas de Ahogado", url: "mafia/pata.mp4" }
                 ]
             }
         };
@@ -697,7 +702,6 @@
                 trackListContainer.appendChild(btn);
             });
 
-            audioPlayer.pause();
             audioPlayer.src = "";
             multimediaSection.classList.add('is-spotlight');
             multimediaSection.scrollIntoView({ behavior: 'smooth' });
@@ -709,21 +713,11 @@
             multimediaSection.classList.remove('is-spotlight');
         }
 
-        // Lógica optimizada para refrescar búferes viejos de reproducción en celular
         function playTrack(url, clickedButton) {
             document.querySelectorAll('.track-button').forEach(b => b.classList.remove('active'));
             clickedButton.classList.add('active');
-            
-            audioPlayer.pause();
             audioPlayer.src = url;
-            audioPlayer.load(); // Limpia el búfer del archivo anterior
-            
-            const playPromise = audioPlayer.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Interacción requerida por el navegador del móvil.", error);
-                });
-            }
+            audioPlayer.play();
         }
 
         function createHeartShower() {
