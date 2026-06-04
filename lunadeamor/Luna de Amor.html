@@ -62,9 +62,30 @@
     0%, 100% { transform: scale(1); opacity: 0.75; }
     50% { transform: scale(1.1); opacity: 1; }
   }
+
+              .volver-inicio{
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.85);
+            border: 1px solid rgba(0,0,0,.10);
+            color: #3b2f2f;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 10px 26px rgba(0,0,0,.18);
+        }
+        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
 </style>
 </head>
 <body>
+
+  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
 <canvas id="c"></canvas>
 <div id="hint">Toca el agua para crear magia</div>
 <svg id="music-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
