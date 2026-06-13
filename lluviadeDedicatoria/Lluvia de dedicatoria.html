@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700&display=swap" rel="stylesheet">
 
   <style>
-    body {
+body {
       position: relative;
       display: flex;
       justify-content: center;
@@ -17,7 +17,7 @@
       margin: 0;
       font-family: 'Be Vietnam Pro', sans-serif;
       background: transparent;
-      overflow: hidden;
+      overflow: hidden; /* Evita que el contenido que cae genere barras de scroll */
       transition: background 1.2s ease;
       isolation: isolate;
     }
@@ -56,6 +56,8 @@
       animation: glowBox 2s ease-in-out infinite alternate;
       position: relative;
       z-index: 1;
+      max-width: 85%; /* Evita que choque con los bordes en celulares */
+      box-sizing: border-box;
     }
 
     .start-image {
@@ -80,6 +82,7 @@
       margin-bottom: 12px;
       text-shadow: none;
       animation: pulse 2s infinite alternate;
+      text-align: center; /* Centra el texto si se divide en dos líneas */
     }
 
     @keyframes pulse {
@@ -117,12 +120,13 @@
       animation: fall linear forwards;
       user-select: none;
       pointer-events: none;
+      font-size: 20px; /* Tamaño base para PC */
     }
 
     .falling-image {
       position: fixed;
       top: 0;
-      width: 92px;
+      width: 92px; /* Tamaño base para PC */
       height: 92px;
       object-fit: cover;
       border-radius: 14px;
@@ -144,6 +148,35 @@
       0%, 100% { opacity: 0; }
       50% { opacity: 1; }
     }
+
+    /* ==========================================
+       RESPONSIVE: OPTIMIZACIÓN PARA CELULARES
+       ========================================== */
+    @media (max-width: 600px) {
+      #start-screen {
+        padding: 20px 20px;
+        max-width: 90%;
+      }
+
+      #start-text {
+        font-size: 20px; /* Texto de bienvenida un poco más chico */
+      }
+
+      .start-image {
+        width: 140px; /* Achica la imagen central en móviles */
+      }
+
+      /* Reduce el tamaño de la frase que cae para que no se corte bruscamente */
+      .falling-text {
+        font-size: 14px !important; 
+      }
+
+      /* Reduce el tamaño de las imágenes que caen */
+      .falling-image {
+        width: 55px !important;
+        height: 55px !important;
+        border-radius: 8px;
+      }}
             .volver-inicio{
             position: fixed;
             top: 14px;
@@ -179,7 +212,7 @@
     <button id="start-btn">Toca aquí</button>
   </div>
 
-  <audio id="audio-eres-tu" src="https://github.com/Baque2005/Organizador/raw/refs/heads/master/Never%20Shout%20Never%20-%20Can't%20Stand%20ItLetra%20en%20espa%C3%B1ol.mp3" preload="auto"></audio>
+  <audio id="audio-eres-tu" src="AmorDeCine.mp4" preload="auto"></audio>
 
   <script>
     const startBtn = document.getElementById('start-btn');
