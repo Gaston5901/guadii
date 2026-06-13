@@ -144,9 +144,28 @@
       0%, 100% { opacity: 0; }
       50% { opacity: 1; }
     }
+            .volver-inicio{
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.85);
+            border: 1px solid rgba(0,0,0,.10);
+            color: #3b2f2f;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 10px 26px rgba(0,0,0,.18);
+        }
+        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
   </style>
 </head>
 <body>
+  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
 
   <video id="bg-video" autoplay muted loop playsinline>
     <source src="https://github.com/Baque2005/Organizador/raw/refs/heads/master/From%20KlickPin%20CF%20Cute%20date%20night%20thoughts%20with%20easy%20charm%20designed%20for%20beautiful%20Pinterest%20saves%20for%20cozy%20hearts%20%F0%9F%92%96%20-%20Pin-1688918605802526.mp4" type="video/mp4">
