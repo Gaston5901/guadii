@@ -229,22 +229,47 @@
     }
 
     /* Optimización móvil */
-    @media (max-width: 600px){
-      body{
-        background: linear-gradient(180deg, var(--bg1), var(--bg2));
-      }
-      .card{
-        box-shadow: none;
-        backdrop-filter: none;
-      }
-      .card::before{ opacity: .25; }
-      .card:hover{ transform: none; }
-      .pill, .arrow{ box-shadow: none; }
-      .card.bloqueada{
-        filter: none !important;
-        opacity: 0.6 !important;
-      }
-    }
+/* Optimización móvil con Efecto Stacking (Tarjetas Apilables) */
+@media (max-width: 600px) {
+  body {
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+  }
+
+  /* Contenedor Grid en móvil */
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Un poco más de espacio para que se note el despegue */
+    padding-bottom: 60vh; /* Espacio al final para que la última tarjeta también pueda scrollear hacia arriba */
+  }
+
+  /* Efecto de apilamiento para las tarjetas */
+  .card {
+    box-shadow: 0 -4px 16px rgba(124, 58, 106, 0.08); /* Sombra suave superior */
+    backdrop-filter: none;
+    
+    /* Magia del Sticky Stacking */
+    position: sticky;
+    top: 20px; /* Distancia desde el borde superior de la pantalla donde se frenará cada tarjeta */
+  }
+
+  .card::before { 
+    opacity: .25; 
+  }
+  
+  .card:hover { 
+    transform: none; 
+  }
+  
+  .pill, .arrow { 
+    box-shadow: none; 
+  }
+  
+  .card.bloqueada {
+    filter: none !important;
+    opacity: 0.6 !important;
+  }
+}
 
     /* Reduce motion */
     @media (prefers-reduced-motion: reduce){
@@ -253,6 +278,7 @@
         transition: none !important;
       }
     }
+    
   </style>
 
   <!-- Google Fonts: Quicksand & Nunito -->
@@ -353,6 +379,15 @@
           <span style="background:rgba(139, 121, 121, 0.8);padding:8px 18px;border-radius:999px;color:#000000;font-weight:600;font-size:1.1em;">Proximamente</span>
         </div>
       </a> -->
+
+              <a class="card" data-num="13" href="girasolesmorados/Girasoles Morados!.html">
+        <h2><span class="card-number"></span>Girasoles Morados</h2>
+        <div class="meta">
+          <span class="tag">Pachucha🌹</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
 
                                         <!-- card 12 -->
         <a class="card" data-num="12" href="lluviadeDedicatoria/Lluvia de dedicatoria.html">
