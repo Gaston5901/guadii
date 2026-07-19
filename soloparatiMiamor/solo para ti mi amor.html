@@ -8,7 +8,8 @@
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background-color: #fff;
+      background: linear-gradient(135deg, #ffe4ef 0%, #ffcfe2 45%, #fff0f6 100%);
+      background-size: 220% 220%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -18,6 +19,7 @@
       text-align: center;
       color: #333;
       transition: background-color 0.5s ease;
+      animation: backgroundShift 14s ease-in-out infinite alternate;
     }
     h2 {
       margin-bottom: 20px;
@@ -49,6 +51,7 @@
         white 28px,
         #e3e3e3 29px
       );
+      --watermark-image: url("https://i.pinimg.com/736x/cd/68/06/cd68066b8be592ef8997a1067a8ab5e3.jpg");
       border-radius: 0; /* esquinas en punta */
       padding: 40px 60px;
       border: 2px solid #e5e5e5;
@@ -59,6 +62,30 @@
       box-sizing: border-box;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       animation: fadeIn 1s ease;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      max-height: calc(100vh - 140px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      background-image: var(--watermark-image);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 100% 100%;
+      opacity: 0.11;
+      pointer-events: none;
+      transform: rotate(-2deg);
+      z-index: 0;
+    }
+    .card > * {
+      position: relative;
+      z-index: 1;
     }
     .card h3 {
       font-family: 'Dancing Script', cursive;
@@ -94,10 +121,15 @@
       from {opacity: 0; transform: scale(0.95);}
       to {opacity: 1; transform: scale(1);}
     }
+    @keyframes backgroundShift {
+      from { background-position: 0% 50%; }
+      to { background-position: 100% 50%; }
+    }
     @media (max-width: 600px) {
   .card {
     padding: 20px 15px;
     width: 95%;
+        max-height: calc(100vh - 120px);
   }
 
   .card h3 {
@@ -120,11 +152,31 @@
     width: 220px;
   }
 }
+        .volver-inicio{
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.85);
+            border: 1px solid rgba(0,0,0,.10);
+            color: #3b2f2f;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 10px 26px rgba(0,0,0,.18);
+        }
+        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
   </style>
 </head>
 <body>
+      <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+      
     <audio id="musica" loop>
-  <source src="https://github.com/codeninja543/codeninja5433/raw/refs/heads/main/Chayanne%20-%20Me%20Enamor%C3%A9%20De%20Ti.mp3" type="audio/mpeg">
+  <source src="carta.mp4" type="audio/mpeg">
 </audio>
   <div class="screen active" id="screen1">
     <h2>Holassss, te llegó un correo</h2>
@@ -144,20 +196,20 @@
   </div>
   <div class="screen" id="screen5">
     <div class="card">
-      <h3>Mi Amorcita</h3>
-   <p>Amor de mi vida,</p>
+      <h3>Señoritaaaa</h3>
+   <p>Paraa Iriss,</p>
 
-<p><strong>Te amo mucho, mi amor 💖</strong></p>
+<p><strong>Te quiero muchisimoo💖,</strong></p>
 
-<p>Solo quería recordarte lo importante que eres para mí y lo feliz que me haces cada día.</p>
+<p>Solo quería recordarte lo importante que eres para mí y lo lindo que es tenerte en mi vida. Gracias por estar siempre ahí y por llenar todo de alegría, incluso en la distancia.</p>
 
-<p>Gracias por estar en mi vida y por llenar todo de alegría, incluso en la distancia.</p>
+<p>Eres una mujer increíble y quiero que nunca olvides lo mucho que creo en ti. Sé que a veces el camino cansa o presiona, pero la vida se conquista paso a paso, a tu propio ritmo, y tú estás construyendo algo hermoso. Tienes una fuerza y un talento admirables, así que confía en ti misma tanto como yo lo hago, porque sé perfectamente que vas a llegar lejísimos y lograrás todo lo que te propongas.</p>
 
-<p>Eres lo mejor que me ha pasado 💗</p>
+<p>Nunca dudes de la gran persona que eres, de tu enorme corazón y de todo lo valioso que tienes para dar al mundo. Siempre estaré aquí para apoyarte y aplaudir cada uno de tus logros💖</p>
 
-<p>Con todo mi amor para ti 💖</p>
+<p>De mi para Tu señoritaa, con todo respeto💖</p>
     <div style="text-align: center;">
-      <button class="return-btn" onclick="nextScreen(1)">😍 TE AMOO</button>
+      <button class="return-btn" onclick="nextScreen(1)">Ojitosss Bonitoss<33</button>
     </div>
   </div>
   <script>
@@ -185,8 +237,10 @@
     body {
   margin: 0;
   height: 100vh;
-  background: #ffe4ec;
+  background: linear-gradient(135deg, #ffe1ee 0%, #ffcadf 50%, #fff0f6 100%);
+  background-size: 220% 220%;
   overflow: hidden;
+  animation: backgroundShift 14s ease-in-out infinite alternate;
 }
     .heart {
 
@@ -236,7 +290,7 @@
 
     corazon.classList.add("heart");
 
-    corazon.innerHTML = "❤️ ";
+    corazon.innerHTML = "❤️ 💜";
 
     corazon.style.left = Math.random() * 100 + "vw";
 
