@@ -284,7 +284,7 @@ const startBackgroundSound = async () => {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     masterGain = audioContext.createGain();
     masterGain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-    masterGain.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.8);
+    masterGain.gain.linearRampToValueAtTime(0.22, audioContext.currentTime + 0.8);
     masterGain.connect(audioContext.destination);
   }
 
@@ -297,6 +297,7 @@ const startBackgroundSound = async () => {
     backgroundAudioNode.connect(masterGain);
   }
 
+  backgroundAudio.volume = 1;
   backgroundAudio.currentTime = 0;
   await backgroundAudio.play();
 };
