@@ -328,7 +328,10 @@ enterButton.addEventListener("click", async () => {
     animationStarted = true;
     tick();
   }
-  await startBackgroundSound();
+
+  window.requestAnimationFrame(() => {
+    startBackgroundSound().catch(() => {});
+  });
 });
 
 gui.
