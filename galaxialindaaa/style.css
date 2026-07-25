@@ -1,0 +1,494 @@
+/* ==========================================================================
+   RESET & BASICS
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  background: #030408;
+  color: #fff;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   CANVAS WEBGL (GALAXIA DE THREE.JS)
+   ========================================================================== */
+.webgl {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  outline: none;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.webgl.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.galaxy-message {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  z-index: 8;
+  max-width: min(92vw, 520px);
+  padding: 15px 20px;
+  border-radius: 24px;
+  transform: translateX(-50%) translateY(-16px);
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.02rem, 2.4vw, 1.3rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: #fff8ea;
+  background:
+    radial-gradient(circle at top left, rgba(255, 246, 214, 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(12, 8, 28, 0.9), rgba(52, 26, 86, 0.74));
+  border: 1px solid rgba(255, 223, 147, 0.38);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.38),
+    0 0 24px rgba(255, 198, 120, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  text-wrap: balance;
+  text-shadow: 0 1px 10px rgba(255, 233, 190, 0.25);
+  transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.55s ease;
+  animation: galaxyMessageFloat 3.8s ease-in-out infinite;
+}
+
+.galaxy-message::before,
+.galaxy-message::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.galaxy-message::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 45%);
+}
+
+.galaxy-message::after {
+  inset: 2px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 240, 210, 0.14);
+  box-shadow:
+    inset 0 0 18px rgba(255, 214, 122, 0.07),
+    inset 0 0 30px rgba(143, 99, 255, 0.08);
+}
+
+.galaxy-message.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@keyframes galaxyMessageFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 4px;
+  }
+}
+
+/* ==========================================================================
+   INTRO SCREEN & OVERLAY
+   ========================================================================== */
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(35, 23, 50, 0.5), transparent 70%),
+    radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.1), transparent 40%),
+    linear-gradient(135deg, #020307 0%, #0a0d1a 50%, #030408 100%);
+  z-index: 10;
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-screen.is-hidden {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   TARJETAS DE FRASES (ESTILO PERGAMINO VINTAGE)
+   ========================================================================== */
+.intro-phrase {
+  position: absolute;
+  width: min(32vw, 320px);
+  padding: 0;
+  border-radius: 16px;
+  color: #3b2312;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  text-align: center;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  pointer-events: auto;
+  filter: drop-shadow(0 12px 25px rgba(0, 0, 0, 0.75));
+}
+
+.intro-phrase:hover {
+  filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.9)) brightness(1.05);
+}
+
+/* Capa contenedor de textura del pergamino */
+.intro-phrase .paper-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem 0.5rem 1.2rem 0.6rem;
+  background: #e8d3a7;
+  border: 1px solid rgba(138, 92, 48, 0.5);
+  box-shadow: inset 0 0 30px rgba(89, 48, 18, 0.35);
+}
+
+/* Tinta y sombras envejecidas */
+.intro-phrase .paper-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 245, 210, 0.4), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(105, 53, 19, 0.25), transparent 50%),
+    linear-gradient(90deg, rgba(68, 35, 12, 0.18), transparent 12%, transparent 88%, rgba(68, 35, 12, 0.18));
+}
+
+/* Contenido interior con marco grabado */
+.intro-phrase .paper-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px 22px;
+  border: 1px solid rgba(92, 57, 25, 0.3);
+  outline: 1px solid rgba(92, 57, 25, 0.18);
+  outline-offset: -0.55rem;
+  margin: 6px;
+  border-radius: 8px;
+}
+
+.intro-phrase .quote-copy {
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  color: #2c1a0e;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.intro-phrase .quote-mark {
+  display: block;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #8b5a2b;
+  opacity: 0.6;
+  margin-bottom: -4px;
+}
+
+/* --- VARIACIONES DE DISEÑO DE PERGAMINO --- */
+
+/* Design Two */
+.intro-phrase.design-two .paper-shell {
+  border-radius: 1.3rem 0.55rem 1.4rem 0.65rem;
+}
+
+/* Design Three */
+.intro-phrase.design-three .paper-shell {
+  border-radius: 0.5rem 1.5rem 0.55rem 1.55rem;
+  border-color: #b8860b;
+}
+.intro-phrase.design-three .paper-tint {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.25), transparent 60%),
+    linear-gradient(180deg, rgba(116, 58, 21, 0.2), transparent 30%, transparent 70%, rgba(116, 58, 21, 0.25));
+}
+
+/* Design Four */
+.intro-phrase.design-four .paper-content {
+  border-top: 3px double rgba(92, 57, 25, 0.5);
+  border-bottom: 3px double rgba(92, 57, 25, 0.5);
+}
+
+/* Design Five */
+.intro-phrase.design-five .paper-tint {
+  background:
+    radial-gradient(circle at 17% 80%, rgba(116, 58, 21, 0.35), transparent 25%),
+    radial-gradient(circle at 84% 14%, rgba(111, 52, 18, 0.3), transparent 25%),
+    linear-gradient(145deg, rgba(255, 241, 192, 0.2), rgba(89, 48, 18, 0.25));
+}
+
+/* --- POSICIONAMIENTO ESQUINAS (DESKTOP) --- */
+.intro-phrase--tl {
+  top: 6%;
+  left: 4%;
+  transform: rotate(-3deg);
+}
+
+.intro-phrase--tr {
+  top: 6%;
+  right: 4%;
+  transform: rotate(3deg);
+}
+
+.intro-phrase--bl {
+  bottom: 6%;
+  left: 4%;
+  transform: rotate(2deg);
+}
+
+.intro-phrase--br {
+  bottom: 6%;
+  right: 4%;
+  transform: rotate(-2deg);
+}
+
+.intro-phrase--tl:hover { transform: rotate(-1deg) scale(1.03); }
+.intro-phrase--tr:hover { transform: rotate(1deg) scale(1.03); }
+.intro-phrase--bl:hover { transform: rotate(0deg) scale(1.03); }
+.intro-phrase--br:hover { transform: rotate(0deg) scale(1.03); }
+
+/* ==========================================================================
+   TARJETA CENTRAL & BOTÓN VINTAGE
+   ========================================================================== */
+.intro-card {
+  position: relative;
+  z-index: 2;
+  width: min(90vw, 400px);
+  padding: 38px 30px 34px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(16, 13, 28, 0.88), rgba(7, 5, 14, 0.92));
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.7),
+    inset 0 0 20px rgba(212, 175, 55, 0.1),
+    0 0 30px rgba(180, 130, 255, 0.15);
+  text-align: center;
+  backdrop-filter: blur(16px);
+}
+
+.intro-card::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border-radius: 18px;
+  border: 1px dashed rgba(212, 175, 55, 0.25);
+  pointer-events: none;
+}
+
+.intro-label {
+  margin-bottom: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #e5c158;
+  text-shadow: 0 0 10px rgba(229, 193, 88, 0.4);
+}
+
+/* --- BOTÓN ANTIGUO --- */
+.enter-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 16px 36px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff6e5;
+  background: radial-gradient(circle at center, #2e1a47 0%, #120924 100%);
+  border: 1.5px solid #d4af37;
+  border-radius: 50px;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(212, 175, 55, 0.25),
+    inset 0 0 10px rgba(212, 175, 55, 0.2);
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.enter-button::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 46px;
+  border: 1px solid rgba(255, 235, 170, 0.3);
+  pointer-events: none;
+  transition: border-color 0.35s ease;
+}
+
+.enter-button:hover {
+  transform: translateY(-3px) scale(1.03);
+  color: #ffffff;
+  background: radial-gradient(circle at center, #412466 0%, #1a0c36 100%);
+  border-color: #ffd700;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(255, 215, 0, 0.5),
+    inset 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.enter-button:hover::before {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.enter-button:active {
+  transform: translateY(-1px) scale(0.99);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   ADAPTACIÓN RESPONSIVA (MÓVILES Y TABLETS)
+   ========================================================================== */
+@media (max-width: 960px) {
+  .intro-card {
+    width: min(88vw, 380px);
+    padding: 30px 22px;
+  }
+
+  .intro-phrase {
+    width: min(40vw, 220px);
+    padding: 13px 14px;
+    font-size: clamp(0.9rem, 2.6vw, 1rem);
+    line-height: 1.48;
+  }
+
+  .intro-phrase .paper-content {
+    padding: 13px 14px;
+  }
+
+  .intro-phrase--tl {
+    top: 4%;
+    left: 3%;
+    transform: rotate(-4deg);
+  }
+
+  .intro-phrase--tr {
+    top: 4%;
+    right: 3%;
+    transform: rotate(4deg);
+  }
+
+  .intro-phrase--bl {
+    bottom: 5%;
+    left: 3%;
+    transform: rotate(3deg);
+  }
+
+  .intro-phrase--br {
+    bottom: 5%;
+    right: 3%;
+    transform: rotate(-3deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .galaxy-message {
+    top: 12px;
+    max-width: min(94vw, 360px);
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+  }
+
+  .intro-label {
+    letter-spacing: 0.22em;
+    font-size: 0.78rem;
+  }
+
+  .enter-button {
+    min-width: 182px;
+    padding: 14px 26px;
+    font-size: 1.05rem;
+    letter-spacing: 0.14em;
+  }
+
+  .intro-card {
+    width: min(88vw, 320px);
+    padding: 24px 16px 20px;
+  }
+
+  .intro-phrase {
+    width: min(44vw, 180px);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    padding: 12px 12px;
+  }
+
+  .intro-phrase .paper-content {
+    padding: 12px 12px;
+  }
+
+  .intro-phrase .quote-copy {
+    font-size: 0.88rem;
+  }
+
+  .intro-phrase--tl {
+    top: 3%;
+    left: 2%;
+  }
+
+  .intro-phrase--tr {
+    top: 3%;
+    right: 2%;
+  }
+
+  .intro-phrase--bl {
+    bottom: 4%;
+    left: 2%;
+  }
+
+  .intro-phrase--br {
+    bottom: 4%;
+    right: 2%;
+  }
+}
+
+        .volver-inicio{
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.85);
+            border: 1px solid rgba(0,0,0,.10);
+            color: #3b2f2f;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 10px 26px rgba(0,0,0,.18);
+        }
+        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95);

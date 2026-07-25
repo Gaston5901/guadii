@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Galaxy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;500;600;700&family=Parisienne&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+      <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+
+
+  <div class="intro-screen" id="introScreen">
+    
+    <!-- FRASE 1: Arriba Izquierda (Diseño 2) -->
+    <div class="intro-phrase intro-phrase--tl design-two" data-style="scroll">
+      <div class="paper-shell">
+        <div class="paper-tint" aria-hidden="true"></div>
+        <div class="paper-content">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p class="quote-copy">
+            Nunca pierdas la esperanza; justo cuando crees que todo terminó, Dios abrirá un camino para ti.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRASE 2: Arriba Derecha (Diseño 3) -->
+    <div class="intro-phrase intro-phrase--tr design-three" data-style="cloud">
+      <div class="paper-shell">
+        <div class="paper-tint" aria-hidden="true"></div>
+        <div class="paper-content">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p class="quote-copy">
+            Lo que viene va a ser tan bueno, que después vas a entender por qué tuviste que esperar.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRASE 3: Abajo Izquierda (Diseño 4) -->
+    <div class="intro-phrase intro-phrase--bl design-four" data-style="cloud">
+      <div class="paper-shell">
+        <div class="paper-tint" aria-hidden="true"></div>
+        <div class="paper-content">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p class="quote-copy">
+            Confía en el proceso; a veces Dios no cambia tu situación porque está usando la situación para cambiarte a ti.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRASE 4: Abajo Derecha (Diseño 5) -->
+    <div class="intro-phrase intro-phrase--br design-five" data-style="scroll">
+      <div class="paper-shell">
+        <div class="paper-tint" aria-hidden="true"></div>
+        <div class="paper-content">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p class="quote-copy">
+            Lo que Dios tiene preparado para ti es mucho más grande que todo lo que le has pedido.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TARJETA CENTRAL -->
+    <div class="intro-card">
+      <p class="intro-label">Una invitación para ti</p>
+      <button class="enter-button" id="enterButton">Sí, vamos</button>
+    </div>
+  </div>
+
+  <audio id="backgroundAudio" loop preload="auto" src="Download2.mp4"></audio>
+  <div class="galaxy-message" id="galaxyMessage" aria-live="polite"></div>
+
+  <!-- SHADERS WEBGL -->
+  <script id="vertexShader" type="x-shader/x-vertex">
+    uniform float uSize;
+    uniform float uTime;
+    uniform float uHoleSize;
+
+    attribute float aScale;
+    attribute vec3 aRandomness;
+
+    varying vec3 vColor;
+
+    void main() {
+      vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+      
+      // Spin
+      float angle = atan(modelPosition.x, modelPosition.z);
+      float distanceToCenter = length(modelPosition.xz) + uHoleSize;
+      float uTimeOffset = uTime + (uHoleSize * 30.0);
+      float angleOffset = (1.0 / distanceToCenter) * uTimeOffset * 0.2;
+      angle += angleOffset;
+      
+      modelPosition.x = cos(angle) * distanceToCenter;
+      modelPosition.z = sin(angle) * distanceToCenter;  
+      modelPosition.xyz += aRandomness; 
+
+      vec4 viewPosition = viewMatrix * modelPosition;
+      vec4 projectedPosition = projectionMatrix * viewPosition;
+
+      gl_Position = projectedPosition; 
+      float scale = uSize * aScale;
+      
+      gl_PointSize = scale;
+      gl_PointSize *= ( 1.0 / - viewPosition.z );
+      vColor = color;
+    }
+  </script>
+
+  <script id="fragmentShader" type="x-shader/x-fragment">
+    varying vec3 vColor;
+    varying vec2 vUv;
+    uniform sampler2D uTexture;
+
+    void main() {
+      gl_FragColor = vec4( vColor, 1.0 );
+      gl_FragColor = gl_FragColor * texture2D(uTexture, vec2( gl_PointCoord.x, gl_PointCoord.y ) );
+      gl_FragColor = gl_FragColor * vec4( vColor, 1.0 );
+    }
+  </script>
+
+  <canvas class="webgl is-hidden"></canvas>
+
+  <!-- LIBRERÍAS Y SCRIPT -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r125/three.min.js'></script>
+  <script src='https://unpkg.com/three@0.125.2/examples/js/controls/OrbitControls.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js'></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>
