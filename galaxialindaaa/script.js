@@ -3,8 +3,11 @@
  */
 const gui = new dat.GUI({ closed: true, width: 350 });
 
+const isMobileLike = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+const maxPixelRatio = isMobileLike ? 1 : 2;
+
 const parameters = {
-  count: 250000,
+  count: isMobileLike ? 70000 : 250000,
   radius: 5,
   branches: 5,
   spin: 1,
@@ -232,7 +235,7 @@ window.addEventListener("resize", () => {
 
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
 });
 
 /**
@@ -258,13 +261,19 @@ controls.enableDamping = true;
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-  canvas: canvas });
+  canvas: canvas,
+  powerPreference: "low-power"
+});
 
 renderer.setClearColor(0x000000);
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
+
+let galaxyReady = false;
+let animationStarted = false;
 
 generateGalaxy();
+galaxyReady = true;
 
 let audioContext = null;
 let masterGain = null;
@@ -311,6 +320,14 @@ enterButton.addEventListener("click", async () => {
   canvas.classList.remove("is-hidden");
   canvas.style.opacity = "1";
   showGalaxyMessage("Tus ojos belloss brillan como una galaxiaa.");
+  if (!galaxyReady) {
+    generateGalaxy();
+    galaxyReady = true;
+  }
+  if (!animationStarted) {
+    animationStarted = true;
+    tick();
+  }
   await startBackgroundSound();
 });
 
@@ -351,5 +368,3 @@ const tick = () => {
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
 };
-
-tick();
