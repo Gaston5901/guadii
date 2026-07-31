@@ -1,0 +1,241 @@
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(123, 57, 217, 0.28), transparent 22%),
+    radial-gradient(circle at 50% 62%, rgba(191, 160, 255, 0.12), transparent 32%),
+    linear-gradient(180deg, #090812 0%, #140f23 52%, #0b1018 100%);
+  color: #f6f0ff;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.09), transparent 2px),
+    radial-gradient(circle at 80% 18%, rgba(255, 255, 255, 0.08), transparent 2px),
+    radial-gradient(circle at 18% 78%, rgba(255, 255, 255, 0.06), transparent 2px),
+    radial-gradient(circle at 82% 74%, rgba(255, 255, 255, 0.07), transparent 2px);
+  background-size: 240px 240px;
+  opacity: 0.75;
+}
+
+/* ==========================================
+   CONTENEDOR FORZADO AL CENTRO
+   ========================================== */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+svg#flower-frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 650px;
+  max-height: 80vh;
+  margin: auto;
+}
+
+.message-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================
+   MENSAJE FLOTANTE SIN RECUADRO
+   ========================================== */
+.message-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(75%, 300px);
+  text-align: center;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+}
+
+.message-kicker,
+.message-title,
+.message-subtitle,
+.message-footer {
+  display: block;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95), 0 0 18px rgba(191, 160, 255, 0.35);
+}
+
+.message-kicker {
+  font-size: 0.78rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: #dcbfff;
+  margin-bottom: 0.55rem;
+}
+
+.message-title {
+  margin: 0;
+  font-size: clamp(1.4rem, 4vw, 2.5rem);
+  line-height: 1.05;
+  color: #fff6ff;
+  font-weight: 700;
+}
+
+.message-subtitle {
+  margin: 0.65rem 0 0;
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+  line-height: 1.35;
+  color: rgba(244, 233, 255, 0.92);
+}
+
+.message-footer {
+  margin-top: 0.85rem;
+  font-size: clamp(0.75rem, 1.6vw, 0.88rem);
+  font-style: italic;
+  letter-spacing: 0.12em;
+  color: #e3ccff;
+  opacity: 0.9;
+}
+
+/* ==========================================
+   DESTELLOS Y ANIMACIÓN
+   ========================================== */
+.sparkles {
+  position: absolute;
+  inset: 0;
+}
+
+.sparkle {
+  position: absolute;
+  left: calc(50% + var(--x));
+  top: calc(50% + var(--y));
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.96) 0%, rgba(214, 188, 255, 0.88) 34%, rgba(123, 57, 217, 0) 72%);
+  box-shadow: 0 0 16px rgba(214, 188, 255, 0.72);
+  opacity: 0;
+  animation: floatSparkle 4.8s ease-in-out infinite;
+  animation-delay: var(--d);
+}
+
+@keyframes floatSparkle {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.72);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* ==========================================
+   CELULAR: MÁS ZOOM Y TEXTO PROPORCIONAL
+   ========================================== */
+@media (max-width: 768px) {
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  svg#flower-frame {
+    width: 100vw;
+    max-height: 78vh;
+    transform: scale(1.9); /* Zoom aumentado para llenar la pantalla */
+    transform-origin: center center;
+  }
+
+  .message-card {
+    width: 240px !important; /* Más espacio horizontal para el texto */
+  }
+
+  .message-kicker {
+    font-size: 1.78rem;
+    letter-spacing: 0.32em;
+    margin-bottom: 0.35rem;
+  }
+
+  .message-title {
+    font-size: 1.68rem;
+    line-height: 1.08;
+  }
+
+  .message-subtitle {
+    font-size: 1.20rem;
+    margin-top: 0.4rem;
+    line-height: 1.3;
+  }
+
+  .message-footer {
+    font-size: 0.78rem;
+    margin-top: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* ==========================================
+   VISIBILIDAD SVG
+   ========================================== */
+#Footer_group_1_,
+[id^=PinkFlowerGroup],
+[id^=BaseGroup] path,
+[id^=LeafGroup] path,
+path[id^=Stroke],
+g[id^=BudGroup] g[id^=BudGroup] g[id^=Bud],
+#Bud8_1_,
+#Bud10_1_,
+#Bud23_1_,
+#Bud26_1_,
+[id^=Dots],
+[id^=Flourish] {
+  visibility: hidden;
+}
+
+        .volver-inicio{
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.85);
+            border: 1px solid rgba(0,0,0,.10);
+            color: #3b2f2f;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 10px 26px rgba(0,0,0,.18);
+        }
+        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
