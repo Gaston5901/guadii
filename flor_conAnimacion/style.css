@@ -179,52 +179,57 @@ svg#flower-frame {
 /* ==========================================
    OPTIMIZACIÓN TOTAL PARA CELULARES
    ========================================== */
+/* ==========================================
+   OPTIMIZACIÓN TOTAL PARA CELULARES (FLOR COMPLETA)
+   ========================================== */
 @media (max-width: 768px) {
   .container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100dvh;
+    padding: 10px; /* Margen de seguridad para que no toque los bordes */
   }
 
-  /* Flor con zoom impecable */
+  /* La flor se escala sola para entrar SIEMPRE entera */
   svg#flower-frame {
-    width: 100vw;
-    max-height: 85vh;
-    transform: scale(2.1); 
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 88vh !important; /* Deja espacio arriba/abajo para no cortarse */
+    transform: scale(0.95) !important; /* Alejamos un toque el zoom */
     transform-origin: center center;
+    object-fit: contain; /* Obliga al SVG a entrar entero sin recortar */
   }
 
-  /* Ancho para que las frases entren holgadas dentro de la corona */
+  /* Ajuste de frases para que calcen perfecto dentro de la corona */
   .message-card {
-    width: 280px !important;
+    width: 260px !important;
   }
 
-  /* Kicker (Señoritaa) ordenado y elegante */
   .message-kicker {
-    font-size: 0.88rem;
-    letter-spacing: 0.35em;
-    margin-bottom: 0.4rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 0.3rem;
   }
 
-  /* Título principal bien destacado */
   .message-title {
-    font-size: 2.15rem;
-    line-height: 1.08;
+    font-size: 1.6rem;
+    line-height: 1.1;
   }
 
-  /* Subtítulo poético súper leíble */
   .message-subtitle {
-    font-size: 1.08rem;
-    margin-top: 0.5rem;
-    line-height: 1.35;
+    font-size: 0.88rem;
+    margin-top: 0.4rem;
+    line-height: 1.25;
   }
 
-  /* Frase final destacada con estilo */
   .message-footer {
-    font-size: 0.92rem;
-    margin-top: 0.75rem;
-    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    letter-spacing: 0.08em;
   }
 }
 /* ==========================================
