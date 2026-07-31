@@ -177,7 +177,7 @@ svg#flower-frame {
 }
 
 /* ==========================================
-   CELULAR: MÁS ZOOM Y TEXTO PROPORCIONAL
+   OPTIMIZACIÓN TOTAL PARA CELULARES
    ========================================== */
 @media (max-width: 768px) {
   .container {
@@ -187,41 +187,46 @@ svg#flower-frame {
     transform: translate(-50%, -50%);
   }
 
+  /* Flor con zoom impecable */
   svg#flower-frame {
     width: 100vw;
-    max-height: 78vh;
-    transform: scale(1.9); /* Zoom aumentado para llenar la pantalla */
+    max-height: 85vh;
+    transform: scale(2.1); 
     transform-origin: center center;
   }
 
+  /* Ancho para que las frases entren holgadas dentro de la corona */
   .message-card {
-    width: 240px !important; /* Más espacio horizontal para el texto */
+    width: 280px !important;
   }
 
+  /* Kicker (Señoritaa) ordenado y elegante */
   .message-kicker {
-    font-size: 1.78rem;
-    letter-spacing: 0.32em;
-    margin-bottom: 0.35rem;
+    font-size: 0.88rem;
+    letter-spacing: 0.35em;
+    margin-bottom: 0.4rem;
   }
 
+  /* Título principal bien destacado */
   .message-title {
-    font-size: 1.68rem;
+    font-size: 2.15rem;
     line-height: 1.08;
   }
 
+  /* Subtítulo poético súper leíble */
   .message-subtitle {
-    font-size: 1.20rem;
-    margin-top: 0.4rem;
-    line-height: 1.3;
+    font-size: 1.08rem;
+    margin-top: 0.5rem;
+    line-height: 1.35;
   }
 
+  /* Frase final destacada con estilo */
   .message-footer {
-    font-size: 0.78rem;
-    margin-top: 0.6rem;
-    letter-spacing: 0.08em;
+    font-size: 0.92rem;
+    margin-top: 0.75rem;
+    letter-spacing: 0.1em;
   }
 }
-
 /* ==========================================
    VISIBILIDAD SVG
    ========================================== */
