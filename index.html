@@ -277,6 +277,74 @@
         animation: none !important;
         transition: none !important;
       }
+    }/* ==========================================
+       ICONO DE TORTA PALPITANTE (COMPU + CELU)
+       ========================================== */
+    .torta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      font-size: 1.4rem;
+      text-decoration: none;
+      
+      /* Estilo botón de cristal rosa/dorado */
+      background: linear-gradient(135deg, #ffe082 0%, #f48fb1 100%);
+      border: 2px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(244, 143, 177, 0.45);
+      
+      user-select: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+
+      /* Animación activa siempre en compu y celular */
+      animation: palpitar 1.8s infinite ease-in-out;
+    }
+
+    /* Animación de latido doble continuo */
+    @keyframes palpitar {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(244, 143, 177, 0.45);
+      }
+      14% {
+        transform: scale(1.18);
+        box-shadow: 0 6px 22px rgba(255, 215, 0, 0.75);
+      }
+      28% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(244, 143, 177, 0.45);
+      }
+      42% {
+        transform: scale(1.12);
+        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.65);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(244, 143, 177, 0.45);
+      }
+    }
+
+    /* Efecto hover en Compu: resalta el borde sin cortar la animación */
+    .torta-btn:hover {
+      border-color: #ffe082;
+      filter: brightness(1.1);
+    }
+
+    /* Feedback al hacer clic/tocar */
+    .torta-btn:active {
+      transform: scale(0.92) !important;
+    }
+
+    /* Ajuste de tamaño en Celular */
+    @media (max-width: 600px) {
+      .torta-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.25rem;
+      }
     }
     
   </style>
@@ -286,87 +354,23 @@
 </head>
 <body>
   <div class="wrap">
-    <header>
+<header>
       <div>
         <h1 class="title">Galería de recuerdos 💘</h1>
-        
-      </div>|
-      <div class="pill" title="Carpeta: sol">Ririi<33</div>
+      </div>
+      
+      <!-- Contenedor alineado a la derecha -->
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+        <div class="pill" title="Carpeta: sol">Ririi&lt;33</div>
+
+        <!-- Torta flotante con pulso -->
+        <a href="CUMPLE_PAGINA.html" class="torta-btn heartbeat" title="¡Especial Cumpleaños!">
+          🎂
+        </a>
+      </div>
     </header>
 
     <div class="grid">
-<!-- sasasasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss -->
-                  <!-- Ejemplo de otra tarjeta bloqueada -->
-                               <!-- <a class="card bloqueada" id="card-4" data-num="10" href="tocarcorazonfrases/tocarcorazonfrase.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
-              <h2><span class="card-number"></span>Tocar pantalla <span style="font-size:1.2em;"></span></h2>
-              <div class="meta">
-                <span class="tag">Nace una flor </span>
-                <span class="arrow">🔒</span>
-              </div>
-              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <span style="background:rgba(139, 121, 121, 0.8);padding:8px 18px;border-radius:999px;color:#000000;font-weight:600;font-size:1.1em;">Proximamente</span>
-              </div>
-            </a> -->
-
-
-            <!-- <a class="card bloqueada" id="card-3" data-num="9" href="tocarcorazonfrases/tocarcorazonfrase.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
-              <h2><span class="card-number"></span>Tocar Corazón  <span style="font-size:1.2em;"></span></h2>
-              <div class="meta">
-                <span class="tag">frases para Sol </span>
-                <span class="arrow">🔒</span>
-              </div>
-              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <span style="background:rgba(139, 121, 121, 0.8);padding:8px 18px;border-radius:999px;color:#000000;font-weight:600;font-size:1.1em;">Proximamente</span>
-              </div>
-            </a> -->
-
-                        <!-- Ejemplo de otra tarjeta bloqueada -->
-            <!-- <a class="card bloqueada" id="card-2" data-num="8" href="corazonflechassecruxan/index.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
-              <h2><span class="card-number"></span>Corazon fuerte <span style="font-size:1.2em;"></span></h2>
-              <div class="meta">
-                <span class="tag">corazon flechas</span>
-                <span class="arrow">🔒</span>
-              </div>
-              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <span style="background:rgba(255,255,255,0.8);padding:8px 18px;border-radius:999px;color:#b48bbd;font-weight:600;font-size:1.1em;">Bloqueado</span>
-              </div>
-            </a> -->
-      
-         <!-- Tarjeta bloqueada: Corazones que tira frases -->
-            <!-- <a class="card bloqueada" id="card-1" href="corazonquetirafrases/index.html" style="opacity:0.5; pointer-events:none; filter: grayscale(0.7); position:relative;">
-              <h2>Corazones que tira frases <span style="font-size:1.2em;"></span></h2>
-              <div class="meta">
-                <span class="tag">corazonquetirafrases</span>
-                <span class="arrow">🔒</span>
-              </div>
-              <div class="bloqueo-msg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-                <span style="background:rgba(255,255,255,0.8);padding:8px 18px;border-radius:999px;color:#b48bbd;font-weight:600;font-size:1.1em;">Bloqueado</span>
-              </div>
-            </a> -->
-                  <!-- <a class="card" data-num="7" href="corazonquetirafrases/index.html">
-                    <h2><span class="card-number"></span>Corazones que tira frases</h2>
-        <div class="meta">
-          <span class="tag">corazon espacio</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> -->
-<!-- dsdsdsdsdsdsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
-
-      <!-- <a class="card" data-num="6" href="corazon_candado_tulipanes/index.html">
-        <h2><span class="card-number"></span>Corazón Secreto Espacial</h2>
-        <div class="meta">
-          <span class="tag">corazon_candado_tulipanes</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> -->
-
-      <!-- <a class="card" href="corazon_candado_tulipanes/index.html">
-        <h2>Tulipanes Espaciales</h2>
-        <div class="meta">
-          <span class="tag">corazon_candado_tulipanes</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> -->
 
                             <!-- card de bloqueo -->
               <!-- <a class="card bloqueada" id="card-11" data-num="11" href="corazon_candado_tulipanes/index.html" style="opacity:0.55; pointer-events:none; filter: grayscale(0.7); position:relative;">
@@ -546,44 +550,7 @@
       </a>
 
 
-      <!-- <a class="card" href="flores%2021/flores21.html">
-        <h2>Flores 21</h2>
-        <div class="meta">
-          <span class="tag">flores 21</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> -->
 
-      <!-- <a class="card" data-num="4" href="flores%20amarillas%20imagen%20ff/index.html">
-        <h2><span class="card-number"></span>Flores (amarillas, imagen ff)</h2>
-        <div class="meta">
-          <span class="tag">flores amarillas imagen ff</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> -->
-
-      <!-- <a class="card" data-num="3" href="flores%20moradas%20con%20frases/index.html">
-        <h2><span class="card-number"></span>Flores 21 (moradas con frases)</h2>
-        <div class="meta">
-          <span class="tag">flores moradas con frases</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> -->
-          <!-- proximamenteeee sorpresaQR -->
-      <!-- <a class="card" data-num="2" href="sorpresaQR/index.html">
-        <h2><span class="card-number"></span>Sorpresa (QR)</h2>
-        <div class="meta">
-          <span class="tag">amor</span>
-          <span class="arrow">→</span>
-        </div>
-      </a> 
-            <a class="card" data-num="1" href="corazonconmusica/index.html">
-          <h2><span class="card-number"></span>Corazon (el espacio)</h2>
-        <div class="meta">
-          <span class="tag">Musica</span>
-          <span class="arrow">→</span>
-        </div>
-      </a>  -->
              
 
     </div>
