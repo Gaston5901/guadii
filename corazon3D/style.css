@@ -1,3 +1,4 @@
+/* --- ESTILOS GENERALES Y RESET --- */
 body {
   margin: 0;
   overflow: hidden;
@@ -11,11 +12,15 @@ body {
   font-family: 'Cinzel', serif;
 }
 
+/* --- CANVAS DE THREE.JS (AL FONDO) --- */
 canvas {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* --- BOTÓN VOLVER AL INICIO --- */
@@ -102,6 +107,77 @@ canvas {
   transition: width 0.1s linear;
 }
 
+/* --- PANTALLA DE CARGA Y CONTEO REGRESIVO --- */
+#loader-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #150620 0%, #000000 100%);
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#loader-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.spinner {
+  width: 45px;
+  height: 45px;
+  border: 3px solid rgba(238, 82, 130, 0.2);
+  border-top-color: #ee5282;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-text {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d8b4fe;
+  opacity: 0.8;
+}
+
+#countdown-num {
+  font-family: 'Cinzel', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 20px #ee5282, 0 0 40px #9400d3;
+  animation: pulseNumber 0.8s ease-out;
+}
+
+@keyframes pulseNumber {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* --- PANTALLA DE BIENVENIDA CON FOTO INTERACTIVA --- */
 #welcome-screen {
   position: fixed;
@@ -114,9 +190,23 @@ canvas {
   transition: opacity 1.2s ease, visibility 1.2s ease;
 }
 
+.hidden-welcome {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#welcome-screen.fade-in {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 1s ease;
+}
+
 #welcome-screen.fade-out {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .welcome-container {
@@ -194,7 +284,7 @@ canvas {
   100% { opacity: 0.9; }
 }
 
-/* --- FRASES MEJORADAS --- */
+/* --- FRASES EN PANTALLA --- */
 #text-container {
   position: absolute;
   z-index: 10;
@@ -225,7 +315,7 @@ canvas {
   transform: scale(1);
 }
 
-/* --- BARRA DE MÚSICA --- */
+/* --- BARRA Y REPRODUCTOR DE MÚSICA --- */
 #music-player {
   position: absolute;
   bottom: 25px;
@@ -296,6 +386,12 @@ canvas {
   transition: width 0.1s linear;
 }
 
+/* --- CLASES UTILITARIAS --- */
+.hidden {
+  display: none !important;
+}
+
+/* --- DISEÑO RESPONSIVO (MÓVILES) --- */
 @media (max-width: 600px) {
   .photo-wrapper {
     width: 160px;

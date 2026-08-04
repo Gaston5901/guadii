@@ -2,78 +2,214 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Corazón de Partículas Animado</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Corazón de Partículas Animado</title>
+
   <link rel="stylesheet" href="./style.css">
-  
-  <!-- Fuentes Elegantes -->
+
+  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
 
-  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+    <!-- Botón volver -->
+    <a class="volver-inicio"
+       href="../index.html"
+       aria-label="Volver al inicio">
+        ←
+    </a>
 
-  <!-- Contador de Frases Superior -->
-  <div id="phrase-counter-container" class="hidden">
-    <div id="phrase-counter-num">1 / 11</div>
-    <div id="phrase-subtext">Siguiente frase en camino...</div>
-    <div class="phrase-progress-bar">
-      <div id="phrase-progress-fill"></div>
-    </div>
-  </div>
+    <!-- ====================== -->
+    <!-- Pantalla de carga -->
+    <!-- ====================== -->
 
-  <!-- Pantalla de bienvenida con Foto interactiva -->
-  <div id="welcome-screen">
-    <div class="welcome-container">
-      <div id="start-trigger" class="photo-wrapper">
-        <img id="portrait-img" src="11.png" alt="Foto especial" fetchpriority="high">
-        <div class="photo-overlay">
-          <span>Toca la foto ♥</span>
+    <div id="loader-screen">
+
+        <div class="loader-content">
+
+            <div class="spinner"></div>
+
+            <p class="loader-text">
+                Preparando una sorpresa...
+            </p>
+
+            <div id="countdown-num">
+                3
+            </div>
+
         </div>
-      </div>
-      <p class="welcome-text">Toca la imagen para comenzar</p>
+
     </div>
-  </div>
 
-  <!-- Contenedor del texto interactivo -->
-  <div id="text-container">
-    <p id="phrase" class="phrase"></p>
-  </div>
+    <!-- ====================== -->
+    <!-- Bienvenida -->
+    <!-- ====================== -->
 
-  <!-- Reproductor de música inferior -->
-  <div id="music-player" class="hidden">
-    <button id="mute-btn" class="player-btn" aria-label="Mute/Unmute">
-      <svg id="volume-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-      </svg>
-    </button>
-    
-    <div class="progress-wrapper">
-      <span id="current-time">0:00</span>
-      <div class="progress-bar-container" id="progress-container">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-      <span id="duration-time">0:00</span>
+    <div id="welcome-screen" class="hidden-welcome">
+
+        <div class="welcome-container">
+
+            <div
+                id="start-trigger"
+                class="photo-wrapper">
+
+                <img
+                    id="portrait-img"
+                    src="11.png"
+                    alt="Foto especial"
+                    draggable="false"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high">
+
+                <div class="photo-overlay">
+                    <span>Toca la foto ♥</span>
+                </div>
+
+            </div>
+
+            <p class="welcome-text">
+                Toca la imagen para comenzar
+            </p>
+
+        </div>
+
     </div>
-  </div>
 
-  <!-- Audio de fondo -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="porviolin.mp3" type="audio/mpeg">
-  </audio>
+    <!-- ====================== -->
+    <!-- Contador -->
+    <!-- ====================== -->
 
-  <!-- SVG del corazón (Oculto) -->
-  <svg viewBox="0 0 600 552" style="display: none;">
-    <path id="heart-path" d="M300,107.77C284.68,55.67,239.76,0,162.31,0,64.83,0,0,82.08,0,171.71c0,.48,0,.95,0,1.43-.52,19.5,0,217.94,299.87,379.69v0l0,0,.05,0,0,0,0,0v0C600,391.08,600.48,192.64,600,173.14c0-.48,0-.95,0-1.43C600,82.08,535.17,0,437.69,0,360.24,0,315.32,55.67,300,107.77" fill="#ee5282"/>
-  </svg>
+    <div
+        id="phrase-counter-container"
+        class="hidden">
 
-  <!-- Librerías Externas -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.136.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
-  
-  <script src="./script.js"></script>
+        <div id="phrase-counter-num">
+            1 / 11
+        </div>
+
+        <div id="phrase-subtext">
+            Siguiente frase...
+        </div>
+
+        <div class="phrase-progress-bar">
+            <div id="phrase-progress-fill"></div>
+        </div>
+
+    </div>
+
+    <!-- ====================== -->
+    <!-- Texto -->
+    <!-- ====================== -->
+
+    <div id="text-container">
+
+        <p
+            id="phrase"
+            class="phrase">
+        </p>
+
+    </div>
+
+    <!-- ====================== -->
+    <!-- Música -->
+    <!-- ====================== -->
+
+    <div
+        id="music-player"
+        class="hidden">
+
+        <button
+            id="mute-btn"
+            class="player-btn"
+            aria-label="Mute">
+
+            <svg
+                id="volume-icon"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 24 24">
+
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+
+            </svg>
+
+        </button>
+
+        <div class="progress-wrapper">
+
+            <span id="current-time">
+                0:00
+            </span>
+
+            <div
+                id="progress-container"
+                class="progress-bar-container">
+
+                <div
+                    id="progress-bar"
+                    class="progress-bar">
+                </div>
+
+            </div>
+
+            <span id="duration-time">
+                0:00
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- ====================== -->
+    <!-- Audio -->
+    <!-- ====================== -->
+
+    <audio
+        id="bg-music"
+        preload="auto"
+        loop>
+
+        <source
+            src="porviolin.mp3"
+            type="audio/mpeg">
+
+    </audio>
+
+    <!-- ====================== -->
+    <!-- SVG -->
+    <!-- ====================== -->
+
+    <svg
+        viewBox="0 0 600 552"
+        style="display:none">
+
+        <path
+            id="heart-path"
+            fill="#ee5282"
+            d="M300,107.77C284.68,55.67,239.76,0,162.31,0,64.83,0,0,82.08,0,171.71c0,.48,0,.95,0,1.43-.52,19.5,0,217.94,299.87,379.69v0l0,0,.05,0,0,0,0,0v0C600,391.08,600.48,192.64,600,173.14c0-.48,0-.95,0-1.43C600,82.08,535.17,0,437.69,0,360.24,0,315.32,55.67,300,107.77"/>
+
+    </svg>
+
+    <!-- ====================== -->
+    <!-- Librerías -->
+    <!-- ====================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.136.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+    <!-- Script -->
+    <script src="./script.js"></script>
+
 </body>
 </html>
