@@ -173,6 +173,8 @@ function formatTime(seconds) {
 
 /* --- INICIALIZACIÓN DE THREE.JS Y CORAZÓN DE PARTÍCULAS --- */
 function initThree() {
+  const isMobile = window.innerWidth < 768;
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
     75,
@@ -180,7 +182,9 @@ function initThree() {
     0.1,
     5000
   );
-  camera.position.z = 400;
+  
+  // En móviles alejamos la cámara para encuadrar todo el corazón
+  camera.position.z = isMobile ? 550 : 420;
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -195,7 +199,7 @@ function initThree() {
   
   document.body.appendChild(renderer.domElement);
 
-  /* --- ANIMACIÓN GSAP --- */
+  /* --- ANIMACIÓN GSAP (FRASES APARECEN ANTES) --- */
   let animacionInicializada = false;
 
   tl = gsap.timeline({
@@ -205,20 +209,20 @@ function initThree() {
     onUpdate: function () {
       const progreso = this.progress();
 
-      if (progreso > 0.75 && !animacionInicializada) {
+      if (progreso > 0.45 && !animacionInicializada) {
         actualizarFrase();
         animacionInicializada = true;
-      } else if (progreso < 0.4 && animacionInicializada) {
+      } else if (progreso < 0.20 && animacionInicializada) {
         ocultarFrase();
         animacionInicializada = false;
       }
     }
   });
 
-  /* --- GENERACIÓN DE VÉRTICES (FÓRMULA MATEMÁTICA DEL CORAZÓN 3D) --- */
+  /* --- GENERACIÓN DE VÉRTICES Y SILUETA --- */
   const targetVertices = [];
   const currentVertices = [];
-  const totalPoints = window.innerWidth < 768 ? 2000 : 3500;
+  const totalPoints = isMobile ? 4000 : 6500;
 
   const path = document.querySelector("#heart-path");
 
@@ -229,26 +233,25 @@ function initThree() {
     for (let i = 0; i < length; i += step) {
       const pt = path.getPointAtLength(i);
       
-      const tx = (pt.x - 300) * 1.2 + (Math.random() - 0.5) * 15;
-      const ty = (-pt.y + 276) * 1.2 + (Math.random() - 0.5) * 15;
-      const tz = (Math.random() - 0.5) * 50;
+      const scaleFactor = isMobile ? 0.75 : 1.1; 
+      const tx = (pt.x - 300) * scaleFactor + (Math.random() - 0.5) * (isMobile ? 8 : 14);
+      const ty = (-pt.y + 276) * scaleFactor + (Math.random() - 0.5) * (isMobile ? 8 : 14);
+      const tz = (Math.random() - 0.5) * (isMobile ? 25 : 45);
 
       targetVertices.push(tx, ty, tz);
-      currentVertices.push(0, 0, 0); // Empiezan agrupadas al centro y se expanden
+      currentVertices.push(0, 0, 0);
     }
   } else {
-    // Generación matemática de respaldo si el SVG no está presente en el HTML
     for (let i = 0; i < totalPoints; i++) {
       const t = Math.PI * 2 * (i / totalPoints);
       
-      // Ecuación paramétrica de corazón
       const x = 16 * Math.pow(Math.sin(t), 3);
       const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
       
-      const scale = 12;
-      const tx = x * scale + (Math.random() - 0.5) * 15;
-      const ty = y * scale + (Math.random() - 0.5) * 15;
-      const tz = (Math.random() - 0.5) * 50;
+      const scale = isMobile ? 8 : 12;
+      const tx = x * scale + (Math.random() - 0.5) * (isMobile ? 8 : 14);
+      const ty = y * scale + (Math.random() - 0.5) * (isMobile ? 8 : 14);
+      const tz = (Math.random() - 0.5) * (isMobile ? 25 : 45);
 
       targetVertices.push(tx, ty, tz);
       currentVertices.push(0, 0, 0);
@@ -258,7 +261,6 @@ function initThree() {
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(currentVertices, 3));
 
-  // Animación de dispersión a forma final con GSAP
   for (let i = 0; i < targetVertices.length; i += 3) {
     const ptObj = { x: 0, y: 0, z: 0 };
     
@@ -267,7 +269,7 @@ function initThree() {
       y: targetVertices[i + 1],
       z: targetVertices[i + 2],
       ease: "power2.inOut",
-      duration: 2 + Math.random() * 2.5,
+      duration: 2.2 + Math.random() * 2.5,
       onUpdate: function() {
         const positions = geometry.attributes.position.array;
         positions[i] = ptObj.x;
@@ -275,10 +277,10 @@ function initThree() {
         positions[i + 2] = ptObj.z;
         geometry.attributes.position.needsUpdate = true;
       }
-    }, (i / 3) * 0.0005);
+    }, (i / 3) * 0.0003);
   }
 
-  /* --- TEXTURA Y MATERIAL DE SHADER --- */
+  /* --- MATERIAL Y TAMAÑO DE PUNTOS --- */
   const createDotTexture = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 64;
@@ -286,8 +288,8 @@ function initThree() {
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)');
-    gradient.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+    gradient.addColorStop(0.3, 'rgba(255,255,255,0.9)');
+    gradient.addColorStop(0.6, 'rgba(255,255,255,0.3)');
     gradient.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
@@ -299,7 +301,7 @@ function initThree() {
     void main() {
       vPosition = position;
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_PointSize = 4.5 * (400.0 / -mvPosition.z);
+      gl_PointSize = ${isMobile ? '8.5' : '5.0'} * (400.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
     }
   `;
@@ -310,9 +312,9 @@ function initThree() {
     
     void main() {
       vec3 colorRosa = vec3(1.0, 0.35, 0.68);
-      vec3 colorMorado = vec3(0.52, 0.0, 0.85);
+      vec3 colorMorado = vec3(0.65, 0.1, 0.95);
       
-      float mixFactor = clamp((vPosition.y + 150.0) / 300.0, 0.0, 1.0);
+      float mixFactor = clamp((vPosition.y + 120.0) / 240.0, 0.0, 1.0);
       vec3 finalColor = mix(colorMorado, colorRosa, mixFactor);
       
       gl_FragColor = vec4(finalColor, 1.0) * texture2D(pointTexture, gl_PointCoord);
@@ -332,13 +334,18 @@ function initThree() {
   });
 
   const particles = new THREE.Points(geometry, material);
+  
+  if (isMobile) {
+    particles.position.y = 10;
+  }
+
   scene.add(particles);
 
   /* --- ROTACIÓN CONTINUA --- */
   gsap.to(particles.rotation, {
     y: Math.PI * 2,
     repeat: -1,
-    duration: 20,
+    duration: 22,
     ease: 'none'
   });
 
@@ -360,7 +367,9 @@ function initThree() {
   }
 
   function onWindowResize() {
+    const mobile = window.innerWidth < 768;
     camera.aspect = window.innerWidth / window.innerHeight;
+    camera.position.z = mobile ? 550 : 420;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
