@@ -1,6 +1,6 @@
 console.clear();
 
-/* --- CONFIGURACIÓN DE FRASES Y CONTADOR (1/6, 2/6, etc.) --- */
+/* --- CONFIGURACIÓN DE FRASES Y CONTADOR --- */
 const frases = [
   "Gracias por coincidir conmigo",
   "Sos infinitamente capaz de todo lo que te propongas",
@@ -29,7 +29,6 @@ function actualizarFrase() {
   phraseElement.innerText = frases[indiceFrase];
   phraseElement.classList.add("visible");
 
-  // Mostrar el formato exacto: 1 / 6, 2 / 6, etc.
   counterNum.innerText = `${actualNum} / ${totalNum}`;
   
   if (actualNum === totalNum) {
@@ -38,7 +37,6 @@ function actualizarFrase() {
     counterSubtext.innerText = `Faltan ${totalNum - actualNum} frase${(totalNum - actualNum) > 1 ? 's' : ''}`;
   }
 
-  // Reiniciar animación de la barra de progreso de frase
   if (progressFill) {
     progressFill.style.transition = 'none';
     progressFill.style.width = '0%';
@@ -48,7 +46,6 @@ function actualizarFrase() {
     }, 50);
   }
 
-  // Avanzar al siguiente índice
   indiceFrase = (indiceFrase + 1) % frases.length;
 }
 
@@ -74,11 +71,14 @@ startTrigger.addEventListener("click", () => {
   musicPlayer.classList.remove("hidden");
   counterContainer.classList.remove("hidden");
   
-  // Iniciar reproducción de audio
-  audio.play().catch(e => console.log("Audio play error:", e));
+  if (audio) {
+    audio.play().catch(e => console.log("Audio play error:", e));
+  }
   
-  // Iniciar la animación del corazón en Three.js
-  tl.play();
+  // Respiro de 150ms a la CPU antes de arrancar GSAP
+  setTimeout(() => {
+    tl.play();
+  }, 150);
 });
 
 // Control Mute / Unmute
@@ -94,7 +94,7 @@ muteBtn.addEventListener("click", () => {
   }
 });
 
-// Actualizar barra de progreso de la música
+// Actualizar barra de progreso de música
 audio.addEventListener("timeupdate", () => {
   if (audio.duration) {
     const progressPercent = (audio.currentTime / audio.duration) * 100;
@@ -105,7 +105,6 @@ audio.addEventListener("timeupdate", () => {
   }
 });
 
-// Buscar en la barra de audio
 progressContainer.addEventListener("click", (e) => {
   const width = progressContainer.clientWidth;
   const clickX = e.offsetX;
@@ -131,13 +130,13 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.z = 450;
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000000, 1);
 document.body.appendChild(renderer.domElement);
 
-/* --- ANIMACIÓN GSAP (Pausada hasta tocar la foto) --- */
+/* --- ANIMACIÓN GSAP --- */
 let animacionInicializada = false;
 
 const tl = gsap.timeline({
@@ -157,12 +156,15 @@ const tl = gsap.timeline({
   }
 });
 
-/* --- LECTURA DEL PATH Y CREACIÓN DE PUNTOS --- */
+/* --- LECTURA DEL PATH Y CREACIÓN DE PUNTOS ADAPTATIVA --- */
 const path = document.querySelector("#heart-path");
 const length = path.getTotalLength();
 const vertices = [];
 
-for (let i = 0; i < length; i += 0.08) {
+// En celulares (<768px) incrementa el paso para reducir la carga de partículas
+const pasoPuntos = window.innerWidth < 768 ? 0.16 : 0.08;
+
+for (let i = 0; i < length; i += pasoPuntos) {
   const point = path.getPointAtLength(i);
   const vector = new THREE.Vector3(point.x, -point.y, 0);
 
@@ -258,10 +260,18 @@ gsap.to("#text-container", {
   ease: "sine.inOut"
 });
 
-/* --- RENDER LOOP & RESIZE --- */
+/* --- RENDER LOOP OPTIMIZADO SIN RECREACIÓN DE GEOMETRÍA --- */
 function render() {
   requestAnimationFrame(render);
-  geometry.setFromPoints(vertices);
+  
+  const positions = geometry.attributes.position.array;
+  for (let i = 0; i < vertices.length; i++) {
+    positions[i * 3]     = vertices[i].x;
+    positions[i * 3 + 1] = vertices[i].y;
+    positions[i * 3 + 2] = vertices[i].z;
+  }
+  geometry.attributes.position.needsUpdate = true;
+  
   renderer.render(scene, camera);
 }
 

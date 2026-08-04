@@ -13,9 +13,9 @@
 </head>
 <body>
 
-    <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
 
-  <!-- Contador de Frases Superior (1/6, 2/6, etc.) -->
+  <!-- Contador de Frases Superior -->
   <div id="phrase-counter-container" class="hidden">
     <div id="phrase-counter-num">1 / 11</div>
     <div id="phrase-subtext">Siguiente frase en camino...</div>
@@ -28,8 +28,7 @@
   <div id="welcome-screen">
     <div class="welcome-container">
       <div id="start-trigger" class="photo-wrapper">
-        <!-- Reemplaza esta URL por la foto que quieras usar -->
-        <img id="portrait-img" src="11.png" alt="Foto especial">
+        <img id="portrait-img" src="11.png" alt="Foto especial" fetchpriority="high">
         <div class="photo-overlay">
           <span>Toca la foto ♥</span>
         </div>
@@ -62,7 +61,8 @@
 
   <!-- Audio de fondo -->
   <audio id="bg-music" loop preload="auto">
-    <source src="porviolin.mp3" type="audio/mpeg">  </audio>
+    <source src="porviolin.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- SVG del corazón (Oculto) -->
   <svg viewBox="0 0 600 552" style="display: none;">

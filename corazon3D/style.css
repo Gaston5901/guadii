@@ -18,6 +18,31 @@ canvas {
   z-index: 0;
 }
 
+/* --- BOTÓN VOLVER AL INICIO --- */
+.volver-inicio {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  color: #3b2f2f;
+  text-decoration: none;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.volver-inicio:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
 /* --- CONTADOR Y PROGRESO DE FRASES (SUPERIOR) --- */
 #phrase-counter-container {
   position: absolute;
@@ -187,10 +212,8 @@ canvas {
   background: linear-gradient(to bottom, #ffffff 10%, #ffb3d9 50%, #d8b4fe 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  
   filter: drop-shadow(0 0 10px rgba(238, 82, 130, 0.8))
           drop-shadow(0 0 25px rgba(168, 85, 247, 0.5));
-  
   opacity: 0;
   transform: scale(0.85);
   transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -282,23 +305,8 @@ canvas {
   .phrase {
     font-size: 2.6rem;
   }
-}
 
-        .volver-inicio{
-            position: fixed;
-            top: 14px;
-            left: 14px;
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 999px;
-            background: rgba(255,255,255,.85);
-            border: 1px solid rgba(0,0,0,.10);
-            color: #3b2f2f;
-            text-decoration: none;
-            font-weight: 800;
-            box-shadow: 0 10px 26px rgba(0,0,0,.18);
-        }
-        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
+  #phrase-counter-container {
+    top: 60px;
+  }
+}
