@@ -82,7 +82,7 @@
       to { transform: translateY(-6px); }
     }
 
-    /* ESTILOS PARA LOS CÍRCULOS DE IMAGEN (ARRIBA Y ABAJO) */
+    /* ESTILOS PARA LOS CÍRCULOS DE IMAGEN */
     .avatar-circle {
       position: absolute;
       width: clamp(50px, 12vw, 68px);
@@ -109,26 +109,10 @@
       object-fit: cover;
     }
 
-    /* Posicionamiento en Esquinas */
-    .avatar-top-left {
-      top: -22px;
-      left: -12px;
-    }
-
-    .avatar-top-right {
-      top: -22px;
-      right: -12px;
-    }
-
-    .avatar-bottom-left {
-      bottom: -22px;
-      left: -12px;
-    }
-
-    .avatar-bottom-right {
-      bottom: -22px;
-      right: -12px;
-    }
+    .avatar-top-left { top: -22px; left: -12px; }
+    .avatar-top-right { top: -22px; right: -12px; }
+    .avatar-bottom-left { bottom: -22px; left: -12px; }
+    .avatar-bottom-right { bottom: -22px; right: -12px; }
 
     .badge-icon {
       display: inline-flex;
@@ -151,7 +135,6 @@
       font-weight: 700;
     }
 
-    /* Frases dinámicas cambiantes */
     .phrase-box {
       position: relative;
       min-height: 52px;
@@ -217,7 +200,7 @@
       transition: width 1s ease-in-out;
     }
 
-    /* CONTADOR EN HORIZONTAL COMPLETO (1 SOLA FILA) */
+    /* CONTADOR EN HORIZONTAL COMPLETO */
     .countdown {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -248,28 +231,125 @@
       margin-top: 4px;
       font-weight: 700;
     }
-            .volver-inicio{
-            position: fixed;
-            top: 14px;
-            left: 14px;
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 999px;
-            background: rgba(255,255,255,.85);
-            border: 1px solid rgba(0,0,0,.10);
-            color: #3b2f2f;
-            text-decoration: none;
-            font-weight: 800;
-            box-shadow: 0 10px 26px rgba(0,0,0,.18);
-        }
-        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
+
+    .volver-inicio {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(0,0,0,.10);
+      color: #3b2f2f;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 10px 26px rgba(0,0,0,.18);
+    }
+    .volver-inicio:hover { transform: translateY(-1px); background: rgba(255,255,255,.95); }
+
+    /* --- NUEVO: BOTÓN DE ADVERTENCIA INTERACTIVO --- */
+    .alert-btn {
+      margin-top: 18px;
+      background: linear-gradient(135deg, #ff80ab, #b39ddb);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(244, 143, 177, 0.5);
+      animation: pulseAlert 2s infinite;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s ease;
+    }
+
+    .alert-btn:hover {
+      transform: scale(1.05);
+    }
+
+    @keyframes pulseAlert {
+      0% { box-shadow: 0 0 0 0 rgba(244, 143, 177, 0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(244, 143, 177, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 143, 177, 0); }
+    }
+
+    /* VENTANA EMERGENTE (MODAL) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 340px;
+      width: 88%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.3s ease;
+      border: 2px solid var(--accent1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #e91e63;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .modal-body {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: var(--accent1);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(244, 143, 177, 0.4);
+    }
   </style>
 </head>
 <body>
-  	    <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+  <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
 
   <!-- Capa de partículas -->
   <div class="bg-sparkles"></div>
@@ -325,6 +405,13 @@
       </div>
     </div>
 
+    <!-- BOTÓN DE ADVERTENCIA INTERACTIVO -->
+    <div>
+      <button class="alert-btn" onclick="openSecret()">
+        ⚠️ Zona de Espiado Secreto 🤫
+      </button>
+    </div>
+
     <!-- CÍRCULOS INFERIORES PARA IMÁGENES -->
     <div class="avatar-circle avatar-bottom-left">
       <img src="hope.png" alt="Foto 3" onerror="this.onerror=null; this.parentNode.innerHTML='💖';">
@@ -333,6 +420,19 @@
       <img src="image.png" alt="Foto 4" onerror="this.onerror=null; this.parentNode.innerHTML='🌷';">
     </div>
 
+  </div>
+
+  <!-- VENTANA EMERGENTE (MODAL) -->
+  <div class="modal-overlay" id="secretModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        🚨 ¡ADVERTENCIA OFICIAL! 🚨
+      </div>
+      <div class="modal-body" id="secretText">
+        Se detectó un exceso de curiosidad. Está totalmente prohibido tratar de adivinar qué hay preparado antes de tiempo 😜. ¡Paciencia que todo llega!
+      </div>
+      <button class="modal-close" onclick="closeSecret()">¡Prometo esperar! 🤞</button>
+    </div>
   </div>
 
   <script>
@@ -423,6 +523,26 @@
 
     setInterval(tick, 1000);
     tick();
+
+    // LÓGICA DE VENTANA INTERACTIVA
+    const modal = document.getElementById("secretModal");
+    const secretMessages = [
+      "Se detectó un exceso de ansiedad. ¡Prohibido intentar adivinar antes de tiempo! 😜",
+      "¿Buscando pistas? Buena suerte con eso... Todo está bajo contraseña secreta 🤫✨",
+      "Cada vez falta menos, pero tenés que aguantar la curiosidad un poquito más 💖",
+      "¡Alerta de Señorita Curiosa! Te atrapamos mirando el contador de nuevo 👀"
+    ];
+
+    function openSecret() {
+      // Elegir un mensaje aleatorio cada vez que toca el botón
+      const randomMsg = secretMessages[Math.floor(Math.random() * secretMessages.length)];
+      document.getElementById("secretText").textContent = randomMsg;
+      modal.classList.add("active");
+    }
+
+    function closeSecret() {
+      modal.classList.remove("active");
+    }
   </script>
 </body>
 </html>
