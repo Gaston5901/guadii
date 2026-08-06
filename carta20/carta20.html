@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para ti</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+
+  <div class="header">
+    <div class="eyebrow">una respuesta a tus miedos</div>
+    <div class="main-title">Para ti</div>
+    <div class="ornament">♡</div>
+  </div>
+
+  <div class="letter-block" id="b1">
+    <p>Señoritaa, leí cada una de tus palabras y te juro que me llegaron al corazón. Te entiendo tantoo, Entiendo de dónde viene ese miedo, sé lo difícil que es la distancia y cómo la cabeza a veces nos llena de dudas cuando algo empieza a darnos miedo por lo mucho que nos importa.</p>
+    <p>No estoy acá para decirte que no pienses en eso, ni para restar valor a lo que sentís. Tus miedos y las huellas de tu pasado son completamente válidos, y me duele saber que estés pasando por ese torbellino de emociones.</p>
+  </div>
+
+  <div class="div-line" id="d1"><span class="div-glyph">✦</span></div>
+
+  <div class="letter-block" id="b2">
+    <p>Es verdad que la distancia es difícil y que hay un mundo entero allá afuera. Pero hay algo que la distancia jamás va a poder cambiar: <em>lo que vos hacés sentir en mí</em>.</p>
+    <p>A mí no me importa cuánta gente camine a mi alrededor ni quién esté cerca. Nadie tiene tu forma de ser, nadie habla como vos, nadie despierta esta ternura y este sentimiento tan puro que me das. <strong>No estoy interesado en conocer a más gente ni en buscar a nadie más</strong>.</p>
+  </div>
+
+  <div class="pull-quote" id="pq1">
+    <p>"Te elijo a vos, con el corazón entero<br>y sin dudar."</p>
+  </div>
+
+  <div class="letter-block" id="b3">
+    <p>Quiero confesarte que yo también siento miedo a veces, y que también convivo con mis propias inseguridades. No tengo todas las respuestas, pero me gustaría mucho que podamos trabajar en esas cosas juntos, dándonos la mano.</p>
+    <p>Quisiera ayudarte a ver que todo lo que pasaste no tiene por qué ser una condena, sino un aprendizajee, una forma de sanar para no quedarse encerrada en ese bucle de pensamientos que tanto daño hace, y poder mirar hacia adelante con más luz y tranquilidad.</p>
+    <p>Pase lo que pase entre nosotros, <em>ya dejaste una huella hermosa en mi corazón</em>. Conocerte y sentir esto por vos es de las cosas más bonitas que me tocaron vivir, y nada de eso va a cambiar.</p>
+  </div>
+
+  <div class="div-line" id="d2"><span class="div-glyph">✦</span></div>
+
+
+  <div class="letter-block" id="b4">
+    <p>Si me dejas estar a tu lado, quiero acompañarte al ritmo que vos necesites, <strong>sin ninguna presión</strong>. No quiero forzar nada ni acelerar los tiempos. Con total sinceridad te digo: me encantaría un "nosotros", es lo que más quiero. Pero mi mayor deseo no es solo un "nosotros", <strong>mi deseo principal es verte bien</strong>.</p>
+    <p>Quiero ayudarte a que pierdas ese miedo, a que te veas con los ojos que yo te veo y te des cuenta de lo increíble que sos. Y si al final las cosas no se dan entre los dos, o si la vida después nos lleva por caminos distintos —conmigo o con quien sea en el futuro—, me haría infinitamente feliz saber que lograste sanar, que saliste de ese bucle y que quedaste siendo una mujer fuerte y completamente segura de ti misma.</p>
+        <div class="pull-quote" id="pq2">
+    <p>Señorita bella,<br>sanaras y te volveras <br> cien veces mas fuerte.</p>
+  </div>
+    <p>Tranquila señorita. Sin presiones de ningún tipo. Estoy para vos, para todo lo que necesites, porque te quieroo muchisimoo. Vale la pena cada segundo. Tomémonos el tiempo que sea necesario, pasito de tortuga.</p>
+  </div>
+
+  <div class="heart-wrap" id="hw">
+    <svg class="heart-svg" width="36" height="33" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 30.5C18 30.5 2 20.5 2 10.5C2 6.36 5.36 3 9.5 3C12.36 3 14.87 4.56 18 7.5C21.13 4.56 23.64 3 27.5 3C31.64 3 35 6.36 35 10.5C35 20.5 18 30.5 18 30.5Z" fill="rgba(201,160,176,0.25)" stroke="#c9a0b0" stroke-width="1.2"/>
+    </svg>
+  </div>
+
+  <div class="closing" id="cl">
+    <div class="closing-script">Con todo mi corazón,</div>
+   <div class="closing-note">quienes te aman, te cuidan y te eligen todos los días:<br>la Yuki, la Luky y Yop🐾</div>
+  </div>
+
+  
+</div>
+
+<script>
+/* ── PARTICLES ── */
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const NUM = 140;
+const particles = [];
+
+function mkP() {
+  return {
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.4 + 0.2,
+    vx: (Math.random() - 0.5) * 0.22,
+    vy: -(Math.random() * 0.35 + 0.08),
+    base: Math.random() * 0.55 + 0.1,
+    phase: Math.random() * Math.PI * 2,
+    warm: Math.random() > 0.55
+  };
+}
+for (let i = 0; i < NUM; i++) particles.push(mkP());
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of particles) {
+    p.phase += 0.018;
+    const alpha = p.base * (0.65 + 0.35 * Math.sin(p.phase));
+    const col = p.warm ? `rgba(212,175,122,${alpha})` : `rgba(201,160,176,${alpha})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = col;
+    ctx.fill();
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.y < -6) { p.y = H + 6; p.x = Math.random() * W; }
+    if (p.x < -6) p.x = W + 6;
+    if (p.x > W + 6) p.x = -6;
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ── SCROLL REVEAL ── */
+const items = [
+  { id: 'b1' },
+  { id: 'd1' },
+  { id: 'b2' },
+  { id: 'pq1' },
+  { id: 'b3' },
+  { id: 'pq2' },
+  { id: 'd2' },
+  { id: 'b4' },
+  { id: 'hw' },
+  { id: 'cl' }
+];
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+items.forEach(({ id }) => {
+  const el = document.getElementById(id);
+  if (el) obs.observe(el);
+});
+
+/* First block animation delay */
+setTimeout(() => {
+  const b1 = document.getElementById('b1');
+  if (b1) b1.classList.add('in');
+}, 1500);
+</script>
+</body>
+</html>
