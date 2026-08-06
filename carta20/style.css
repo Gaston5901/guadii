@@ -215,3 +215,7 @@
             box-shadow: 0 10px 26px rgba(0,0,0,.18);
         }
         .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
+
+        .texto-centradooo {
+  text-align: center;
+}
