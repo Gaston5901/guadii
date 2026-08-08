@@ -120,7 +120,7 @@ const artistsData = {
         image: "https://upload.wikimedia.org/wikipedia/commons/4/48/Humbe_en_Esencia_Tour_en_Coahuila_%281%29_%28cropped%29.png",
         tracks: [
             { name: "Morfina", url: "Humbe/Morfina.mp3" },
-            { name: "Confieso", url: "Humbe/Confieso.mp3" },
+            { name: "Confieso", url: "Humbe/confieso.mp3" },
             { name: "Te lo Prometo", url: "Humbe/prometo.mp3" },
             { name: "Amor de Cine", url: "Humbe/AmorDeCine.mp3" }
         ]
