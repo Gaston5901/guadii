@@ -482,7 +482,12 @@
       }
       
       .polaroid { width: 310px; padding: 14px 14px 18px 14px; }
-      .polaroid-img { height: 180px; margin-bottom: 10px; }
+      .polaroid-img { 
+    height: 220px; /* Le das buena altura */
+    object-fit: contain; /* Muestra la foto COMPLETA sin zoom */
+    background-color: rgba(5, 3, 10, 0.6); /* Fondo lindo para rellenar bordes */
+    margin-bottom: 10px; 
+  }
       .polaroid-title { font-size: 20px; }
       .polaroid-desc { font-size: 11.5px; line-height: 1.45; margin-bottom: 10px; }
       .polaroid-footer { font-size: 14px; padding-top: 8px; }
@@ -498,7 +503,7 @@
   <!-- TITULO Y SUBTITULO DE LA OPCION B TAL CUAL -->
   <div class="header-container">
     <h1 class="special-title">Para mi Pachucha Guadis</h1>
-    <p class="special-subtitle">Un mapa de recuerdos conectados con el corazón 🌹</p>
+    <p class="special-subtitle">Ti amo ieri, ti amo oggi e ti amerò per sempre 🌹</p>
   </div>
 
   <div class="graphic-container" id="main-view">
