@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para mi Pachucha Guadis ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+:root {
+      --night-black: #05030a;
+      --deep-purple: #160b29;
+      --space-nebula: #2a0845;
+      --soft-violet: #a855f7;
+      --pastel-lila: #d8b4fe;
+      --starlight-gold: #fbbf24;
+      --soft-pink: #f472b6;
+      --soft-blue: #38bdf8;
+      --font-romantic: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+    body {
+      background: radial-gradient(circle at center, var(--space-nebula) 0%, var(--deep-purple) 50%, var(--night-black) 100%);
+      background-size: 150% 150%;
+      animation: spacePulse 12s ease infinite alternate;
+      color: var(--pastel-lila);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding: 10px;
+      margin: 0;
+    }
+
+    /* INTRO ESPACIAL: Destello inicial de estrellas */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      animation: spaceGlowIntro 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    #neural-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      animation: fadeInBg 2.5s ease-out 0.8s forwards;
+    }
+
+    /* HEADER / TITULO */
+    .header-container {
+      text-align: center;
+      margin-top: 1vh;
+      margin-bottom: 0.5vh;
+      z-index: 100;
+      opacity: 0;
+      animation: fadeInDown 1.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+    }
+
+    .special-title {
+      font-family: var(--font-romantic);
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--pastel-lila);
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(216, 180, 254, 0.4);
+      margin-bottom: 2px;
+    }
+
+    .special-subtitle {
+      font-family: var(--font-romantic);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--starlight-gold);
+      letter-spacing: 1.5px;
+      opacity: 0.95;
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    }
+
+    /* CONTENEDOR PRINCIPAL DEL MAPA CENTRADO */
+    .graphic-container {
+      width: 100%;
+      max-width: 950px;
+      aspect-ratio: 16 / 10;
+      position: relative;
+      margin: auto 0;
+      z-index: 10;
+      opacity: 0;
+      transform: scale(0.9);
+      animation: cosmicReveal 2s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+    }
+
+    /* CORAZÓN PERFECTAMENTE CENTRADO */
+    .brain-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 50;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brain-inner {
+      width: 120px; 
+      height: 120px;
+      color: var(--pastel-lila);
+      filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.8));
+      animation: gentleFloat 5s ease-in-out infinite;
+      transition: all 0.4s ease;
+    }
+
+    .brain-inner svg {
+      width: 100%; height: 100%;
+      stroke-width: 1.5;
+    }
+
+    .synapse {
+      fill: var(--soft-violet);
+      animation: synapsePulse 2s infinite alternate;
+    }
+    .synapse:nth-child(odd) { animation-delay: 0.5s; fill: var(--pastel-lila); }
+    .synapse:nth-child(3n) { animation-delay: 1s; fill: var(--soft-pink); }
+    
+    @keyframes synapsePulse {
+      0% { r: 1.8; filter: drop-shadow(0 0 2px var(--soft-violet)); opacity: 0.6; }
+      100% { r: 3.5; filter: drop-shadow(0 0 10px #fff); opacity: 1; }
+    }
+
+    .brain-inner.active {
+      transform: scale(1.2) !important;
+      filter: drop-shadow(0 0 45px rgba(168, 85, 247, 1));
+    }
+
+    .heart-center-text {
+      font-family: var(--font-romantic);
+      font-size: 0.95rem;
+      color: var(--pastel-lila);
+      margin-top: 4px;
+      font-style: italic;
+      letter-spacing: 1px;
+      text-shadow: 0 0 12px rgba(168, 85, 247, 0.9);
+      white-space: nowrap;
+    }
+
+    .lines-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 10;
+      pointer-events: none;
+      filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.7));
+    }
+
+    .connection-base {
+      fill: none;
+      stroke: rgba(216, 180, 254, 0.2);
+      stroke-width: 1.2;
+      stroke-linecap: round;
+    }
+
+    .connection-pulse {
+      fill: none;
+      stroke: var(--soft-violet);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 15px var(--soft-violet));
+      opacity: 0;
+    }
+
+    .connection-branch {
+      fill: none;
+      stroke: var(--pastel-lila);
+      stroke-width: 1;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px var(--soft-violet));
+      opacity: 0;
+    }
+
+    .node-wrapper {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      z-index: 30;
+    }
+
+    .icon-node {
+      width: 76px; 
+      height: 76px; 
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(10, 6, 18, 0.95) 100%);
+      border-radius: 50%;
+      border: 1.5px solid rgba(216, 180, 254, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.35), inset 0 0 15px rgba(168, 85, 247, 0.2);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .icon-node::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 60%);
+      opacity: 0.6;
+      transition: all 0.4s ease;
+    }
+
+    .float-1 { animation: gentleFloat 6s ease-in-out infinite; }
+    .float-2 { animation: gentleFloat 7s ease-in-out infinite reverse; }
+
+    .icon-node:hover {
+      background: radial-gradient(circle, rgba(244, 114, 182, 0.45) 0%, rgba(30, 18, 51, 0.95) 100%);
+      border-color: var(--pastel-lila);
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 15px 30px rgba(168, 85, 247, 0.7);
+    }
+    .icon-node:hover::before { opacity: 1; inset: -18px; }
+
+    .icon-node svg {
+      width: 32px; 
+      height: 32px;
+      fill: none;
+      stroke: var(--pastel-lila);
+      stroke-width: 1.5;
+      transition: all 0.3s ease;
+    }
+
+    .icon-node:hover svg {
+      stroke: #fff;
+      filter: drop-shadow(0 0 8px var(--pastel-lila));
+    }
+
+    .tooltip {
+      position: absolute;
+      top: -38px;
+      background: transparent;
+      color: var(--pastel-lila);
+      font-family: var(--font-romantic);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      text-shadow: 0 0 12px rgba(168, 85, 247, 0.9);
+      transition: all 0.3s ease;
+      transform: translateY(10px);
+    }
+    .icon-node:hover .tooltip { opacity: 1; transform: translateY(0); }
+
+    .magic-spark {
+      position: absolute;
+      pointer-events: none;
+      z-index: 200;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-shadow: 0 0 12px var(--soft-violet);
+    }
+
+    /* MODAL POLAROID */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(5, 3, 10, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.6s ease;
+      padding: 15px;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+
+    .polaroid-wrapper {
+      position: relative;
+      transform: scale(0.8) rotate(-3deg);
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .modal-overlay.active .polaroid-wrapper { transform: scale(1) rotate(1deg); }
+
+    .polaroid {
+      background: #120a1f;
+      border: 1px solid rgba(216, 180, 254, 0.3);
+      padding: 20px 20px 25px 20px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(168, 85, 247, 0.25);
+      width: 420px;
+      max-width: 90vw;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .polaroid-img {
+      width: 100%; height: 280px;
+      object-fit: cover;
+      margin-bottom: 18px;
+      border: 1px solid rgba(216, 180, 254, 0.3);
+      border-radius: 4px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    .polaroid-title {
+      font-family: var(--font-romantic);
+      font-size: 26px;
+      color: var(--pastel-lila);
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .polaroid-desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: #e9d5ff;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      font-weight: 300;
+    }
+
+    .polaroid-footer {
+      font-family: var(--font-romantic);
+      font-size: 18px;
+      color: #f472b6;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 1.5px;
+      border-top: 1px dashed rgba(216, 180, 254, 0.25);
+      padding-top: 12px;
+      text-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: -50px; right: 0px;
+      background: none; border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 40px; font-weight: 100;
+      cursor: pointer; transition: all 0.3s ease;
+    }
+    .close-modal:hover { color: var(--pastel-lila); transform: rotate(90deg); }
+
+    /* ANIMACIONES ESPACIALES */
+    @keyframes spacePulse {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes spaceGlowIntro {
+      0% { opacity: 1; transform: scale(0.2); }
+      50% { opacity: 0.8; transform: scale(1.5); }
+      100% { opacity: 0; transform: scale(2.5); }
+    }
+
+    @keyframes cosmicReveal {
+      from { opacity: 0; transform: scale(0.85); filter: blur(10px); }
+      to { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    @keyframes fadeInBg { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-25px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* REGULACIÓN EXACTA PARA MÓVILES */
+    @media (max-width: 768px) {
+      body {
+        justify-content: space-between;
+        padding: 20px 10px 30px 10px;
+      }
+      .header-container { margin-top: 1vh; margin-bottom: 0; }
+      .special-title { font-size: 1.9rem; letter-spacing: 1px; }
+      .special-subtitle { font-size: 0.95rem; }
+
+      .graphic-container {
+        aspect-ratio: 1 / 1.35;
+        width: 98vw;
+        height: 65vh;
+        max-height: 520px;
+        margin: 0 auto;
+      }
+
+      .brain-inner { width: 90px; height: 90px; }
+      .heart-center-text { font-size: 0.85rem; }
+      
+      .icon-node { width: 58px; height: 58px; }
+      .icon-node svg { width: 24px; height: 24px; }
+      
+      .tooltip { font-size: 11px; top: -30px; opacity: 0.9; transform: translateY(0); }
+      
+      .polaroid { width: 320px; padding: 15px 15px 20px 15px; }
+      .polaroid-img { height: 200px; }
+      .polaroid-title { font-size: 22px; }
+      .polaroid-desc { font-size: 12px; line-height: 1.5; }
+      .polaroid-footer { font-size: 15px; }
+    }
+    .volver-inicio {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      /* Glassmorphism en tono oscuro con toque violeta */
+      background: rgba(22, 11, 41, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(216, 180, 254, 0.35);
+      color: var(--pastel-lila);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(168, 85, 247, 0.15);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .volver-inicio:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: rgba(30, 18, 51, 0.85);
+      border-color: var(--pastel-lila);
+      color: #ffffff;
+      /* Resplandor violeta místico */
+      box-shadow: 0 12px 30px rgba(168, 85, 247, 0.4), inset 0 0 15px rgba(168, 85, 247, 0.3);
+    }
+
+    .volver-inicio:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* REGULACIÓN PARA CELULARES */
+    @media (max-width: 768px) {
+      /* Baja el título para evitar colisión con el botón */
+      .header-container {
+        margin-top: 55px !important;
+      }
+
+      /* Ajuste fino del botón en pantallas pequeñas */
+      .volver-inicio {
+        top: 12px;
+        left: 12px;
+        padding: 7px 14px;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body>
+    <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
+
+
+  <canvas id="neural-bg"></canvas>
+
+  <!-- TITULO Y SUBTITULO DE LA OPCION B TAL CUAL -->
+  <div class="header-container">
+    <h1 class="special-title">Para mi Pachucha Guadis</h1>
+    <p class="special-subtitle">Un mapa de recuerdos conectados con el corazón 🌹</p>
+  </div>
+
+  <div class="graphic-container" id="main-view">
+    
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="lines-svg">
+      <g id="base-connections">
+        <path class="connection-base" d="M 50,50 C 40,50 25,25 18,20" />
+        <path class="connection-base" d="M 50,50 C 35,50 22,50 12,50" />
+        <path class="connection-base" d="M 50,50 C 40,50 25,75 18,80" />
+        <path class="connection-base" d="M 50,50 C 60,50 75,25 82,20" />
+        <path class="connection-base" d="M 50,50 C 65,50 78,50 88,50" />
+        <path class="connection-base" d="M 50,50 C 60,50 75,75 82,80" />
+      </g>
+
+      <g id="pulse-connections">
+        <path id="path-l1" class="connection-pulse" d="M 50,50 C 40,50 25,25 18,20" />
+        <path id="path-l2" class="connection-pulse" d="M 50,50 C 35,50 22,50 12,50" />
+        <path id="path-l3" class="connection-pulse" d="M 50,50 C 40,50 25,75 18,80" />
+        <path id="path-r1" class="connection-pulse" d="M 50,50 C 60,50 75,25 82,20" />
+        <path id="path-r2" class="connection-pulse" d="M 50,50 C 65,50 78,50 88,50" />
+        <path id="path-r3" class="connection-pulse" d="M 50,50 C 60,50 75,75 82,80" />
+      </g>
+
+      <g id="branch-connections">
+        <g id="branches-path-l1">
+          <path class="connection-branch" d="M 38,40 Q 30,35 32,30" />
+          <path class="connection-branch" d="M 28,30 Q 20,30 22,38" />
+        </g>
+        <g id="branches-path-l2">
+          <path class="connection-branch" d="M 35,50 Q 30,40 25,42" />
+          <path class="connection-branch" d="M 22,50 Q 20,60 15,58" />
+        </g>
+        <g id="branches-path-l3">
+          <path class="connection-branch" d="M 38,60 Q 30,65 32,70" />
+          <path class="connection-branch" d="M 28,70 Q 20,70 22,62" />
+        </g>
+        <g id="branches-path-r1">
+          <path class="connection-branch" d="M 62,40 Q 70,35 68,30" />
+          <path class="connection-branch" d="M 72,30 Q 80,30 78,38" />
+        </g>
+        <g id="branches-path-r2">
+          <path class="connection-branch" d="M 65,50 Q 70,40 75,42" />
+          <path class="connection-branch" d="M 78,50 Q 80,60 85,58" />
+        </g>
+        <g id="branches-path-r3">
+          <path class="connection-branch" d="M 62,60 Q 70,65 68,70" />
+          <path class="connection-branch" d="M 72,70 Q 80,70 78,62" />
+        </g>
+      </g>
+    </svg>
+
+    <div class="brain-wrapper">
+      <div id="main-brain" class="brain-inner">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50,85 C50,85 10,55 10,30 C10,12 30,5 50,25 C70,5 90,12 90,30 C90,55 50,85 50,85 Z" fill="rgba(168, 85, 247, 0.1)" stroke="rgba(216, 180, 254, 0.8)" stroke-width="2"/>
+          <path d="M50,25 L50,83" stroke="rgba(216, 180, 254, 0.4)" stroke-width="1.5" stroke-dasharray="3 4"/>
+          <g stroke="rgba(216, 180, 254, 0.8)" stroke-width="1.5">
+            <path d="M45,35 L35,25 L20,32 L25,45 L40,42" />
+            <path d="M30,55 L20,65 L35,75 L48,68" />
+            <path d="M55,35 L65,25 L80,32 L75,45 L60,42" />
+            <path d="M70,55 L80,65 L65,75 L52,68" />
+            <path d="M40,42 L60,42" />
+            <path d="M48,68 L52,68" />
+          </g>
+          <g>
+            <circle class="synapse" cx="35" cy="25" r="2.5" />
+            <circle class="synapse" cx="20" cy="32" r="2.5" />
+            <circle class="synapse" cx="25" cy="45" r="2.5" />
+            <circle class="synapse" cx="40" cy="42" r="2.5" />
+            <circle class="synapse" cx="30" cy="55" r="2.5" />
+            <circle class="synapse" cx="20" cy="65" r="2.5" />
+            <circle class="synapse" cx="35" cy="75" r="2.5" />
+            <circle class="synapse" cx="65" cy="25" r="2.5" />
+            <circle class="synapse" cx="80" cy="32" r="2.5" />
+            <circle class="synapse" cx="75" cy="45" r="2.5" />
+            <circle class="synapse" cx="60" cy="42" r="2.5" />
+            <circle class="synapse" cx="70" cy="55" r="2.5" />
+            <circle class="synapse" cx="80" cy="65" r="2.5" />
+            <circle class="synapse" cx="65" cy="75" r="2.5" />
+            <circle class="synapse" cx="50" cy="25" r="3" />
+            <circle class="synapse" cx="50" cy="85" r="3" />
+          </g>
+        </svg>
+      </div>
+      <div class="heart-center-text">Pensando en mi Señoritaa</div>
+    </div>
+
+    <!-- NODOS CON LAS FRASES DETALLADAS DE LA OPCION A -->
+
+    <!-- NODO 1 -->
+    <div class="node-wrapper" style="left: 18%; top: 20%;">
+      <div class="icon-node float-1" 
+           data-path="path-l1" 
+           data-title="La Primer interacción" 
+           data-desc="Ese primer cruce de mensajes en el que empezamos a hablar sin parar, sin sospechar siquiera todo lo hermoso que nos esperaba después. Qué mágico fue descubrirte y ver cómo, casi sin darme cuenta, te convertías en lo más lindo de mi vida" 
+           data-img="11.png">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        <div class="tooltip">El comienzo</div>
+      </div>
+    </div>
+
+    <!-- NODO 2 -->
+    <div class="node-wrapper" style="left: 12%; top: 50%;">
+      <div class="icon-node float-2" 
+           data-path="path-l2" 
+           data-title="Nuestras Noches" 
+           data-desc="Acompañarnos hasta tarde, contarnos de todo, reírnos de tonterías y hacernos compañía en el silencio. Con vos las noches son más lindas y dormir pensando en vos es mi parte favorita del día." 
+           data-img="2.jpeg">
+        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <div class="tooltip">Tu voz es mi paz</div>
+      </div>
+    </div>
+
+    <!-- NODO 3 -->
+    <div class="node-wrapper" style="left: 18%; top: 80%;">
+      <div class="icon-node float-1" 
+           data-path="path-l3" 
+           data-title="Bajo el Mismo Cielo" 
+           data-desc="No importa cuántos kilómetros nos separen, compartimos el mismo cielo y las mismas ganas de abrazarnos. Cada día que pasa es un día menos para estar juntitos de verdad señoritaa." 
+           data-img="3.jpeg">
+        <svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"></path></svg>
+        <div class="tooltip">Soñando con verte</div>
+      </div>
+    </div>
+
+    <!-- NODO 4 -->
+    <div class="node-wrapper" style="left: 82%; top: 20%;">
+      <div class="icon-node float-2" 
+           data-path="path-r1" 
+           data-title="Tus Gestos Sencillos" 
+           data-desc="Tus mensajes de 'buenos días', tus fotos espontáneas y tan lindas, tu forma de preocuparte cuando ando mal, Hacés que mi corazón baile de felicidad y que me sienta el ser más afortunado del planeta por tenerte en mi vida." 
+           data-img="4.gif">
+        <svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+        <div class="tooltip">Haciéndome feliz</div>
+      </div>
+    </div>
+
+    <!-- NODO 5 -->
+    <div class="node-wrapper" style="left: 88%; top: 50%;">
+      <div class="icon-node float-1" 
+           data-path="path-r2" 
+           data-title="Mi Pantalla Favorita" 
+           data-desc="Aunque no este ahi para verte siempre, no me hace falta para saber lo única que sos. Me enamora tu forma de ser, tu corazón y tus sentimientos tan puros. Aunque hay que decirlo: tu cuerpo es literalmente un museo lleno de arte y Tus ojos son, sin dudas, los más bonita que vi en mi vida; podría quedarme horas admirándolos y nunca me cansaría de verlos." 
+           data-img="12.png">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+        <div class="tooltip">Me Iluminás</div>
+      </div>
+    </div>
+
+    <!-- NODO 6 -->
+    <div class="node-wrapper" style="left: 82%; top: 80%;">
+      <div class="icon-node float-2" 
+           data-path="path-r3" 
+           data-title="Lo Que Nos Espera" 
+           data-desc="Si reímos juntos, nos bancamos en las malas y lloramos juntos si hace falta. Esto recién empieza y sé que nos esperan miles de momentos hermosos compartidos. Gracias por existir." 
+           data-img="10.png">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+        <div class="tooltip">Siempre juntos</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL B CON TE AMO MIAMOR ABAJO -->
+  <div id="memory-modal" class="modal-overlay">
+    <div class="polaroid-wrapper">
+      <button class="close-modal" id="close-modal">&times;</button>
+      <div class="polaroid">
+        <img id="modal-img" class="polaroid-img" src="" alt="Recuerdo de Amor">
+        <h3 id="modal-title" class="polaroid-title">Título</h3>
+        <p id="modal-desc" class="polaroid-desc">Descripción del recuerdo</p>
+        <div class="polaroid-footer">Te amo miamor 💜</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Big Bang de partículas inicial
+    (function initPureParticleBigBang() {
+      const bbCanvas = document.createElement('canvas');
+      bbCanvas.style.position = 'fixed';
+      bbCanvas.style.top = '0';
+      bbCanvas.style.left = '0';
+      bbCanvas.style.width = '100%';
+      bbCanvas.style.height = '100%';
+      bbCanvas.style.zIndex = '9999';
+      bbCanvas.style.pointerEvents = 'none';
+      bbCanvas.style.background = 'transparent'; 
+      document.body.appendChild(bbCanvas);
+
+      const bbCtx = bbCanvas.getContext('2d');
+      let bbW = bbCanvas.width = window.innerWidth;
+      let bbH = bbCanvas.height = window.innerHeight;
+      
+      const bbParticles = [];
+      const colors = ['#a855f7', '#d8b4fe', '#f472b6', '#ffffff'];
+      
+      for (let i = 0; i < 900; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.random() * 400 + 150; 
+        
+        bbParticles.push({
+          x: Math.cos(angle) * radius,
+          y: Math.sin(angle) * radius,
+          z: Math.random() * 3000 + 100, 
+          vz: -(Math.random() * 45 + 25), 
+          size: Math.random() * 6 + 4, 
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      function renderBigBang() {
+        bbCtx.clearRect(0, 0, bbW, bbH);
+        let active = false;
+        const cx = bbW / 2;
+        const cy = bbH / 2;
+        const fov = 500; 
+        
+        bbParticles.forEach(p => {
+          p.z += p.vz;
+          if (p.z > 0) {
+            active = true;
+            const scale = fov / p.z;
+            const x2d = cx + p.x * scale;
+            const y2d = cy + p.y * scale;
+            const r = p.size * scale;
+            
+            if (x2d > -100 && x2d < bbW + 100 && y2d > -100 && y2d < bbH + 100) {
+              bbCtx.beginPath();
+              bbCtx.arc(x2d, y2d, r, 0, Math.PI * 2);
+              bbCtx.fillStyle = p.color;
+              bbCtx.shadowBlur = 15;
+              bbCtx.shadowColor = p.color;
+              bbCtx.fill();
+            }
+          }
+        });
+        
+        if (active) {
+          requestAnimationFrame(renderBigBang);
+        } else {
+          bbCanvas.remove();
+        }
+      }
+      renderBigBang();
+      
+      window.addEventListener('resize', () => {
+        bbW = bbCanvas.width = window.innerWidth;
+        bbH = bbCanvas.height = window.innerHeight;
+      });
+    })();
+
+    // Canvas de Red Neuronal (Opción B)
+    const canvas = document.getElementById('neural-bg');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles;
+    
+    function initNeuralBackground() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      particles = [];
+      const particleCount = Math.floor((width * height) / 10000); 
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Neuron());
+      }
+    }
+
+    class Neuron {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 1.5 + 0.5;
+        this.isPink = Math.random() > 0.6;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.isPink ? '#f472b6' : '#d8b4fe';
+        ctx.fill();
+      }
+    }
+
+    function animateNeuralNetwork() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 110) { 
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            const opacity = 1 - (dist / 110);
+            ctx.strokeStyle = `rgba(168, 85, 247, ${opacity * 0.25})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateNeuralNetwork);
+    }
+    window.addEventListener('resize', initNeuralBackground);
+    initNeuralBackground();
+    animateNeuralNetwork();
+
+    // Interacciones y Animación de Líneas Moradas (B)
+    document.addEventListener("DOMContentLoaded", () => {
+      const nodes = document.querySelectorAll('.icon-node');
+      const brain = document.getElementById('main-brain');
+      const modal = document.getElementById('memory-modal');
+      const modalImg = document.getElementById('modal-img');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDesc = document.getElementById('modal-desc');
+      const closeModalBtn = document.getElementById('close-modal');
+      const mainView = document.getElementById('main-view');
+      
+      let isAnimating = false;
+
+      const createMagicSparkles = (x, y) => {
+        const symbols = ['✨', '💜', '🌸', '⋆'];
+        for (let i = 0; i < 35; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('magic-spark');
+          particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+          particle.style.color = Math.random() > 0.4 ? '#a855f7' : '#d8b4fe';
+          particle.style.fontSize = `${Math.random() * 16 + 8}px`;
+          particle.style.left = `${x}px`;
+          particle.style.top = `${y}px`;
+          mainView.appendChild(particle);
+          
+          const angle = Math.random() * Math.PI * 2;
+          const velocity = Math.random() * 100 + 40;
+          const destinationX = Math.cos(angle) * velocity;
+          const destinationY = Math.sin(angle) * velocity - 30;
+          const rotation = (Math.random() - 0.5) * 180;
+
+          particle.animate([
+            { transform: 'translate(-50%, -50%) scale(0) rotate(0deg)', opacity: 0 },
+            { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1, offset: 0.2 },
+            { transform: `translate(calc(-50% + ${destinationX}px), calc(-50% + ${destinationY}px)) scale(0.5) rotate(${rotation}deg)`, opacity: 0 }
+          ], {
+            duration: Math.random() * 1400 + 900, easing: 'ease-out', delay: Math.random() * 100
+          }).onfinish = () => particle.remove();
+        }
+      };
+
+      nodes.forEach(node => {
+        node.addEventListener('click', () => {
+          if (isAnimating) return;
+          isAnimating = true;
+
+          const imgUrl = node.getAttribute('data-img');
+          const title = node.getAttribute('data-title');
+          const desc = node.getAttribute('data-desc');
+          const pathId = node.getAttribute('data-path');
+
+          brain.classList.add('active');
+
+          const pulsePath = document.getElementById(pathId);
+          if(pulsePath) {
+            const length = pulsePath.getTotalLength();
+            pulsePath.style.transition = 'none';
+            pulsePath.style.strokeDasharray = length;
+            pulsePath.style.strokeDashoffset = length; 
+            pulsePath.style.opacity = '1';
+            pulsePath.getBoundingClientRect();
+
+            pulsePath.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(0.4, 0, 0.2, 1)'; 
+            pulsePath.style.strokeDashoffset = '0';
+          }
+
+          const branchesGroup = document.getElementById('branches-' + pathId);
+          let branchPaths = [];
+          if (branchesGroup) {
+            branchPaths = Array.from(branchesGroup.querySelectorAll('.connection-branch'));
+            branchPaths.forEach((branch, index) => {
+              const branchLength = branch.getTotalLength();
+              branch.style.transition = 'none';
+              branch.style.strokeDasharray = branchLength;
+              branch.style.strokeDashoffset = branchLength;
+              branch.style.opacity = '1';
+              branch.getBoundingClientRect();
+              
+              const delay = 0.4 + (index * 0.35); 
+              branch.style.transition = `stroke-dashoffset 0.7s ease-out ${delay}s`;
+              branch.style.strokeDashoffset = '0';
+            });
+          }
+
+          setTimeout(() => {
+            const rectNode = node.getBoundingClientRect();
+            const rectView = mainView.getBoundingClientRect();
+            createMagicSparkles(rectNode.left - rectView.left + rectNode.width/2, rectNode.top - rectView.top + rectNode.height/2);
+
+            if(pulsePath) {
+              pulsePath.style.transition = 'opacity 0.6s ease';
+              pulsePath.style.opacity = '0';
+            }
+            branchPaths.forEach(branch => {
+              branch.style.transition = 'opacity 0.6s ease';
+              branch.style.opacity = '0';
+            });
+            
+            modalImg.src = imgUrl;
+            modalTitle.innerText = title;
+            modalDesc.innerText = desc;
+            modal.classList.add('active');
+            
+            setTimeout(() => {
+              brain.classList.remove('active');
+              isAnimating = false;
+            }, 300);
+
+          }, 1400); 
+        });
+      });
+
+      const closePhoto = () => {
+        modal.classList.remove('active');
+        setTimeout(() => { modalImg.src = ''; }, 600);
+      };
+
+      closeModalBtn.addEventListener('click', closePhoto);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closePhoto();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closePhoto();
+      });
+    });
+  </script>
+</body>
+</html>
