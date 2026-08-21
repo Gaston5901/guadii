@@ -458,15 +458,44 @@
     }
     .volver-inicio:hover { transform: translateY(-1px); background: rgba(255,255,255,.95); }
 
-    @media (max-width: 480px) {
-      .chocolate-box { transform: scale(0.88); }
-      .love-message h2 { font-size: 38px; }
-      .love-message p { font-size: 15px; }
-      .letter-badge { bottom: 18px; right: 18px; padding: 10px 16px; }
-      .letter-card { padding: 25px 20px; }
-      .letter-card h3 { font-size: 36px; }
-      .letter-body { font-size: 15px; }
-    }
+@media (max-width: 480px) {
+  /* Escala la caja completa para que no desborde la pantalla */
+  .chocolate-box { 
+    transform: scale(0.82); 
+    margin-top: -10px;
+  }
+
+  /* Define el tamaño contenedor de los 7 elementos */
+  .chocs {
+    width: 270px;
+    height: 270px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 8px;
+    padding: 8px;
+    top: 55px;
+    left: 55px;
+  }
+
+  /* Reduce el tamaño individual de cada slot para que quepan los 7 */
+  .item-slot {
+    width: 68px;
+    height: 68px;
+    padding: 4px;
+  }
+
+  /* Centra el elemento 7 (las gomitas) abajo */
+  .slot-7 {
+    grid-column: 2 / 3;
+  }
+
+  .love-message h2 { font-size: 38px; }
+  .love-message p { font-size: 15px; }
+  .letter-badge { bottom: 18px; right: 18px; padding: 10px 16px; }
+  .letter-card { padding: 25px 20px; }
+  .letter-card h3 { font-size: 36px; }
+  .letter-body { font-size: 15px; }
+}
   </style>
 </head>
 <body>
@@ -503,12 +532,12 @@
 
       <!-- 6. Elemento Nuevo 2 -->
       <div class="item-slot" data-index="5">
-        <img src="manzanaverde.png"  alt="Detalle 6">
+        <img src="manzanaverde.png"  alt="Manzana Verde">
       </div>
 
       <!-- 7. Elemento Nuevo 3 (Centrado abajo) -->
       <div class="item-slot slot-7" data-index="6">
-        <img src="gomitas.png"  alt="Detalle 7">
+        <img src="gomitas.png"  alt="Gomitas de Animalitos">
       </div>
     </div>
 
