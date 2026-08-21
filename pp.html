@@ -17,19 +17,51 @@
             background-color: #0f172a;
             color: #f8fafc;
             min-height: 100vh;
+            min-height: 100dvh; /* Soporte mejorado para pantallas móviles */
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            padding: 20px 16px;
         }
 
-        /* Fondo de luz difuminada */
+        /* Botón de volver ajustado al tema oscuro y mobile-first */
+        .volver-inicio {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f8fafc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .volver-inicio:active {
+            transform: scale(0.95);
+            background: rgba(51, 65, 85, 0.9);
+        }
+
+        /* Fondo de luz difuminada adaptativo */
         .glow {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(236, 72, 153, 0.12) 50%, rgba(0,0,0,0) 70%);
+            width: 80vw;
+            max-width: 400px;
+            height: 80vw;
+            max-height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.12) 50%, rgba(0,0,0,0) 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -39,54 +71,55 @@
         }
 
         @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
         }
 
-        /* Contenedor principal */
+        /* Contenedor principal responsive */
         .card-container {
-            width: 90%;
-            max-width: 480px;
+            width: 100%;
+            max-width: 440px;
             text-align: center;
             background: rgba(30, 41, 59, 0.55);
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(16px);
-            padding: 60px 35px;
-            border-radius: 28px;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+            padding: 40px 24px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 1;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 16px;
+            padding: 6px 14px;
             background: rgba(168, 85, 247, 0.15);
             border: 1px solid rgba(168, 85, 247, 0.3);
             color: #c084fc;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: 600;
             border-radius: 20px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
         .title {
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 8vw, 2.8rem);
             font-weight: 800;
-            margin-bottom: 16px;
-            letter-spacing: -1px;
+            margin-bottom: 14px;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
             background: linear-gradient(135deg, #f43f5e, #a855f7, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .subtitle {
-            font-size: 1.05rem;
+            font-size: clamp(0.95rem, 4vw, 1.05rem);
             color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            line-height: 1.55;
+            margin-bottom: 28px;
         }
 
         /* Animación de puntos de carga */
@@ -118,36 +151,28 @@
                 opacity: 1;
             }
         }
-                .volver-inicio{
-            position: fixed;
-            top: 14px;
-            left: 14px;
-            z-index: 9999;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 999px;
-            background: rgba(255,255,255,.85);
-            border: 1px solid rgba(0,0,0,.10);
-            color: #3b2f2f;
-            text-decoration: none;
-            font-weight: 800;
-            box-shadow: 0 10px 26px rgba(0,0,0,.18);
+
+        @media (max-width: 380px) {
+            .card-container {
+                padding: 32px 18px;
+            }
+            .volver-inicio {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
         }
-        .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
     </style>
 </head>
 <body>
-        <a class="volver-inicio" href="../index.html" aria-label="Volver al inicio">← </a>
 
+    <a class="volver-inicio" href="index.html" aria-label="Volver al inicio">← Volver</a>
 
     <div class="glow"></div>
 
     <div class="card-container">
         <span class="badge">Shh... es una sorpresa</span>
         <h1 class="title">Próximamente</h1>
-        <p class="subtitle">Algo especial se está preparando por aca. muy pronto vas a poder verlo mi señoritaa</p>
+        <p class="subtitle">Algo especial se está preparando por acá. Muy pronto vas a poder verlo mi señoritaa ✨</p>
         
         <div class="dots-loader">
             <div class="dot"></div>
