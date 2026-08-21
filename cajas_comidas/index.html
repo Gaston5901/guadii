@@ -19,7 +19,6 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      /* Fondo atmósfera Morado Romántico */
       background: radial-gradient(circle at center, #2d1240 0%, #170924 60%, #0a0312 100%);
       overflow-x: hidden;
       margin: 0;
@@ -50,12 +49,12 @@
       margin-top: 10px;
     }
 
-    /* Base/Interior acolchado de la caja */
+    /* Base interior acolchado */
     .chocolate-box:before {
       content: "";
       position: absolute;
-      width: 270px;
-      height: 270px;
+      width: 290px;
+      height: 290px;
       background: linear-gradient(145deg, #1f0a2e 0%, #12041c 100%);
       transform: translate(-50%,-50%);
       top: 50%;
@@ -68,21 +67,30 @@
         0 0 15px rgba(168, 85, 247, 0.25);
     }
 
+    /* CONTENEDOR ORGANIZADO EN GRILLA DE 3 COLUMNAS */
     .chocs {
       position: absolute;
       z-index: 1;
-      width: 100%;
-      height: 100%;
+      width: 270px;
+      height: 270px;
+      top: 55px;
+      left: 55px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      padding: 12px;
+      align-items: center;
+      justify-items: center;
     }
 
     /* COMPARTIMENTOS/MOLDES DE LA CAJA */
     .item-slot {
-      position: absolute;
-      width: 90px;
-      height: 90px;
+      position: relative;
+      width: 72px;
+      height: 72px;
       background: radial-gradient(circle, rgba(42, 16, 62, 0.9) 0%, rgba(20, 7, 31, 0.95) 100%);
       border: 1px solid rgba(192, 132, 252, 0.35);
-      border-radius: 20px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -91,7 +99,12 @@
                   border-color 0.25s ease, 
                   box-shadow 0.25s ease;
       cursor: pointer;
-      padding: 8px;
+      padding: 6px;
+    }
+
+    /* El 7mo elemento se ubica centrado abajo */
+    .slot-7 {
+      grid-column: 2 / 3;
     }
 
     .item-slot img {
@@ -103,12 +116,6 @@
       transition: transform 0.25s ease;
     }
 
-    .top-left { top: 92px; left: 92px; }
-    .top-right { top: 92px; left: 198px; }
-    .bottom-left { top: 198px; left: 92px; }
-    .bottom-right { top: 198px; left: 198px; }
-
-    /* Efecto al tocar/pasar mouse */
     .item-slot:active, .item-slot.touch-active {
       transform: scale(1.1) rotate(3deg);
       border-color: #f0abfc;
@@ -123,13 +130,13 @@
     .cover {
       position: absolute;
       background: linear-gradient(135deg, #581c87 0%, #3b0764 50%, #240046 100%);
-      width: 270px;
-      height: 270px;
+      width: 290px;
+      height: 290px;
       border: 3px solid #a855f7;
       border-radius: 24px;
       z-index: 2;
-      top: 55px;
-      left: 55px;
+      top: 45px;
+      left: 45px;
       transform-origin: top;
       transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 18px 45px rgba(0,0,0,0.75), inset 0 0 20px rgba(255, 255, 255, 0.1);
@@ -139,7 +146,6 @@
       transform-style: preserve-3d;
     }
 
-    /* Moño decorativo en la tapa */
     .cover::before {
       content: "";
       position: absolute;
@@ -155,7 +161,6 @@
       box-shadow: 0 -15px 40px rgba(0,0,0,0.6);
     }
 
-    /* CARA EXTERIOR DE LA TAPA */
     .cover-content {
       position: relative;
       z-index: 2;
@@ -166,6 +171,8 @@
       width: 84%;
       height: 84%;
       display: flex;
+      flex-direction: column !important;
+      gap: 8px;
       align-items: center;
       justify-content: center;
       background: rgba(23, 9, 36, 0.85);
@@ -182,7 +189,6 @@
       text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
-    /* CARA INTERIOR DE LA TAPA (Visible al abrir) */
     .cover-inside {
       position: absolute;
       top: 0;
@@ -208,29 +214,6 @@
       line-height: 1.3;
       text-shadow: 0 0 10px rgba(240, 171, 252, 0.4);
     }
-
-    /* ETIQUETAS FLOTANTES */
-    .choco-label {
-      position: absolute;
-      display: none;
-      color: #f3e8f8;
-      font-family: "Playfair Display", Georgia, serif;
-      font-size: 13px;
-      font-style: italic;
-      background: rgba(22, 9, 33, 0.95);
-      padding: 6px 14px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      border: 1px solid #c084fc;
-      white-space: nowrap;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    #label-top-left { top: 60px; left: 80px; }
-    #label-top-right { top: 60px; left: 195px; }
-    #label-bottom-left { top: 295px; left: 80px; }
-    #label-bottom-right { top: 295px; left: 195px; }
 
     /* MODAL DE MENSAJE */
     .love-modal {
@@ -316,11 +299,9 @@
       box-shadow: 0 4px 15px rgba(139, 64, 198, 0.4);
     }
 
-    .close-btn:active {
-      transform: scale(0.96);
-    }
+    .close-btn:active { transform: scale(0.96); }
 
-    /* BADGE FLOTANTE CARTA (ABAJO A LA DERECHA) */
+    /* BADGE FLOTANTE CARTA */
     .letter-badge {
       position: fixed;
       bottom: 25px;
@@ -345,19 +326,8 @@
       border-color: #f0abfc;
     }
 
-    .letter-badge svg {
-      width: 22px;
-      height: 22px;
-      fill: #f3e8f8;
-    }
-
-    .letter-badge span {
-      font-family: "Playfair Display", Georgia, serif;
-      font-size: 14px;
-      font-weight: 600;
-      color: #ffffff;
-      letter-spacing: 0.5px;
-    }
+    .letter-badge svg { width: 22px; height: 22px; fill: #f3e8f8; }
+    .letter-badge span { font-family: "Playfair Display", Georgia, serif; font-size: 14px; font-weight: 600; color: #ffffff; }
 
     @keyframes pulseBadge {
       0%, 100% { transform: scale(1); }
@@ -394,14 +364,6 @@
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(168, 85, 247, 0.3);
       position: relative;
       animation: floatIn 0.4s ease-out;
-    }
-
-    .letter-card::-webkit-scrollbar {
-      width: 6px;
-    }
-    .letter-card::-webkit-scrollbar-thumb {
-      background: #7e22ce;
-      border-radius: 10px;
     }
 
     .letter-card h3 {
@@ -446,70 +408,38 @@
       transition: all 0.25s ease;
     }
 
-    @media (max-width: 480px) {
-      .chocolate-box {
-        transform: scale(0.88);
-      }
-      .love-message h2 { font-size: 38px; }
-      .love-message p { font-size: 15px; }
-      .letter-badge { bottom: 18px; right: 18px; padding: 10px 16px; }
-      .letter-card { padding: 25px 20px; }
-      .letter-card h3 { font-size: 36px; }
-      .letter-body { font-size: 15px; }
+    .gold-text { color: #fbbf24; font-weight: 600; text-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
+    .gold-textt { color: #ee13ac; font-weight: 600; text-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
+
+    .tap-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      animation: pulseTap 1.8s infinite ease-in-out;
     }
-    .gold-text {
-  color: #fbbf24;
-  font-weight: 600;
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
-}
-    .gold-textt {
-  color: #ee13ac;
-  font-weight: 600;
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
-}
 
-/* Estilos para el indicador de toque */
-.cover-content {
-  flex-direction: column !important; /* Alinea el texto y la huella de arriba a abajo */
-  gap: 8px;
-}
+    .tap-icon {
+      width: 26px;
+      height: 26px;
+      fill: #f0abfc;
+      filter: drop-shadow(0 0 6px rgba(240, 171, 252, 0.6));
+    }
 
-.tap-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  animation: pulseTap 1.8s infinite ease-in-out;
-}
+    .tap-indicator small {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 11px;
+      color: #e9d5ff;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
 
-.tap-icon {
-  width: 26px;
-  height: 26px;
-  fill: #f0abfc;
-  filter: drop-shadow(0 0 6px rgba(240, 171, 252, 0.6));
-}
+    @keyframes pulseTap {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
 
-.tap-indicator small {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 11px;
-  color: #e9d5ff;
-  letter-spacing: 0.5px;
-  opacity: 0.9;
-}
-
-/* Animación sutil de palpito */
-@keyframes pulseTap {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-}
-
-    .volver-inicio{
+    .volver-inicio {
       position: fixed;
       top: 14px;
       left: 14px;
@@ -526,7 +456,17 @@
       font-weight: 800;
       box-shadow: 0 10px 26px rgba(0,0,0,.18);
     }
-    .volver-inicio:hover{ transform: translateY(-1px); background: rgba(255,255,255,.95); }
+    .volver-inicio:hover { transform: translateY(-1px); background: rgba(255,255,255,.95); }
+
+    @media (max-width: 480px) {
+      .chocolate-box { transform: scale(0.88); }
+      .love-message h2 { font-size: 38px; }
+      .love-message p { font-size: 15px; }
+      .letter-badge { bottom: 18px; right: 18px; padding: 10px 16px; }
+      .letter-card { padding: 25px 20px; }
+      .letter-card h3 { font-size: 36px; }
+      .letter-body { font-size: 15px; }
+    }
   </style>
 </head>
 <body>
@@ -537,50 +477,57 @@
   <div class="chocolate-box" id="boxContainer">
     <div class="chocs">
       <!-- 1. Papas Fritas -->
-      <div id="top-left" class="item-slot top-left" data-pos="top-left">
+      <div class="item-slot" data-index="0">
         <img src="papas.png" onerror="this.src='papas.png'" alt="Papas Fritas">
       </div>
 
       <!-- 2. Mandarina -->
-      <div id="top-right" class="item-slot top-right" data-pos="top-right">
-        <img src="mandarina.png" onerror="this.src='naranja.png'" alt="Mandarina">
+      <div class="item-slot" data-index="1">
+        <img src="naranja.png"  alt="Mandarina">
       </div>
 
       <!-- 3. Jugo de Manzana -->
-      <div id="bottom-left" class="item-slot bottom-left" data-pos="bottom-left">
-        <img src="jugo.png" onerror="this.src='manzana.png'" alt="Jugo de Manzana">
+      <div class="item-slot" data-index="2">
+        <img src="manzana.png"  alt="Jugo de Manzana">
       </div>
 
       <!-- 4. Choclo -->
-      <div id="bottom-right" class="item-slot bottom-right" data-pos="bottom-right">
-        <img src="choclo.png" onerror="this.src='https://static.vecteezy.com/system/resources/thumbnails/048/050/944/small/corn-on-the-cob-on-a-transparent-background-png.png'" alt="Choclo">
+      <div class="item-slot" data-index="3">
+        <img src="choclo.png"  alt="Choclo">
+      </div>
+
+      <!-- 5. Elemento Nuevo 1 -->
+      <div class="item-slot" data-index="4">
+        <img src="choco.png"  alt="Detalle 5">
+      </div>
+
+      <!-- 6. Elemento Nuevo 2 -->
+      <div class="item-slot" data-index="5">
+        <img src="manzanaverde.png"  alt="Detalle 6">
+      </div>
+
+      <!-- 7. Elemento Nuevo 3 (Centrado abajo) -->
+      <div class="item-slot slot-7" data-index="6">
+        <img src="gomitas.png"  alt="Detalle 7">
       </div>
     </div>
 
-<!-- Tapa -->
-<div class="cover">
-  <div class="cover-content">
-    <span>Señorita Iris</span>
-    
-    <!-- Indicador visual de toque -->
-    <div class="tap-indicator">
-      <svg viewBox="0 0 24 24" class="tap-icon">
-        <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.2-.1-.43-.16-.67-.16H13V7.5c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.44-.72c-.09-.02-.18-.03-.27-.03-.39 0-.74.16-1 .41l-.86.87 5.12 5.12c.36.36.86.58 1.41.58h7.2c.98 0 1.81-.7 1.97-1.67l.8-4.8c.14-.85-.31-1.68-1.09-2.07z"/>
-      </svg>
-      <small>Toca acá</small>
+    <!-- Tapa -->
+    <div class="cover">
+      <div class="cover-content">
+        <span>Señorita Iris</span>
+        <div class="tap-indicator">
+          <svg viewBox="0 0 24 24" class="tap-icon">
+            <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.2-.1-.43-.16-.67-.16H13V7.5c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.44-.72c-.09-.02-.18-.03-.27-.03-.39 0-.74.16-1 .41l-.86.87 5.12 5.12c.36.36.86.58 1.41.58h7.2c.98 0 1.81-.7 1.97-1.67l.8-4.8c.14-.85-.31-1.68-1.09-2.07z"/>
+          </svg>
+          <small>Toca acá</small>
+        </div>
+      </div>
+      
+      <div class="cover-inside">
+        <span>Tocá cada uno para descubrir algo 🌹</span>
+      </div>
     </div>
-  </div>
-  
-  <div class="cover-inside">
-    <span>Tocá cada uno para descubrir algo 🌹</span>
-  </div>
-</div>
-
-    <!-- Etiquetas flotantes -->
-    <div id="label-top-left" class="choco-label">Papas Fritas</div>
-    <div id="label-top-right" class="choco-label">Mandarina</div>
-    <div id="label-bottom-left" class="choco-label">Jugo de Manzana</div>
-    <div id="label-bottom-right" class="choco-label">Choclo</div>
   </div>
 
   <!-- BADGE FLOTANTE CARTA DE DISCULPAS -->
@@ -602,25 +549,25 @@
     </div>
   </div>
 
-  <!-- Modal Carta de Disculpas -->
+  <!-- Modal Carta -->
   <div id="letterModal" class="letter-modal">
     <div class="letter-card">
       <h3>Para Tu Iris</h3>
-<div class="letter-body">
-  <span class="gold-textt">Hii señorita Iriss,</span>
+      <div class="letter-body">
+        <span class="gold-textt">Hii señorita Iriss,</span>
 
-  Quería prepararte este pequeño detalle porque me importa muchísimo todo lo que compartimos.
+        Quería prepararte este pequeño detalle porque me importa muchísimo todo lo que compartimos.
 
-  Sé que a veces meto la pata o digo cosas sin pensar, y de verdad te pido disculpas por hacerte pasar un mal momento. Cero intención de hacerte sentir mal; mi intención siempre es <span class="gold-text">cuidarte y que estés bien</span>.
+        Sé que a veces meto la pata o digo cosas sin pensar, y de verdad te pido disculpas por hacerte pasar un mal momento. Cero intención de hacerte sentir mal; mi intención siempre es <span class="gold-text">cuidarte y que estés bien</span>.
 
-  Entiendo que la vida tiene sus rachas y que no siempre todo es color de rosa o sale perfecto. Pero de eso se trata también: <span class="gold-text">si nos reímos juntos, nos bancamos en las malas y lloramos juntos</span>. Quiero que sepas que podés contar conmigo siempre, en los momentos lindos y en los no tan lindos.
+        Entiendo que la vida tiene sus rachas y que no siempre todo es color de rosa o sale perfecto. Pero de eso se trata también: <span class="gold-text">si nos reímos juntos, nos bancamos en las malas y lloramos juntos</span>. Quiero que sepas que podés contar conmigo siempre, en los momentos lindos y en los no tan lindos.
 
-  La verdad es que <span class="gold-text">extraño mucho nuestras charlas</span>, las risas de siempre y esa tranquilidad tan linda que da compartir tiempo con vos. Sos una persona con la que da gusto estar y con la que me siento súper cómodo.
+        La verdad es que <span class="gold-text">extraño mucho nuestras charlas</span>, las risas de siempre y esa tranquilidad tan linda que da compartir tiempo con vos. Sos una persona con la que da gusto estar y con la que me siento súper cómodo.
 
-  No quiero ponerme pesado ni darle vueltas al asunto, solo quería sacarte una sonrisa, <span class="gold-text">recordarte lo mucho que te quiero</span> y decirte que me encantaría que sigamos sumando momentos lindos juntos.
+        No quiero ponerme pesado ni darle vueltas al asunto, solo quería sacarte una sonrisa, <span class="gold-text">recordarte lo mucho que te quiero</span> y decirte que me encantaría que sigamos sumando momentos lindos juntos.
 
-  <span class="gold-text">Perdonás a este viejitoo jijij??</span>
-</div>
+        <span class="gold-text">Perdonás a este viejitoo jijij??</span>
+      </div>
       <div class="letter-signature">
         Con mucho cariño, saranghae 🌹
       </div>
@@ -629,6 +576,7 @@
   </div>
 
   <script>
+    // ARRAY DE 7 ELEMENTOS
     const detailsData = [
       { 
         title: "Papas Fritas", 
@@ -649,18 +597,25 @@
         title: "Choclo", 
         message: "Aunque estos días estemos un poco alejados, mi cariño por vos no cambia en nada: te extraño y te valoro un montón. Quería prepararte este pequeño espacio para recordarte lo especial que sos y sacarte una sonrisa. Te merecés todo lo lindo del mundo, saranghae.", 
         image: "8.jpeg" 
+      },
+      { 
+        title: "Block de Chocolate", 
+        message: "Un detalle dulce para recordarte lo mucho que te valoro y lo bien que me hace compartir charlas y momentos contigo señorita.", 
+        image: "army.png" 
+      },
+      { 
+        title: "Manzana Verde", 
+        message: "Un detalle fresco y distinto, como vos. Me encanta tu esencia y lo lindo que se siente compartir momentos y risas juntos.", 
+        image: "teamo.png" 
+      },
+      { 
+        title: "Gomitas de Animalitos", 
+        message: "Un toque de ternura y color para sacarte una sonrisa. Sos una persona profundamente linda y estoy orgullo de ti amorr.", 
+        image: "hope.png" 
       }
     ];
 
-    const positionMap = {
-      'top-left': 0,
-      'top-right': 1,
-      'bottom-left': 2,
-      'bottom-right': 3
-    };
-
-    function showLoveMessage(itemId) {
-      const index = positionMap[itemId];
+    function showLoveMessage(index) {
       const item = detailsData[index];
 
       if (item) {
@@ -688,15 +643,15 @@
       $('#loveModal').removeClass('active');
     }
 
-function openLetterModal() {
-  $('.volver-inicio').fadeOut(200); // Oculta el botón suavemente
-  $('#letterModal').addClass('active');
-}
+    function openLetterModal() {
+      $('.volver-inicio').fadeOut(200);
+      $('#letterModal').addClass('active');
+    }
 
-function closeLetterModal() {
-  $('#letterModal').removeClass('active');
-  $('.volver-inicio').fadeIn(200); // Vuelve a mostrar el botón
-}
+    function closeLetterModal() {
+      $('#letterModal').removeClass('active');
+      $('.volver-inicio').fadeIn(200);
+    }
 
     $(document).ready(function() {
       // Abre/cierra la caja al tocar dentro del contenedor pero fuera de los slots
@@ -707,34 +662,25 @@ function closeLetterModal() {
         $(this).toggleClass('open');
       });
 
-      // Evento sobre cada comida/ítem
+      // Evento simplificado usando data-index
       $('.item-slot').on('click touchstart', function(e) {
         if (e.type === 'touchstart') e.preventDefault();
 
-        const pos = $(this).data('pos');
+        const index = $(this).data('index');
         const $slot = $(this);
 
         $slot.addClass('touch-active');
         setTimeout(() => $slot.removeClass('touch-active'), 250);
 
         if ($('#boxContainer').hasClass('open')) {
-          showLoveMessage(pos);
+          showLoveMessage(index);
         } else {
           $('#boxContainer').addClass('open');
-          setTimeout(() => showLoveMessage(pos), 350);
+          setTimeout(() => showLoveMessage(index), 350);
         }
       });
 
-      // Etiquetas flotantes en Hover (PC)
-      $('.item-slot').on('mouseenter', function() {
-        const pos = $(this).data('pos');
-        $(`#label-${pos}`).stop(true, true).fadeIn(150);
-      }).on('mouseleave', function() {
-        const pos = $(this).data('pos');
-        $(`#label-${pos}`).stop(true, true).fadeOut(150);
-      });
-
-      // Cerrar modales al tocar el fondo translúcido
+      // Cerrar modales
       $('#loveModal').on('click touchstart', function(e) {
         if (e.target === this) closeModal();
       });

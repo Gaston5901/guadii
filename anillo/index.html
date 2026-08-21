@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Vos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Modal inicial (Fondo / Despiste) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .modal-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+
+        .modal-card p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .btn-entry {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Contenido principal */
+        .main-container {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            padding: 50px 30px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* Zone de botones */
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 60px;
+            position: relative;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yes {
+            background: #ec4899;
+            color: white;
+            box-shadow: 0 8px 16px rgba(236, 72, 153, 0.25);
+        }
+
+        .btn-yes:hover {
+            background: #db2777;
+            transform: scale(1.05);
+            box-shadow: 0 12px 20px rgba(236, 72, 153, 0.35);
+        }
+
+        .btn-no {
+            background: #334155;
+            color: #94a3b8;
+            position: relative;
+        }
+
+        /* Modal de confirmación final */
+        .final-message {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .final-message h2 {
+            font-size: 2.2rem;
+            color: #f43f5e;
+        }
+
+        .final-message p {
+            color: #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        /* Partículas / Decoración sutil */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+
+    <!-- Modal Inicial / Despiste -->
+    <div class="modal-overlay" id="introModal">
+        <div class="modal-card">
+            <h2>Acceso a la vista previa</h2>
+            <p>Para continuar a la sección principal, por favor hacé clic en el botón de abajo para verificar el acceso.</p>
+            <button class="btn-entry" onclick="closeModal()">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal (Propuesta) -->
+    <div class="main-container">
+        <div id="proposalContent">
+            <h1 class="title">Tengo una pregunta...</h1>
+            <p class="subtitle">Quería saber si te gustaría salir conmigo o compartir algo especial hoy ✨</p>
+            
+            <div class="buttons-wrapper">
+                <button class="btn btn-yes" onclick="acceptProposal()">¡Sí!</button>
+                <button class="btn btn-no" id="btnNo" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
+            </div>
+        </div>
+
+        <!-- Mensaje de Respuesta Sí -->
+        <div class="final-message" id="finalMessage">
+            <h2>¡Sabía que ibas a decir que sí! ❤️</h2>
+            <p>Prometo que va a ser un momento genial.</p>
+        </div>
+    </div>
+
+    <script>
+        function closeModal() {
+            const modal = id => document.getElementById(id);
+            const intro = modal('introModal');
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.visibility = 'hidden';
+            }, 500);
+        }
+
+        function moveNoButton() {
+            const btnNo = document.getElementById('btnNo');
+            
+            // Calculamos límites dentro de la ventana de forma segura
+            const padding = 20;
+            const maxX = window.innerWidth - btnNo.offsetWidth - padding;
+            const maxY = window.innerHeight - btnNo.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+            btnNo.style.zIndex = '999';
+        }
+
+        function acceptProposal() {
+            document.getElementById('proposalContent').style.display = 'none';
+            const finalMsg = document.getElementById('finalMessage');
+            finalMsg.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
