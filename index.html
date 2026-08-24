@@ -347,7 +347,30 @@
       }
     }
            
-    
+    /* Tus estilos CSS originales */
+.torta-btn:hover {
+  border-color: #ffe082;
+  filter: brightness(1.1);
+}
+
+.torta-btn:active {
+  transform: scale(0.92) !important;
+}
+
+@media (max-width: 600px) {
+  .torta-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.25rem;
+  }
+}
+
+/* Transición suave para el salto del anillo */
+.torta-btn.movil {
+  position: fixed !important;
+  transition: left 0.25s ease-out, top 0.25s ease-out;
+  z-index: 9999;
+}
   </style>
 
   <!-- Google Fonts: Quicksand & Nunito -->
@@ -370,13 +393,13 @@
      <!-- Fila exclusiva para Torta + Anillo pegados en horizontal -->
     <!-- Fila exclusiva para Torta + Anillo pegados en horizontal -->
     <div style="display: flex; flex-direction: row; align-items: center; gap: 8px;">
-      <a href="contador/contador.html" class="torta-btn heartbeat" title="¡Especial Cumpleaños!">
-        🎂
-      </a>
+     <a href="contador/contador.html" class="torta-btn heartbeat" title="¡Especial Cumpleaños!">
+  🎂
+</a>
 
-      <a href="pp.html" class="torta-btn heartbeat" title="Anillo">
-        💍
-      </a>
+<a href="pp.html" class="torta-btn heartbeat" id="anilloBtn" title="Anillo" onmouseenter="escaparAnillo()" ontouchstart="escaparAnillo(event)">
+  💍
+</a>
       </div>
     </header>
 
@@ -614,6 +637,28 @@
       
     </footer>
     <script>
+      function escaparAnillo(e) {
+    if (e) e.preventDefault(); // Evita que se abra la página en móviles
+    
+    const btn = document.getElementById('anilloBtn');
+    
+    // Activa el posicionamiento fijo únicamente en el anillo al interactuar
+    if (!btn.classList.contains('movil')) {
+      btn.classList.add('movil');
+    }
+
+    // Calcula límites seguros de la pantalla
+    const padding = 20; 
+    const maxX = window.innerWidth - btn.offsetWidth - padding;
+    const maxY = window.innerHeight - btn.offsetHeight - padding;
+
+    // Genera coordenadas aleatorias dentro de la pantalla
+    const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+    const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+    btn.style.left = randomX + 'px';
+    btn.style.top = randomY + 'px';
+  }
       // Objeto con el estado de desbloqueo de cada tarjeta (por id)
       // Cambia a true la que quieras desbloquear
       // Bloquear ambas cards al cargar
