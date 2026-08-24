@@ -371,6 +371,66 @@
   transition: left 0.25s ease-out, top 0.25s ease-out;
   z-index: 9999;
 }
+/* ==========================================
+   TARJETA 25: EDICIÓN ESPECIAL (MISMO TAMAÑO)
+   ========================================== */
+.card-especial-morada {
+  /* Fondo estilo espacio / violeta galáctico */
+  background: linear-gradient(135deg, #130021 0%, #2a0845 60%, #4a126d 100%) !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: 0 6px 20px rgba(74, 18, 109, 0.4), 0 0 12px rgba(255, 215, 0, 0.25) !important;
+  position: relative;
+}
+
+/* Tipografía de la tarjeta */
+.card-especial-morada h2 {
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(230, 180, 255, 0.5);
+}
+
+/* Número con corona dorada sobrepuesta */
+.card-number-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.card-number-wrapper .corona-mini {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-10deg);
+  font-size: 0.85rem;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.8));
+}
+
+.card-especial-morada .card-number {
+  background: linear-gradient(135deg, #ffd700 0%, #ffa726 100%) !important;
+  color: #130021 !important;
+  border-color: #fff !important;
+}
+
+/* Tag y Botón de acción con estilo especial */
+.card-especial-morada .tag {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid #e1bee7 !important;
+  color: #f3e5f5 !important;
+}
+
+.card-especial-morada .arrow {
+  background: linear-gradient(135deg, #ffd700 0%, #e1bee7 100%) !important;
+  color: #130021 !important;
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+/* Hover suave para no desordenar el layout */
+.card-especial-morada:hover {
+  border-color: #fff !important;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6), 0 0 18px rgba(186, 85, 211, 0.6) !important;
+}
   </style>
 
   <!-- Google Fonts: Quicksand & Nunito -->
@@ -417,6 +477,23 @@
           <span style="background:rgba(139, 121, 121, 0.8);padding:8px 18px;border-radius:999px;color:#000000;font-weight:600;font-size:1.1em;">Proximamente</span>
         </div>
       </a> -->
+
+                                                                        <!-- card 25 -->
+<!-- card 25 (Especial Morado, Negro y Corona) -->
+<!-- card 25 (Edición Morado Especial) -->
+<a class="card card-especial-morada" data-num="25" href="">
+  <h2>
+    <span class="card-number-wrapper">
+      <span class="corona-mini">👑</span>
+      <span class="card-number">25</span>
+    </span>
+    Regalo de adelanto
+  </h2>
+  <div class="meta">
+    <span class="tag">Mi niña bellaa 🌹</span>
+    <span class="arrow">🎁</span>
+  </div>
+</a>
 
                                                                         <!-- card 24 -->
          <a class="card" data-num="24" href="conexion-love-main/index.html">
