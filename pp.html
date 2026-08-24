@@ -2,184 +2,503 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Próximamente</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para iriss❤️</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #120b18;
+            color: #fff;
             min-height: 100vh;
-            min-height: 100dvh; /* Soporte mejorado para pantallas móviles */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            min-height: 100dvh;
+            overflow-x: hidden;
             position: relative;
-            padding: 20px 16px;
         }
 
-        /* Botón de volver ajustado al tema oscuro y mobile-first */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(244, 63, 94, .25), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, .25), transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* BOTÓN VOLVER AL INICIO */
         .volver-inicio {
             position: fixed;
-            top: 16px;
-            left: 16px;
-            z-index: 9999;
+            top: 14px;
+            left: 14px;
+            z-index: 999;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 16px;
+            gap: 6px;
+            padding: 8px 14px;
             border-radius: 999px;
-            background: rgba(30, 41, 59, 0.75);
+            background: rgba(30, 41, 59, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.12);
             color: #f8fafc;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             backdrop-filter: blur(12px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,.3);
             transition: all 0.2s ease;
         }
 
         .volver-inicio:active {
             transform: scale(0.95);
-            background: rgba(51, 65, 85, 0.9);
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Fondo de luz difuminada adaptativo */
-        .glow {
-            position: absolute;
-            width: 80vw;
-            max-width: 400px;
-            height: 80vw;
-            max-height: 400px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.12) 50%, rgba(0,0,0,0) 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            pointer-events: none;
-            animation: pulse 6s ease-in-out infinite alternate;
+        .screen {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px 30px;
         }
 
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.7; }
-            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+        .screen.active {
+            display: flex;
         }
 
-        /* Contenedor principal responsive */
-        .card-container {
-            width: 100%;
-            max-width: 440px;
+        /* PANTALLA INICIAL */
+        .intro {
             text-align: center;
-            background: rgba(30, 41, 59, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            padding: 40px 24px;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1;
+            max-width: 420px;
+            width: 100%;
+            animation: fadeIn 0.8s ease;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 6px 14px;
-            background: rgba(168, 85, 247, 0.15);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            color: #c084fc;
-            font-size: 0.78rem;
-            font-weight: 600;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
+        .heart-big {
+            font-size: 65px;
+            animation: heartbeat 1.6s infinite;
+            margin-bottom: 16px;
+        }
+
+        .small-text {
+            color: #d8b4fe;
+            font-size: .8rem;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
 
-        .title {
-            font-size: clamp(2rem, 8vw, 2.8rem);
-            font-weight: 800;
-            margin-bottom: 14px;
-            letter-spacing: -0.5px;
-            line-height: 1.15;
-            background: linear-gradient(135deg, #f43f5e, #a855f7, #6366f1);
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.3rem, 10vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fb7185, #e879f9, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            font-size: clamp(0.95rem, 4vw, 1.05rem);
-            color: #94a3b8;
-            line-height: 1.55;
+        .intro p {
+            color: #c4b5c9;
+            line-height: 1.6;
+            font-size: 0.98rem;
             margin-bottom: 28px;
         }
 
-        /* Animación de puntos de carga */
-        .dots-loader {
+        .main-btn {
+            border: none;
+            padding: 16px 32px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #f43f5e, #c026d3);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(244, 63, 94, .35);
+            transition: transform .2s ease;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .main-btn:active {
+            transform: scale(.95);
+        }
+
+        /* CARTA RESPONSIVE */
+        .letter-wrapper {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .letter-card {
+            background: rgba(255, 250, 252, 0.96);
+            color: #3b2533;
+            border-radius: 24px;
+            padding: 28px 22px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.5);
+            position: relative;
+            animation: letterAppear .8s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .letter-card::before {
+            content: "♥";
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            color: #fda4af;
+            font-size: 22px;
+        }
+
+        .letter-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: #9d174d;
+            margin-bottom: 18px;
+        }
+
+        .letter-text {
+            font-family: Georgia, serif;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #4b3540;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .signature {
+            margin-top: 20px;
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            color: #be185d;
+            text-align: right;
+        }
+
+        .continue-btn {
+            margin-top: 22px;
+            width: 100%;
+            background: #9d174d;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 15px;
+            font-weight: 700;
+            font-size: 0.98rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(157, 23, 77, 0.3);
+        }
+
+        /* PREGUNTA Y FOTO COMPLETA */
+        .question-container {
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .question-container h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.1rem, 9vw, 3rem);
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .question-container h2 span {
+            color: #fb7185;
+        }
+
+        .photo-frame {
+            width: min(72vw, 270px);
+            height: min(72vw, 270px);
+            margin: 0 auto 22px;
+            border-radius: 22px;
+            padding: 6px;
+            background: linear-gradient(135deg, #fb7185, #c084fc);
+            box-shadow: 0 15px 45px rgba(244, 63, 94, .3);
+            transform: rotate(-2deg);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            display: block;
+        }
+
+        .question-subtitle {
+            color: #c4b5c9;
+            font-size: 0.92rem;
+            margin-bottom: 22px;
+        }
+
+        /* BOTONES SI / NO */
+        .buttons {
+            min-height: 140px;
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
+            gap: 16px;
+            width: 100%;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            background-color: #ec4899;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
+        .yes-btn,
+        .no-btn {
+            border: none;
+            border-radius: 999px;
+            font-family: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform .25s ease, font-size .25s ease, padding .25s ease;
+            touch-action: manipulation;
         }
 
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .yes-btn {
+            background: linear-gradient(135deg, #fb7185, #e11d48);
+            color: white;
+            padding: 14px 26px;
+            font-size: 0.98rem;
+            box-shadow: 0 10px 25px rgba(225,29,72,.35);
+            z-index: 3;
+        }
 
-        @keyframes bounce {
-            0%, 80%, 100% { 
-                transform: scale(0);
-                opacity: 0.3;
-            } 
-            40% { 
-                transform: scale(1);
-                opacity: 1;
-            }
+        .no-btn {
+            background: #29202b;
+            color: #bdaebf;
+            padding: 12px 20px;
+            font-size: .88rem;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* PANTALLA FINAL */
+        .final-container {
+            text-align: center;
+            max-width: 420px;
+            animation: finalAppear 0.8s ease;
+        }
+
+        .final-heart {
+            font-size: 80px;
+            animation: heartbeat 1.2s infinite;
+            margin-bottom: 12px;
+        }
+
+        .final-container h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.2rem, 8vw, 3rem);
+            color: #fb7185;
+            margin-bottom: 14px;
+        }
+
+        .final-container p {
+            color: #d6c7d8;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .floating-heart {
+            position: fixed;
+            bottom: -30px;
+            font-size: 25px;
+            animation: floatHeart 4s linear forwards;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes letterAppear {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes finalAppear {
+            from { opacity: 0; transform: scale(.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.12); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.08); }
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
         @media (max-width: 380px) {
-            .card-container {
-                padding: 32px 18px;
-            }
-            .volver-inicio {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
+            .screen { padding-top: 55px; }
+            .letter-card { padding: 22px 16px; }
+            .letter-text { font-size: .92rem; }
+            .photo-frame { width: 220px; height: 220px; }
         }
     </style>
 </head>
+
 <body>
 
-    <a class="volver-inicio" href="index.html" aria-label="Volver al inicio">← Volver</a>
+    <a class="volver-inicio" href="index.html" aria-label="Volver al inicio">←</a>
 
-    <div class="glow"></div>
-
-    <div class="card-container">
-        <span class="badge">Shh... es una sorpresa</span>
-        <h1 class="title">Próximamente</h1>
-        <p class="subtitle">Algo especial se está preparando por acá. Muy pronto vas a poder verlo mi señoritaa ✨</p>
-        
-        <div class="dots-loader">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+    <!-- PANTALLA 1 -->
+    <section class="screen active" id="screen1">
+        <div class="intro">
+            <div class="heart-big">💌</div>
+            <div class="small-text">Tengo algo para Tii</div>
+            <h1>Esperá...</h1>
+            <p>Preparé algo que quería decirte hace un tiempo. Y esta vez quería hacerlo de una manera especial.</p>
+            <button class="main-btn" onclick="showScreen(2)">Abrir mi carta ❤️</button>
         </div>
-    </div>
+    </section>
 
+<!-- PANTALLA 2 — CARTA -->
+<!-- PANTALLA 2 — CARTA -->
+    <section class="screen" id="screen2">
+        <div class="letter-wrapper">
+            <div class="letter-card">
+                <div class="letter-title">Para mi Pachucha, mi señorita bellaa 🌹</div>
+                <div class="letter-text">
+                    <p>Si supieras lo hermoso que es tenerte en mi vida, entenderías por qué esto es tan real. Sos una mujer bellaa, hermosa por fuera y con una luz por dentro que me tiene completamente atrapado. Amo todo de vos, estoy loco por usted señoritaa, con cada detalle, con tus virtudes y con esos miedos que a veces te hacen dudar.</p>
+                    <br>
+                    <p>Quiero que sepas que sos solo vos. En mi vida no hay espacio para nadie más porque mis ojos y mi corazón son totalmente tuyos. Y si tengo que enamorarte todos los días para que te sientas segura, lo haría mil veces sin dudarlo un segundo.</p>
+                    <br>
+                    <p>Pero quiero que estés tranquila: esto es sin ninguna presión. Vamos a ir paso a paso, despacio, a tu tiempo y a tu ritmo. Yo te espero lo que sea necesario porque lo que siento por vos es verdadero y paciente.</p>
+                    <br>
+                    <p>No sos complicada ni irreal; sos el regalo más lindo que me tocó y quiero cuidarlo y amarlo. Si me lo permitís, quiero estar a tu lado para abrazar tus dudas, sanar cada herida del pasado y caminar juntos, acercándonos de la mano a Dios para que Él sea siempre el centro de lo nuestro.</p>
+                    <br>
+                    <p>Te amooo con toda mi alma, Pachuchitaaa. Y no me importa qué pase mañana, lo único que sé es que quiero descubrir la vida entera al lado tuyo.</p>
+                    <div class="signature">Siempre para vos, con todo mi amor mividaa ❤️</div>
+                </div>
+                <button class="continue-btn" onclick="showScreen(3)">Tengo una pregunta para vos...</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANTALLA 3 — PREGUNTA -->
+    <section class="screen" id="screen3">
+        <div class="question-container">
+            <div class="photo-frame">
+                <img src="image.png" alt="Nosotros ❤️">
+            </div>
+            <h2>¿Querés ser<br><span>mi novia?</span> ❤️</h2>
+            <p class="question-subtitle">Pensalo bien... aunque creo que ya sé qué vas a decir 😏</p>
+
+            <div class="buttons">
+                <button class="yes-btn" id="yesBtn" onclick="sayYes()">Sí, quiero ❤️</button>
+                <button class="no-btn" id="noBtn" onclick="sayNo()">No</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANTALLA 4 — FINAL -->
+    <section class="screen" id="screen4">
+        <div class="final-container">
+            <div class="final-heart">❤️</div>
+            <h2>Sabía que ibas a decir que sí 💘</h2>
+            <p>Ahora deme una señal de su respuesta.<br><br>Gracias por elegirme. ❤️</p>
+        </div>
+    </section>
+
+    <script>
+        function showScreen(number) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById('screen' + number).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        let noClicks = 0;
+        const noMessages = [
+            "No",
+            "¿Segura?",
+            "¿De verdad? 🥺",
+            "Pensalo otra vez",
+            "No seas mala 😭",
+            "Dale, decí que sí",
+            "¿En serio? 💔",
+            "Última oportunidad...",
+            "Bueno... 😔"
+        ];
+
+        function sayNo() {
+            noClicks++;
+            const yesBtn = document.getElementById("yesBtn");
+            const noBtn = document.getElementById("noBtn");
+
+            /* Crecimiento progresivo del SÍ */
+            const newScale = 1 + (noClicks * 0.22);
+            yesBtn.style.transform = `scale(${newScale})`;
+
+            /* Cambiar texto del NO */
+            const messageIndex = Math.min(noClicks, noMessages.length - 1);
+            noBtn.innerText = noMessages[messageIndex];
+
+            /* Desplazamiento controlado que previene desbordamiento en pantalla táctil */
+            if (noClicks >= 2) {
+                const maxX = Math.min(window.innerWidth * 0.3, 100);
+                const maxY = Math.min(window.innerHeight * 0.2, 80);
+                const x = (Math.random() - 0.5) * maxX * 2;
+                const y = (Math.random() - 0.5) * maxY * 2;
+                noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            }
+
+            if (noClicks >= 6) {
+                yesBtn.style.padding = "18px 36px";
+                yesBtn.innerText = "¡SÍ, QUIERO! ❤️";
+            }
+        }
+
+        function sayYes() {
+            showScreen(4);
+            createHearts();
+            
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 120,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function createHearts() {
+            const hearts = ["❤️", "💕", "💖", "💗", "💓", "💘", "🥰"];
+            for (let i = 0; i < 35; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement("div");
+                    heart.className = "floating-heart";
+                    heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 95 + "vw";
+                    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+                    heart.style.fontSize = (18 + Math.random() * 22) + "px";
+                    document.body.appendChild(heart);
+
+                    setTimeout(() => { heart.remove(); }, 6000);
+                }, i * 100);
+            }
+        }
+    </script>
 </body>
 </html>
