@@ -426,10 +426,19 @@
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
 }
 
-/* Hover suave para no desordenar el layout */
+/* Hover suave para compu */
 .card-especial-morada:hover {
   border-color: #fff !important;
   box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6), 0 0 18px rgba(186, 85, 211, 0.6) !important;
+}
+
+/* COMPATIBILIDAD CON STACKING EN CELULAR */
+@media (max-width: 600px) {
+  .card-especial-morada {
+    position: sticky !important;
+    top: 20px !important;
+    box-shadow: 0 -4px 16px rgba(19, 0, 33, 0.2) !important;
+  }
 }
   </style>
 
@@ -451,7 +460,6 @@
         <div class="pill" title="Carpeta: sol">Ririi&lt;33</div>
 
      <!-- Fila exclusiva para Torta + Anillo pegados en horizontal -->
-    <!-- Fila exclusiva para Torta + Anillo pegados en horizontal -->
     <div style="display: flex; flex-direction: row; align-items: center; gap: 8px;">
      <a href="contador/contador.html" class="torta-btn heartbeat" title="¡Especial Cumpleaños!">
   🎂
