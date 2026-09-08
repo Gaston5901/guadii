@@ -900,7 +900,6 @@ window.addEventListener('orientationchange', () => { setTimeout(setFullScreen, 3
 setFullScreen();
 
 const preventDefault = event => event.preventDefault();
-document.addEventListener('touchmove', preventDefault, { passive: false });
 document.addEventListener('gesturestart', preventDefault, { passive: false });
 const container2 = document.getElementById('container');
 if (container2) container2.addEventListener('touchmove', preventDefault, { passive: false });
