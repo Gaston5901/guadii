@@ -130,6 +130,7 @@ const artistsData = {
         desc: "Sonidos frescos que combinan vulnerabilidad, ritmo y mucha personalidad.",
         image: "mafia/image copy.png",
         tracks: [
+            { name: "Te Estoy Correteando", url: "mafia/mafia.mp3" },
             { name: "Ciudad de las Luces", url: "mafia/CiudadDeLasLuces.mp3" },
             { name: "Flores", url: "mafia/Flores.mp3" },
             { name: "Se Fue la Luz", url: "mafia/Luz.mp3" },
