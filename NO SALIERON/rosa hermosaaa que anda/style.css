@@ -1,0 +1,385 @@
+/* Importa las fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+
+/* Estilos de la carta y el sobre (CÓDIGO ORIGINAL) */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #0c0f1e;
+    font-family: 'Dancing Script', cursive;
+    overflow: hidden;
+    transition: background-color 1s ease-in-out;
+}
+
+.envelope-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+    transition: transform 1s ease-in-out, opacity 1s ease;
+}
+
+.envelope {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fce4ec;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.message-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    color: #555;
+    z-index: 4;
+    text-align: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.flap {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-top: 100px solid #f8bbd0;
+    border-radius: 10px;
+    transform-origin: top;
+    transition: transform 0.5s ease;
+    z-index: 2;
+}
+
+.heart-seal {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #e91e63;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-45deg);
+    border-radius: 5px;
+    z-index: 3;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.heart-seal::before,
+.heart-seal::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #e91e63;
+    border-radius: 50%;
+}
+
+.heart-seal::before {
+    top: -15px;
+    left: 0;
+}
+
+.heart-seal::after {
+    top: 0;
+    left: 15px;
+}
+
+.full-screen-letter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ffe0f7 0%, #f8bbd0 100%);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    padding: 50px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    animation: fadeInScale 1.5s ease-out forwards;
+    opacity: 0;
+    visibility: hidden;
+    box-shadow: 0 8px 32px 0 rgba(249, 168, 212, 0.37);
+    border-radius: 30px;
+}
+
+.full-screen-letter p {
+    max-width: 800px;
+    font-size: 1.8em;
+    line-height: 1.8;
+    color: #f33f7b;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 1px 1px 2px rgba(233,30,99,0.08);
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.open .flap {
+    transform: rotateX(180deg);
+}
+
+.open .heart-seal {
+    opacity: 0;
+}
+
+/* --- Estilos de la Rosa (CÓDIGO ORIGINAL) --- */
+.rosa-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    background-color: #0c0f1e;
+    transition: opacity 1s ease;
+}
+
+.glass {
+    position: relative;
+    width: 280px;
+    height: 500px;
+    background: transparent;
+    border: 2px solid rgba(136, 146, 179, 0.3);
+    border-radius: 140px 140px 15px 15px;
+    box-shadow: 0 0 20px rgba(136, 146, 179, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 30px;
+    transform-style: preserve-3d;
+    animation: glass-shimmer 8s infinite ease-in-out;
+}
+
+.glass::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+}
+
+.glass-glow-base {
+    position: absolute;
+    width: 180px;
+    height: 90px;
+    bottom: -20px;
+    background: radial-gradient(circle at center, rgba(255, 0, 150, 0.5), transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    animation: pulse-glow 3.5s infinite alternate ease-in-out;
+    z-index: 0;
+}
+
+@keyframes pulse-glow {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes glass-shimmer {
+    0%, 100% { border-color: rgba(136, 146, 179, 0.3); box-shadow: 0 0 20px rgba(136, 146, 179, 0.2); }
+    50% { border-color: rgba(255, 255, 255, 0.4); box-shadow: 0 0 30px rgba(255, 255, 255, 0.3); }
+}
+
+.flower {
+    position: absolute;
+    top: 100px;
+    width: 120px;
+    height: 180px;
+    transform-style: preserve-3d;
+    transform: rotateX(-10deg) rotateY(0deg) rotateZ(0deg);
+    animation: rose-breathe 8s infinite ease-in-out;
+    z-index: 1;
+}
+
+@keyframes rose-breathe {
+    0%, 100% { transform: rotateX(-10deg) rotateY(0deg) rotateZ(0deg); }
+    50% { transform: rotateX(-12deg) rotateY(5deg) rotateZ(-3deg); }
+}
+
+.petal {
+    position: absolute;
+    width: 70px;
+    height: 90px;
+    background: linear-gradient(to top right, #e6004c, #ff4081, #ff80a5);
+    border-radius: 60% 40% 70% 30% / 50% 50% 50% 50%;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 0, 150, 0.4);
+    transform-style: preserve-3d;
+    transform-origin: bottom center;
+    left: 50%;
+    margin-left: -35px;
+}
+
+.petal.p1 { transform: rotateY(0deg) rotateX(20deg) translateZ(10px); z-index: 5; background: linear-gradient(to top, #ff80a5, #e6004c); }
+.petal.p2 { transform: rotateY(60deg) rotateX(25deg) translateZ(8px); z-index: 4; }
+.petal.p3 { transform: rotateY(-60deg) rotateX(25deg) translateZ(8px); z-index: 4; }
+.petal.p4 { transform: rotateY(120deg) rotateX(30deg) translateZ(6px); z-index: 3; }
+.petal.p5 { transform: rotateY(-120deg) rotateX(30deg) translateZ(6px); z-index: 3; }
+.petal.p6 { transform: rotateY(180deg) rotateX(35deg) translateZ(4px); z-index: 2; }
+.petal.p7 { transform: rotateY(240deg) rotateX(38deg) translateZ(2px); z-index: 1; }
+.petal.p8 { transform: rotateY(-240deg) rotateX(38deg) translateZ(2px); z-index: 1; }
+
+.stem {
+    position: absolute;
+    width: 6px;
+    height: 150px;
+    background: linear-gradient(to bottom, #008000, #3cb371);
+    border-radius: 3px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(-10px);
+    top: 80px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 0;
+    transform-style: preserve-3d;
+}
+
+.leaf {
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    background: linear-gradient(to right, #228b22, #3cb371);
+    border-radius: 0 50% 50% 50%;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+    transform-origin: left center;
+    z-index: 1;
+}
+
+.leaf.l1 {
+    top: 50px;
+    left: -20px;
+    transform: rotateZ(-30deg) rotateY(-45deg);
+}
+
+.leaf.l2 {
+    top: 80px;
+    right: -20px;
+    transform: rotateZ(30deg) rotateY(45deg);
+}
+
+.falling-petal {
+    position: absolute;
+    width: 30px;
+    height: 25px;
+    background: radial-gradient(circle at center, #ff80a5, #e6004c);
+    border-radius: 50% 30% 60% 40% / 40% 60% 40% 60%;
+    box-shadow: 0 0 12px rgba(255, 0, 90, 0.6);
+    animation: realistic-petal-fall 6s ease-in-out infinite;
+    opacity: 0;
+    z-index: 2;
+    transform-origin: center center;
+}
+
+@keyframes realistic-petal-fall {
+    0% { top: 160px; left: 55%; transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); opacity: 1; }
+    15% { left: 45%; transform: rotateX(30deg) rotateY(10deg) rotateZ(60deg) scale(0.98); opacity: 0.9; }
+    30% { top: 250px; left: 65%; transform: rotateX(-20deg) rotateY(-30deg) rotateZ(120deg) scale(1.02); opacity: 0.7; }
+    45% { left: 35%; transform: rotateX(40deg) rotateY(20deg) rotateZ(180deg) scale(0.95); opacity: 0.5; }
+    60% { top: 380px; left: 50%; transform: rotateX(-10deg) rotateY(-40deg) rotateZ(240deg) scale(1.0); opacity: 0.3; }
+    80% { left: 70%; transform: rotateX(50deg) rotateY(50deg) rotateZ(300deg) scale(0.9); opacity: 0.1; }
+    100% { top: 500px; left: 45%; transform: rotateX(0deg) rotateY(0deg) rotateZ(360deg) scale(0.8); opacity: 0; }
+}
+
+/* --- Nuevos Estilos para la transición --- */
+.rosa-container {
+    background-color: #0c0f1e;
+}
+
+.go-to-envelope {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff80a5;
+    font-size: 1.2em;
+    cursor: pointer;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.2);
+    z-index: 5;
+    animation: pulse-button 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-button {
+    from { transform: translateX(-50%) scale(1); opacity: 1; }
+    to { transform: translateX(-50%) scale(1.05); opacity: 0.9; }
+}
+
+/* Clases de utilidad para mostrar/ocultar */
+.hidden {
+    display: none !important;
+    opacity: 0;
+}
+
+.visible {
+    display: flex !important;
+    opacity: 1;
+}
+
+/* Nuevas adaptaciones para móviles */
+@media (max-width: 600px) {
+    /* Mantiene los estilos de la carta para móvil */
+    .full-screen-letter p {
+        font-size: 1.15em;
+        max-width: 98vw;
+        line-height: 1.5;
+        word-break: break-word;
+    }
+    .go-to-envelope {
+        font-size: 1em;
+        bottom: 5vh;
+    }
+}
+/* ... (Todo el código CSS anterior de ambos proyectos) ... */
+
+/* Nuevos estilos para el botón de regreso */
+.return-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    border: 2px solid #f33f7b;
+    background-color: transparent;
+    color: #000000;
+    border-radius: 20px;
+    font-size: 1em;
+    font-family: 'Dancing Script', cursive;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 12; /* Asegura que esté por encima de la carta */
+}
+
+.return-button:hover {
+    background-color: #f33f7b;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* --- Nuevas adaptaciones para móviles --- */
+@media (max-width: 600px) {
+    /* ... (Estilos móviles anteriores) ... */
+    
+    .return-button {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+}   
